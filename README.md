@@ -1,27 +1,75 @@
-# AslaveFront
+#Padrão de nomenclatura (english only!)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.0.4.
+##Nomes de arquivos
+* utiliza notação camelCase
+* nome do arquivo deve ser igual ao nome do Model, Controller e conter letra maiuscula no começo.
+* nome do model sempre deve ser NomeModel. Ex. UserModel. (singular)
+* nome do controller sempre deve ser NomeController. Ex. UsersController (plural)
 
-## Development server
+* Evitar acentos, mesmo que o contexto permita como em nomes de arquivos. 
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+* Evitar espaços, mesmo que o contexto permita
+* Evite abreviar a não ser em casos já conhecidos. ex. CPF, UF.
+* Preposições devem normalmente ser omitidas.
+* Comentar código quando necessário!
 
-## Code scaffolding
+##Variáveis
+* Nome da variável deve dizer claramente o que a variável é e faz
+* Variáveis do tipo boolean devem receber nomes que impliquem verdadeiro ou falso acabou, ok, feito, sucesso
+* Não utilizar nomes temporários ou nomes que não guardam significado temp1, temp2, var1, var2, xx4.
+* Passar dados de formularios com array dentro de array ex: $data['tipoConteudo']
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+##Classes e objetos
+* Nome de objeto, singular. Listas, plural. Ex: Objeto obj, List<Objeto> objs.
+* Nome de classes, letra inicial maiúscula e nomeclatura CamelCase.
 
-## Build
+##Funções
+* Nome do método não deve conter o nome da classe na qual ele se aplica
+* Receber paremetro da rota pelo metodo do controller ex: function buscaCep($param) {}
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+##JS
+* Reutilizar o maximo de funções possiveis
+* Criar arquivos externos
+* Não usar PHP no JS
+* Dividir arquivos por modulos do sistema
 
-## Running unit tests
+##CSS
+* Não alterar códigos do Framework
+* Utilizar CSS sempre em arquivos externos
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+##Outros
+* Comentar códigos. Formato: data, autor e comentario
+* Estilo de comentário: 
+* /**
+*  * @author Gabriel - 10-10-2016 - Validação de Cep
+*  * @param cpf - O cpf que será validado
+*  * @return - se o cpf é válido ou não
+*  */
 
-## Running end-to-end tests
+*  function validaCep($cep) {}
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+##Controller
+<code>
+index(){ }
 
-## Further help
+New(){ }
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Create(){ }
+
+Edit(){ }
+
+Update(){ }
+
+Delete(){ }
+
+
+</code>
+
+
+
+
+
+
+
+
+
