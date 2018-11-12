@@ -1,11 +1,27 @@
 nav{
     background-color: #425f9c;
-    
+    min-height: 5vh;
 }
-a{
+a.nav-link{
+    color: #ffffff;
+}
+span{
     color: #ffffff;
 }
 li{
-    margin-left: 10pt;
-    margin-right: 10pt;
+    margin-left: 20pt;
+    margin-right: 20pt;
+}
+
+@media only screen and (max-width: 990px){
+    .dropdown-menu{
+        background-color: #425f9c;
+        border: none;
+    }
+    a.dropdown-item{
+        color: #ffffff;
+    }
+}
+.container{
+    margin-top: 15pt;
 }
