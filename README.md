@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Nomenclature pattern
 
 ## Components' name
@@ -21,10 +22,4 @@
 - reuse code, if possible
 ## CSS
 - always use the css from the external file created with the component
-
-
-
-
-
-
 
