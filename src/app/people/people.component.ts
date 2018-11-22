@@ -7,9 +7,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PeopleComponent implements OnInit {
 
+  displayPeople: boolean = false;
+  displayNaturalPerson: boolean = true;
+  displayLegalPerson: boolean = false;
+
   constructor() { }
 
   ngOnInit() {
+  }
+
+  onDisplayPeople(){
+    this.displayPeople = !this.displayPeople;
+  }
+  onDisplayNaturalPerson(){
+    this.displayNaturalPerson = true;
+    this.displayLegalPerson = false;
+  }
+  onDisplayLegalPerson(){
+    this.displayLegalPerson = true;
+    this.displayNaturalPerson = false;
   }
 
 }

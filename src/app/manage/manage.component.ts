@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageComponent implements OnInit {
 
+  displayUser: boolean = true;
   constructor() { }
+
 
   ngOnInit() {
   }
 
+  onDisplayUser(){
+    this.displayUser = !this.displayUser;
+  }
 }

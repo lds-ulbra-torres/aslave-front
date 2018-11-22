@@ -13,6 +13,9 @@ import { ClassificationsComponent } from './classifications/classifications.comp
 import { HomeComponent } from './home/home.component';
 import { StockRemovalComponent } from './stock-removal/stock-removal.component';
 import { StockPlacementComponent } from './stock-placement/stock-placement.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { LoginService } from './login/login.service';
+
 
 
 @NgModule({
@@ -27,13 +30,14 @@ import { StockPlacementComponent } from './stock-placement/stock-placement.compo
     ClassificationsComponent,
     HomeComponent,
     StockRemovalComponent,
-    StockPlacementComponent
+    StockPlacementComponent,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

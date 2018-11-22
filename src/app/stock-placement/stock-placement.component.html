@@ -1,3 +1,112 @@
-<p>
-  stock-placement works!
-</p>
+<div class="row">
+  <header class="col-lg-12 col-md-12 col-sm-12">
+    <h1>Entradas</h1>
+  </header>
+</div>
+<section *ngIf="displayStock">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+      <button type="button" class="btn btn-success" (click) = "onDisplayStock()"><i class="fas fa-plus"></i>Adicionar</button>
+      <form class="form-inline search">
+        <input class="form-control mx-sm-2" type="search" placeholder="Fornecedor" aria-label="fornecedor">
+        De:<input class="form-control mx-sm-2" type="date" >
+        a:<input class="form-control mx-sm-2" type="date" >
+        <select name="tipo" class="btn btn-select mx-sm-2">
+          <option selected value="0">Selecionar tipo</option>
+          <option value="2">Doação</option>
+          <option value="1">Compra</option>
+        </select>
+        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <table class="table col-lg-12 col-md-12 col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-3 col-sm-3">Fornecedor</th>
+          <th scope="col" class="col-lg-2 col-sm-2">Data</th>
+          <th scope="col" class="col-lg-2 col-sm-2">Valor</th>
+          <th scope="col" class="col-lg-2 col-sm-2">Tipo de fornecimento</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td class="col-lg-3 col-sm-3">Teste</td>
+            <td class="col-lg-2 col-sm-2">12/07/2018</td>
+            <td class="col-lg-2 col-sm-2">R$18,50</td>
+            <td class="col-lg-2 col-sm-2">Doação</td>
+            <td class="col-lg-3 col-sm-3">
+              <div class="btn-group" role="group" aria-label="actions">
+                <button type="button" class="btn btn-secondary"><i class="fas fa-eye"></i></button>
+                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></button>
+              </div>
+            </td>
+        </tr>
+       
+      </tbody>
+    </table>
+  </div>  
+</section>
+
+<section *ngIf="!displayStock">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 my-3">
+          <div class="card">
+            <form>
+              <div class="form-inline">
+                <div class="form-group col-lg-4">
+                  <select name="pessoa" class="btn btn-select mx-sm-2 stock-input">
+                    <option selected value="0">Selecionar pessoa</option>
+                  </select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <select name="tipo" class="btn btn-select mx-sm-2 stock-input">
+                    <option selected value="0">Selecionar tipo</option>   
+                  </select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <input type="date" class="form-control stock-input">
+                </div>
+
+                
+              </div>
+              <hr>
+              <h5>Produtos</h5>
+              <div class="form-inline">
+                <div class="form-group col-lg-5">
+                  <select name="produto" class="btn btn-select mx-sm-2 stock-input">
+                    <option selected value="0">Selecionar produto</option>   
+                  </select>
+                </div>
+                <div class="form-group col-lg-4">
+                  <input type="number" class="form-control stock-input" placeholder="Quantidade">
+                </div>
+                <div class="form-group col-lg-3">
+                  <input type="number" class="form-control stock-input" placeholder="Valor">
+                </div>
+                <button class="btn btn-success col-lg-1">
+                    <i class="fas fa-plus"></i>
+                </button>
+              </div>
+              
+              <button type="submit" class="btn btn-success btn-save">
+                <i class="fas fa-paper-plane"></i>
+                  Salvar
+              </button>
+            </form>
+                  
+          </div>
+          <button class="btn btn-light col-lg-1" (click)="onDisplayStock()">
+            <i class="fas fa-angle-left"></i> 
+            Voltar
+          </button>
+          
+        </div>
+      </div>
+
+</section>
+
