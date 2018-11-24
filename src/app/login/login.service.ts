@@ -1,24 +1,48 @@
+import { Observable, BehaviorSubject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-//import { HttpClient } from 'selenium-webdriver/http';
+
+import { map } from 'rxjs/operators';
+import { User } from '../models/user';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginService {
+    private loginUrl = 'http://api-teste-aslave-org-br.umbler.net/auth';
+    private currentUserSubject: BehaviorSubject<User>;
 
-  constructor() { }
-  //ng gconstructor(private http: HttpClient) { }
+    public currentUser: Observable<User>;
 
- /** consultLogin(user){
-    return this.http.post('http://api-teste-aslave-org-br.umbler.net/auth',user);
-  }
-  userIsLogged(){
-    let checklogin = window.sessionStorage.getItem('userLogged');
-    if(checklogin=="true"){
-      return true;
+    constructor(private http: HttpClient) {
+        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
     }
-    else {
-      return false;
+    
+
+    public get currentUserValue(): User {
+        return this.currentUserSubject.value;
     }
-  }**/
+
+    login(login: string, password: string) {
+        return this.http.post<any>(this.loginUrl, { login, password })
+            .pipe(map(user => {
+                console.log(user);
+                if (user && user.obj.token) {
+                    
+                    localStorage.setItem('currentUser', JSON.stringify(user.obj));
+                    this.currentUserSubject.next(user);
+                    
+                }
+
+                return user;
+            }));
+    }
+
+    logout() {
+        localStorage.removeItem('currentUser');
+        this.currentUserSubject.next(null);
+    }
+  
 }

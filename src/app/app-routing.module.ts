@@ -12,26 +12,13 @@ import { EntryComponent } from './entry/entry.component';
 import { ManageComponent } from './manage/manage.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AuthGuard } from './login/auth.guard';
 
 const routes: Routes = [
-  
-  {path: '', component: NavbarComponent, children:[
-    
-    { path: 'pessoas', component: PeopleComponent },
-    { path: 'produtos', component: ProductsComponent },
-    { path: 'categorias', component: CategoriesComponent },
-    { path: 'entradas', component: StockPlacementComponent},
-    { path: 'saidas', component: StockRemovalComponent},
-    { path: 'entradas', component: StockPlacementComponent},
-    { path: 'classificacoes', component: ClassificationsComponent},
-    { path: 'lancamentos', component: EntryComponent},
-    { path: 'gerenciar', component: ManageComponent},
-    { path: '', component: HomeComponent }
-  ] }
 
-  /**{ path: '', redirectTo:'login' ,pathMatch:'full'},
+  { path: '', redirectTo:'login' ,pathMatch:'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: NavbarComponent, canActivate:[], children:[
+  { path: 'admin', component: NavbarComponent, canActivate:[AuthGuard], children:[
     {  path: '', component: HomeComponent },
     { path: 'pessoas', component: PeopleComponent },
     { path: 'produtos', component: ProductsComponent },
@@ -42,7 +29,7 @@ const routes: Routes = [
     { path: 'classificacoes', component: ClassificationsComponent},
     { path: 'lancamentos', component: EntryComponent},
     { path: 'gerenciar', component: ManageComponent}
-  ] }**/
+  ] }
   
 ];
 

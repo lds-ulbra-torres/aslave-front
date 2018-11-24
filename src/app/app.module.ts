@@ -14,7 +14,11 @@ import { HomeComponent } from './home/home.component';
 import { StockRemovalComponent } from './stock-removal/stock-removal.component';
 import { StockPlacementComponent } from './stock-placement/stock-placement.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { LoginService } from './login/login.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { ErrorInterceptor } from './helpers/error.interceptor';
+import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -35,9 +39,15 @@ import { LoginService } from './login/login.service';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule
   ],
-  providers: [ ],
+  providers: [ 
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

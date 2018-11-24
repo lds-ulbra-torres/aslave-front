@@ -6,24 +6,25 @@
           <div class="card-header mb-5">
             <img id="logo" class="img-fluid" src="../../assets/logo_slave.jpg">
           </div>
-          <!--form method="POST" enctype="multipart/form-data" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <input type="text"  class="form-control-lg" id="login" name="login" placeholder="Login" ngModel>
+              <input type="text" formControlName="login" class="form-control-lg" [ngClass]="{ 'is-invalid': submitted && f.login.errors }" id="login" name="login" placeholder="Login">
+              <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
+                <div *ngIf="f.login.errors.required">Login inválido</div>
+              </div>
             </div>
             <div class="form-group">
-              <input type="password"  class="form-control-lg mb-5" id="senha" name="senha" placeholder="Senha" ngModel>
-            </div>
-            <button type="submit" class="btn btn-large">Entrar</button>
-          </form-->
-          <form method="POST">
-            <div class="form-group">
-              <input type="text"  class="form-control-lg" id="login" name="login" placeholder="Login">
+              <input type="password" formControlName="password" class="form-control-lg mb-5" id="senha" name="senha" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Senha">
+              <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Senha inválida</div>
+              </div>
             </div>
             <div class="form-group">
-              <input type="password"  class="form-control-lg mb-5" id="senha" name="senha" placeholder="Senha">
+              <button  class="btn btn-large">Entrar</button>
             </div>
-            <button type="submit" class="btn btn-large">Entrar</button>
+            
           </form>
+          <div *ngIf="error" class="alert alert-danger">{{error}}</div>
         </div>
   </div>
 
