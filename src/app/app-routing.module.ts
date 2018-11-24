@@ -12,6 +12,7 @@ import { EntryComponent } from './entry/entry.component';
 import { ManageComponent } from './manage/manage.component';
 import { LoginComponent } from './login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { StockPlacementMaintainComponent } from './stock-placement/stock-placement-maintain/stock-placement-maintain.component';
 
 const routes: Routes = [
   
@@ -23,6 +24,8 @@ const routes: Routes = [
     { path: 'entradas', component: StockPlacementComponent},
     { path: 'saidas', component: StockRemovalComponent},
     { path: 'entradas', component: StockPlacementComponent},
+    { path: 'entradas/cadastrar', component: StockPlacementMaintainComponent},
+    { path: 'entradas/editar/?id', component: StockPlacementMaintainComponent},
     { path: 'classificacoes', component: ClassificationsComponent},
     { path: 'lancamentos', component: EntryComponent},
     { path: 'gerenciar', component: ManageComponent},
