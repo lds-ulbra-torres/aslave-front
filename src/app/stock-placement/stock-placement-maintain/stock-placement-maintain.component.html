@@ -8,15 +8,22 @@
     <div class="col-lg-12 col-md-12 my-3">
       <div class="card">
         <form>
+          <h5>Dados da entrada</h5>
           <div class="form-inline">
             <div class="form-group col-lg-4">
-              <select name="pessoa" class="btn btn-select mx-sm-2 stock-input">
-                <option selected value="0">Selecionar pessoa</option>
-              </select>
+              <input class="form-control input-autocomplet pl-2 w-100" type="text" placeholder="Fornecedor" aria-label="Number" matInput
+                [formControl]="myControl" [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
             </div>
             <div class="form-group col-lg-4">
               <select name="tipo" class="btn btn-select mx-sm-2 stock-input">
                 <option selected value="0">Selecionar tipo</option>
+                <option value="2">Doação</option>
+                <option value="1">Compra</option>
               </select>
             </div>
             <div class="form-group col-lg-4">
@@ -24,46 +31,53 @@
             </div>
           </div>
           <hr>
-          <h5>Produtos</h5>
+          <h5>Cadastro de produtos</h5>
           <div class="form-inline">
-            <div class="form-group col-lg-5">
-              <select name="produto" class="btn btn-select mx-sm-2 stock-input">
-                <option selected value="0">Selecionar produto</option>
+            <div class="form-group col-lg-4">
+              <select #product class="btn btn-select mx-sm-2 stock-input" placeholder="teste">
+                <option selected disabled value="0">Selecionar tipo</option>
+                <option *ngFor="let produto of optionsProdutos" [value]="produto">
+                  {{produto}}
+                </option>
               </select>
             </div>
             <div class="form-group col-lg-3 col-sm-6 col-6">
-              <input type="number" class="form-control stock-input" placeholder="Quantidade">
+              <input type="number" class="form-control stock-input" #quantity placeholder="Quantidade">
             </div>
             <div class="form-group col-lg-3 col-sm-6 col-6">
-              <input type="number" class="form-control stock-input" placeholder="Valor">
+              <input type="number" class="form-control stock-input" #valueProduct placeholder="Valor">
             </div>
-            <button class="btn btn-success col-lg-1 col-6">
+            <button class="btn btn-success col-lg-2 col-6" (click)="addProduct()">
               <i class="fas fa-plus"></i>
             </button>
           </div>
           <div class="row mt-4">
             <div class="table-responsive">
               <table class="table col-lg-12 col-md-12 col-sm-12">
-                <thead>
+                <thead class="thead-dark">
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome</th>
                     <th scope="col">Qtd</th>
                     <th scope="col">Valor</th>
                     <th scope="col">Ações</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Leite</td>
-                  <td>5</td>
-                  <td>15,00</td>
-                  <td> - </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let product of stockProducts; let i = index">
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.qtd }}</td>
+                    <td>{{ product.value }}</td>
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="removeProduct(i)">
+                        <i class="fas fa-minus"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
           <button type="submit" class="btn btn-success btn-save mt-3">
             <i class="fas fa-paper-plane"></i>
@@ -71,10 +85,9 @@
           </button>
         </form>
       </div>
-      <button class="btn btn-light col-lg-1" routerLink="/entradas">
+      <button class="btn btn-light col-lg-1 mt-2" routerLink="/entradas">
         <i class="fas fa-angle-left"></i>
         Voltar
       </button>
     </div>
   </div>
-</section>

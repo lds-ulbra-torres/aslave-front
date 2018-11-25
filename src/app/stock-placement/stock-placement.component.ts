@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
 import { IStockInput } from './../../domain/IStockInput';
 import { ProcurarNomePipe } from './../pipes/procurar-nome.pipe';
 import { ProcuraTipoPipe } from '../pipes/procura-tipo.pipe';
 import { PrcourarMinDatePipe } from '../pipes/prcourar-min-date.pipe';
 import { PrcourarMaxDatePipe } from '../pipes/prcourar-max-date.pipe';
+import { StockPlacementService } from './stock-placement.service';
 
 @Component({
   selector: 'app-stock-placement',
@@ -33,14 +35,10 @@ export class StockPlacementComponent implements OnInit {
   procuraMinDate: PrcourarMinDatePipe;
   procuraMaxDate: PrcourarMaxDatePipe;
 
-  displayStock: boolean = true;
-  constructor() { }
+  constructor(private _stockPlacemenetService: StockPlacementService) { }
 
   ngOnInit() {
-  }
-
-  onDisplayStock(){
-    this.displayStock = !this.displayStock;
+    this.login();
   }
 
   onSubmit(form){
@@ -48,5 +46,36 @@ export class StockPlacementComponent implements OnInit {
     console.log(form.value.dateInit);
     console.log(form.value.dateEnd);
     console.log(form.value.type);
+  }
+
+  login(){
+    let user = new FormData();
+    user.append('login', "admin");
+    user.append('password', "add");
+    user.append('id_departament', "1");
+
+    this._stockPlacemenetService.consultarLogin(user)
+      .subscribe(
+        (val) => {
+          //console.log(val.obj.token);
+          //window.localStorage.setItem("token",val.obj.token)
+          this.getAllProdutcs();
+        },
+        response => {
+          console.log("erro");
+        }
+      );
+  }
+
+  getAllProdutcs(){
+    this._stockPlacemenetService.getProducts()
+      .subscribe(
+        (val) => {
+          console.log(val);
+        },
+        response => {
+          console.log("erro");
+        }
+      );
   }
 }

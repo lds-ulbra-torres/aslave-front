@@ -39,3 +39,11 @@ input.inline{
 .btn-save{
     float: right;
 }
+
+.input-autocomplet{
+    border: solid 1px #ccc;
+}
+
+.input-autocomplet::placeholder{
+    color: black;
+}
