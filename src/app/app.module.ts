@@ -1,5 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -20,6 +22,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 
+import { StockPlacementModule } from './stock-placement/stock-placement.module';
 
 
 @NgModule({
@@ -34,7 +37,6 @@ import { FormsModule } from '@angular/forms';
     ClassificationsComponent,
     HomeComponent,
     StockRemovalComponent,
-    StockPlacementComponent,
     NavbarComponent
   ],
   imports: [
@@ -42,12 +44,15 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+     StockPlacementModule
   ],
   providers: [ 
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
+
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

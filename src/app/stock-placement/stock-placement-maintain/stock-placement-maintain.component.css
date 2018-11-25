@@ -1,0 +1,49 @@
+h1, h5{
+    color: #425f94;
+}
+.card{
+    padding: 15pt;
+}
+
+.btn-search{
+    background-color: #425f94;
+    color: #ffffff;
+}
+
+.search{
+    float: right;
+    
+}
+input.inline{
+    width: 100%;
+
+}
+.left{
+    padding-left: 0;
+}
+.right{
+    padding-right: 0;
+}
+.btn-select{
+    
+    background-color: #ffffff;
+    border: solid 1px #ccc;
+}
+.stock-input{
+    width: 100%;
+    
+}
+.form-group{
+    padding-left: 0;
+}
+.btn-save{
+    float: right;
+}
+
+.input-autocomplet{
+    border: solid 1px #ccc;
+}
+
+.input-autocomplet::placeholder{
+    color: black;
+}
