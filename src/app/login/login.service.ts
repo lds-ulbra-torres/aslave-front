@@ -12,8 +12,8 @@ import { User } from '../models/user';
 export class LoginService {
     private loginUrl = 'http://api-teste-aslave-org-br.umbler.net/auth';
     private currentUserSubject: BehaviorSubject<User>;
-
     public currentUser: Observable<User>;
+    public user: string;
 
     constructor(private http: HttpClient) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -28,7 +28,7 @@ export class LoginService {
     login(login: string, password: string) {
         return this.http.post<any>(this.loginUrl, { login, password })
             .pipe(map(user => {
-                console.log(user);
+                
                 if (user && user.obj.token) {
                     
                     localStorage.setItem('currentUser', JSON.stringify(user.obj));

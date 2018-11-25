@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class StockRemovalComponent implements OnInit {
 
+  displayRemoval: boolean = true;
   constructor() { }
 
   ngOnInit() {
+  }
+  onDisplayRemoval(){
+    this.displayRemoval = !this.displayRemoval;
   }
 
 }

@@ -1,4 +1,7 @@
+import { ManageService } from './manage.service';
 import { Component, OnInit } from '@angular/core';
+import { User } from '../models/user';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-manage',
@@ -7,13 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageComponent implements OnInit {
 
+  users: User[] = [];
   displayUser: boolean = true;
-  constructor() { }
+
+  constructor(private manageService: ManageService) { }
 
 
   ngOnInit() {
+    this.manageService.getUsers().pipe(first()).subscribe(users =>{this.users = users});
   }
-
+ 
   onDisplayUser(){
     this.displayUser = !this.displayUser;
   }

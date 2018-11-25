@@ -1,3 +1,127 @@
-<p>
-  stock-removal works!
-</p>
+<div class="row">
+  <header class="col-lg-12 col-md-12 col-sm-12">
+    <h1>Saídas</h1>
+  </header>
+</div>
+<section *ngIf="displayRemoval">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+      <button type="button" class="btn btn-success" (click) = "onDisplayRemoval()"><i class="fas fa-plus"></i>Adicionar</button>
+      <form class="form-inline search">
+        <input class="form-control mx-sm-2" type="search" placeholder="Produto" aria-label="produto">
+        De:<input class="form-control mx-sm-2" type="date" >
+        a:<input class="form-control mx-sm-2" type="date" >
+        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <table class="table table-responsive col-12">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-3 col-sm-3">Produto</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Data</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Usuário</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+            <td class="col-lg-3 col-sm-3">Teste</td>
+            <td class="col-lg-3 col-sm-3">00000000000</td>
+            <td class="col-lg-3 col-sm-3">00000000000</td>
+            <td class="col-lg-3 col-sm-3">
+              <div class="btn-group" role="group" aria-label="actions">
+                <button type="button" class="btn btn-secondary"><i class="fas fa-eye"></i></button>
+                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></button>
+              </div>
+            </td>
+        </tr>
+       
+      </tbody>
+    </table>
+  </div>  
+</section>
+
+<section *ngIf="!displayRemoval">
+  <div class="row">
+    <div class="col-12 my-3">
+      <div class="card">
+        <form [formGroup]= "itemForm">
+          <div class="form-inline">
+            <div class="form-group col-lg-6 left">
+              <input class= "form-control inline" formControlName="date" id="data" aria-describedby="data" placeholder="Data de retirada" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
+            </div>
+            <div class="form-group col-lg-6 right">
+                <input type="text" class="form-control inline" id="description" formControlName="description" aria-describedby="description" placeholder="Por quê?">
+            </div>
+          </div>
+          <hr>
+
+          <h5>Produtos</h5>
+          <div class="form-group">
+            <input type="text" class="form-control inline" formControlName="product" id="product" placeholder="Produto">
+          </div>
+          <div class="form-inline my-3">
+            <div class="form-group col-lg-6 left">
+              <input type="number" class="form-control inline" formControlName="qtd" id="qtd" placeholder="Quantidade">
+            </div>
+            <div class="form-group col-lg-5 right">
+              <select name="estados" class="btn btn-select" #estados formControlName="state">
+                <option selected value="-1">Unidade de medida</option>
+                <option value="0">Caixa</option>
+                <option value="1">Litro</option> 
+                <option value="2">Quilograma</option>
+                <option value="3">Unidade</option> 
+              </select>
+            </div>
+            <div class="form-group col-lg-1 right">
+              <button class="btn btn-success">
+                  <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <table class="table table-responsive">
+              <thead>
+                <tr>
+                  <th scope="col" class="col-lg-3">Produto</th>
+                  <th scope="col" class="col-lg-3">Quantidade</th>
+                  <th scope="col" class="col-lg-3">Unidade de medida</th>
+                  <th scope="col" class="col-lg-3">Ações</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                    <td class="col-lg-3 col-sm-3">Teste</td>
+                    <td class="col-lg-3 col-sm-3">00000000000</td>
+                    <td class="col-lg-3 col-sm-3">00000000000</td>
+                    <td class="col-lg-3 col-sm-3">
+                      <div class="btn-group" role="group" aria-label="actions">
+                        <button type="button" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></button>
+                      </div>
+                    </td>
+                </tr>
+                
+               
+              </tbody>
+          </table>
+          <div class="total-line col-12 py-2 my-2">
+            <span>Total: R$ </span>
+          </div>
+
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-paper-plane"></i>
+               Salvar
+          </button>
+        </form>
+      </div>
+      <button class="btn btn-light col-lg-1" (click)="onDisplayRemoval()">
+        <i class="fas fa-angle-left"></i> 
+        Voltar
+      </button>   
+    </div>
+  </div>
+</section>
