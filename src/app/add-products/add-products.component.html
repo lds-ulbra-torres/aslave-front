@@ -1,0 +1,30 @@
+<header class="col-lg-12 col-md-12 col-sm-12">
+  <h1>Adicionar Produto</h1><br>
+</header>
+<div class="card">
+  
+  <form #addProduct="ngForm" (ngSubmit)="onSubmit(addProduct)">
+      <div class="form-group">
+        <label for="nome_produto">Nome</label>
+        <input type="text" class="form-control" id="nome_produto" 
+        placeholder="Digite o nome do produto" name="nomeProduto" ngModel required #nomeProduto="ngModel">
+        <div *ngIf="!nomeProduto.valid && nomeProduto.touched">
+            <small>Nome é obrigatório</small>
+          </div>
+      </div>
+      <label>Selecione a Categoria</label>           
+      <select class="custom-select mr-sm-2" name="categoria" ngModel required>
+        <option>Default select1</option>
+        <option>Default select2</option>
+        <option>Default select3</option>
+      </select>
+      <br>
+      <button type="submit" class="btn btn-success" [disabled]="!addProduct.valid">Concluir </button>
+      
+    </form>   
+  </div>
+  
+  <button (click)="goBack()" class="btn btn-light col-lg-1">
+    <i class="fas fa-angle-left"></i> 
+    Voltar
+  </button>

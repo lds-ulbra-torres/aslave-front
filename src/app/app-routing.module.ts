@@ -10,18 +10,23 @@ import { StockRemovalComponent } from './stock-removal/stock-removal.component';
 import { ClassificationsComponent } from './classifications/classifications.component';
 import { EntryComponent } from './entry/entry.component';
 import { ManageComponent } from './manage/manage.component';
+import { AddProductsComponent } from './add-products/add-products.component';
+import { AddCategoriesComponent } from './add-categories/add-categories.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'pessoas', component: PeopleComponent },
-  { path: 'produtos', component: ProductsComponent },
+  { path: 'produtos', component: ProductsComponent }, 
+  { path: 'produtos/adicionar', component: AddProductsComponent },
   { path: 'categorias', component: CategoriesComponent },
+  { path: 'categorias/adicionar', component: AddCategoriesComponent },
   { path: 'entradas', component: StockPlacementComponent},
   { path: 'saidas', component: StockRemovalComponent},
   { path: 'entradas', component: StockPlacementComponent},
   { path: 'classificacoes', component: ClassificationsComponent},
   { path: 'lancamentos', component: EntryComponent},
-  { path: 'gerenciar', component: ManageComponent}
+  { path: 'gerenciar', component: ManageComponent},
+ 
   
 ];
 

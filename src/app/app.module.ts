@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -13,6 +14,10 @@ import { ClassificationsComponent } from './classifications/classifications.comp
 import { HomeComponent } from './home/home.component';
 import { StockRemovalComponent } from './stock-removal/stock-removal.component';
 import { StockPlacementComponent } from './stock-placement/stock-placement.component';
+import { AddProductsComponent } from './add-products/add-products.component';
+import { AddCategoriesComponent } from './add-categories/add-categories.component';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
+import { CategoriesService } from './categories.service';
 
 
 @NgModule({
@@ -27,13 +32,17 @@ import { StockPlacementComponent } from './stock-placement/stock-placement.compo
     ClassificationsComponent,
     HomeComponent,
     StockRemovalComponent,
-    StockPlacementComponent
+    StockPlacementComponent,
+    AddProductsComponent,
+    AddCategoriesComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [ CategoriesService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

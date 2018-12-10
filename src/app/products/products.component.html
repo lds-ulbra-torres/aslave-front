@@ -1,3 +1,57 @@
-<p>
-  products works!
-</p>
+<div class="row">
+  <header class="col-lg-12 col-md-12 col-sm-12">
+    <h1>Produtos</h1>
+  </header>
+</div>
+<div class="row">
+  <div class="col-lg-12 col-md-12 my-3">
+
+    <button type="button" class="btn btn-success" routerLink="adicionar">
+      <i class="fas fa-plus"></i>
+       Adicionar Produto
+      </button>
+    
+    <form class="form-inline">
+      <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+      <button class="btn search" type="submit"><i class="fas fa-search"></i></button>
+    </form>
+  </div>
+</div>
+<section>
+  <div class="row">
+    <table class="table col-lg-12 col-md-12 col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-3 col-sm-3">Nome</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Categoria</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Estoque</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of productsList">
+          <td class="col-lg-3 col-sm-3">{{product.name}}</td>         
+          <td class="col-lg-3 col-sm-3">{{product.cpf}}</td>         
+          <td class="col-lg-3 col-sm-3">{{product.estoque}}</td>         
+          <td class="col-lg-3 col-sm-3">
+            <div class="btn-group" role="group" aria-label="actions">
+              <button type="button" class="btn btn-secondary"><i class="fas fa-eye"></i></button>
+              <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
+              <button type="button" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            
+        </tr>
+        <tr>
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="container">
+    <router-outlet></router-outlet>
+  </div> 
+</section>
+

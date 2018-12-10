@@ -1,0 +1,15 @@
+.ng-invalid.ng-touched:not(form){
+    border: 1px solid red;
+}
+
+.ng-valid.ng-touched:not(form){
+    border: 1px solid green;
+}
+
+h1{
+    color: #425f94;
+}
+
+.card{
+    padding: 15pt;
+}

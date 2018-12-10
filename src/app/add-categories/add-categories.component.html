@@ -1,0 +1,22 @@
+<header class="col-lg-12 col-md-12 col-sm-12">
+    <h1>Adicionar Categoria</h1><br>
+  </header>
+  <div class="card">
+
+    <form #addCategory="ngForm" (ngSubmit)="onSubmit(addCategory)">
+      <div class="form-group">
+        <label for="nome_produto">Nome</label>
+        <input type="text" class="form-control" id="nome_categoria" 
+        placeholder="Digite o nome da categoria" name="nomeCategoria" ngModel required #nomeCategoria="ngModel">
+        
+        <div *ngIf="!nomeCategoria.valid && nomeCategoria.touched">
+          <small>Nome é obrigatório</small>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-success" [disabled]="!addCategory.valid">Concluir </button>
+      </form>
+    </div>
+        <button (click)="goBack()" class="btn btn-light col-lg-1">
+            <i class="fas fa-angle-left"></i> 
+            Voltar
+        </button>
