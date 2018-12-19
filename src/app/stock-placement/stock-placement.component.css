@@ -39,3 +39,9 @@ input.inline{
 .btn-save{
     float: right;
 }
+
+#listStocks{
+    margin-top: 1vh;
+    max-height: 87vh;
+    overflow: auto;
+}

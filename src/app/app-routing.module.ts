@@ -28,7 +28,7 @@ const routes: Routes = [
     { path: 'produtos', component: ProductsComponent },
     { path: 'categorias', component: CategoriesComponent },
     { path: 'entradas', component: StockPlacementComponent},
-	{ path: 'entradas/cadastrar', component: StockPlacementMaintainComponent},
+	  { path: 'entradas/cadastrar', component: StockPlacementMaintainComponent},
     { path: 'entradas/editar/?id', component: StockPlacementMaintainComponent},
     { path: 'saidas', component: StockRemovalComponent},
     { path: 'entradas', component: StockPlacementComponent},

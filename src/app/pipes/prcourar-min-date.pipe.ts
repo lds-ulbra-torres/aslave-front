@@ -13,7 +13,7 @@ export class PrcourarMinDatePipe implements PipeTransform {
     if(!procuraMinDate) return items;
 
     return items.filter( it => {
-      return it.date >= procuraMinDate;
+      return it.input_date >= procuraMinDate;
     })
   }
 

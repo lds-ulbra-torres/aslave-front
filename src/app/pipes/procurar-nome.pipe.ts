@@ -14,7 +14,7 @@ export class ProcurarNomePipe implements PipeTransform {
     procuraNome = procuraNome.toLowerCase();
 
     return items.filter( it => {
-      return it.name.toLocaleLowerCase().includes(procuraNome);
+      return it.person.name.toLocaleLowerCase().includes(procuraNome);
     })
   }
 

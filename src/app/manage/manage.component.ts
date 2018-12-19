@@ -10,7 +10,7 @@ import { first } from 'rxjs/operators';
 })
 export class ManageComponent implements OnInit {
 
-  users: User[] = [];
+  users: User[];
   displayUser: boolean = true;
 
   constructor(private manageService: ManageService) { }
