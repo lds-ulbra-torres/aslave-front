@@ -6,10 +6,10 @@
 <section *ngIf="!displayPeople">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <button type="button" class="btn btn-success" (click)="onDisplayPeople()"><i class="fas fa-plus"></i>Adicionar</button>
+      <button type="button" class="btn btn-success" (click)="onDisplayPeople()"><i class="fas fa-plus"></i> Adicionar</button>
       
-      <form class="form-inline search">
-        <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
+      <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
+        <input class="form-control mr-sm-2" type="search" name="search" [(ngModel)]="procuraPerson" placeholder="Buscar" aria-label="Buscar" ngModel>
         <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
       </form>
     </div>
@@ -26,21 +26,40 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-            <td class="col-lg-3 col-sm-3">Teste</td>
-            <td class="col-lg-3 col-sm-3">00000000000</td>
-            <td class="col-lg-3 col-sm-3">00000000000</td>
+        <tr *ngFor="let person of people | searcher : procuraPerson">
+            <td class="col-lg-3 col-sm-3">{{ person.name }}</td>
+            <td class="col-lg-3 col-sm-3">{{ person.cpf_cnpj }}</td>
+            <td class="col-lg-3 col-sm-3">{{ person.documment }}</td>
             <td class="col-lg-3 col-sm-3">
               <div class="btn-group" role="group" aria-label="actions">
                 <button type="button" class="btn btn-secondary"><i class="fas fa-eye"></i></button>
                 <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <button type="button" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(person)"><i class="fas fa-trash-alt"></i></button>
               </div>
             </td>
         </tr>
        
       </tbody>
     </table>
+    <div class="modal fade" role="dialog" id="delete">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Excluir pessoa</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Tem certeza que deseja excluir esta pessoa?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deletePerson()">Excluir</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>  
 </section>
 
@@ -58,65 +77,75 @@
               </label>
             </div>
               
-              <form [formGroup]= "personForm">
+              <form #p="ngForm" (ngSubmit)="onSubmit(p)">
                   <div class="form-group my-3">
-                    <input type="text" class="form-control" formControlName="name" id="nome" aria-describedby="nome" placeholder="Nome">
+                    <input type="text" class="form-control" name="name" required ngModel #name="ngModel" id="nome" aria-describedby="nome" placeholder="Nome">
                   </div>
 
                   <div class="form-inline my-3" *ngIf = "displayNaturalPerson">
                     <div class="form-group col-lg-6 left">
-                      <input type="number" class="form-control inline" formControlName="cpf_cnpj" id="cpf" placeholder="CPF">
+                      <input type="number" class="form-control inline" name="cpf_cnpj" ngModel #cpf_cnpj="ngModel" id="cpf" placeholder="CPF">
                     </div>
                     <div class="form-group col-lg-6 right">
-                      <input type="number" class="form-control inline" formControlName="rg" id="rg" placeholder="RG">
+                      <input type="number" class="form-control inline" name="rg" required ngModel #rg="ngModel" id="rg" placeholder="RG">
                     </div>
                   </div>
 
                   <div class="form-inline my-3" *ngIf = "displayLegalPerson">
                     <div class="form-group col-lg-6 left">
-                      <input type="number" class="form-control inline" formControlName="cpf_cnpj" id="cnpj" placeholder="CNPJ">
+                      <input type="number" class="form-control inline" name="cpf_cnpj"  ngModel #cpf_cnpj="ngModel" id="cnpj" placeholder="CNPJ">
                     </div>
                     <div class="form-group col-lg-6 right">
-                      <input type="number" class="form-control inline" id="insc" formControlName="document" placeholder="Inscrição estadual">
-                    </div>
-                  </div>
-
-                  <div class="form-group my-3">
-                    <input type="text" class="form-control" id="endereco" formControlName="adress" aria-describedby="endereco" placeholder="Endereço">
-                  </div>
-
-                  <div class="form-inline my-3">
-                    <div class="form-group col-lg-6 left">
-                      <input type="number" class="form-control inline" id="numero" formControlName="number" placeholder="Número">
-                    </div>
-                    <div class="form-group col-lg-6 right">
-                      <input type="text" class="form-control inline" id="bairro" formControlName="neighbourhood" placeholder="Bairro">
+                      <input type="number" class="form-control inline" id="insc" name="documment"  ngModel #documment="ngModel" placeholder="Inscrição estadual">
                     </div>
                   </div>
 
                   <div class="form-inline my-3">
                     <div class="form-group col-lg-6 left">
-                      <select name="estados" class="btn btn-select" #estados formControlName="state">
-                        <option selected value="-1">Escolha um estado</option>        
-                      </select>
+                      <input type="text" class="form-control inline" id="endereco" name="adress" required ngModel #adress="ngModel" aria-describedby="endereco" placeholder="Endereço">
                     </div>
                     <div class="form-group col-lg-6 right">
-                      <select name="cidades" class="btn btn-select" formControlName="id_cities" #cidades>
-                        <option selected value="-1">Escolha a cidade</option>
-                      </select>
+                        <input type="number" class="form-control inline" id="cep"  required ngModel #cep="ngModel" placeholder="CEP" name="cep">
+                    </div>
+                    
+                  </div>
+
+                  <div class="form-inline my-3">
+                    <div class="form-group col-lg-6 left">
+                      <input type="number" class="form-control inline" id="numero" name="number" required ngModel #number="ngModel" placeholder="Número">
+                    </div>
+                    <div class="form-group col-lg-6 right">
+                      <input type="text" class="form-control inline" id="bairro" name="neighborhood" required ngModel #neighborhood="ngModel" placeholder="Bairro">
                     </div>
                   </div>
 
-                  <div class="form-group col-lg-12">
-                    <input type="number" class="form-control" id="cep" formControlName="cep" placeholder="CEP">
+                  <div class="form-inline my-3">
+                    <div class="form-group col-lg-6 left">
+                      <select name="estados" class="btn btn-select" name="state" ngModel #state="ngModel">
+                        <option value="" disabled selected>Selecione um estado</option>
+                        <option *ngFor="let estado of estados"  value="{{ estado.id_states }}" (click)="getCities(estado.id_states)">{{estado.name}}</option>        
+                      </select>
+                    </div>
+                    <!--div class="form-group col-lg-6 right">
+                      <select name="cidades" class="btn btn-select"  required ngModel #id_cities="ngModel" name="id_cities">
+                        <option *ngFor="let cidade of cidades" value="{{ cidade.nome }}">{{ cidade.nome }}</option>
+                      </select>
+                    </div-->
+                    <div class="form-group col-lg-6 right">
+                        <select name="cidades" class="btn btn-select" name="id_cities" ngModel #city="ngModel">
+                            <option value="" disabled selected>Selecione uma cidade</option>
+                            <option *ngFor="let cidade of cidades"  value="{{ cidade.id_cities }}">{{cidade.name}}</option>        
+                          </select>
+          
+                    </div>
+                    
                   </div>
-                  
                   <div class="form-inline my-3">
                       <div class="form-group col-lg-6 left">
-                        <input type="tel" class="form-control inline" id="telefone1" formControlName="phone1" placeholder="Telefone 1">
+                        <input type="tel" class="form-control inline" id="telefone1" name="phone1" required ngModel #phone1="ngModel" placeholder="Telefone 1">
                       </div>
                       <div class="form-group col-lg-6 right">
-                        <input type="tel" class="form-control inline" id="telefone2" formControlName="phone2" placeholder="Telefone 2">
+                        <input type="tel" class="form-control inline" id="telefone2" name="phone2" ngModel #phone2="ngModel" placeholder="Telefone 2">
                       </div>
                   </div>
                   
@@ -127,6 +156,7 @@
                   </button>
               </form>
       </div>
+
       <button class="btn btn-light col-lg-1" (click)="onDisplayPeople()">
         <i class="fas fa-angle-left"></i> 
         Voltar

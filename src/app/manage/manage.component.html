@@ -6,7 +6,7 @@
   <section *ngIf="displayUser">
     <div class="row">
       <div class="col-lg-12 col-md-12 my-3">
-        <button type="button" class="btn btn-success" (click)="onDisplayUser()"><i class="fas fa-plus"></i>Adicionar usuário</button>
+        <button type="button" class="btn btn-success" (click)="onDisplayUser()"><i class="fas fa-plus"> </i> Adicionar</button>
         
         <form class="form-inline search">
           <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Buscar">
@@ -30,13 +30,32 @@
               <td class="col-lg-4 col-sm-3">
                 <div class="btn-group" role="group" aria-label="actions">
                   <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                  <button type="button" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></button>
+                  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(user)"><i class="fas fa-trash-alt"></i></button>
                 </div>
               </td>
           </tr>
          
         </tbody>
       </table>
+      <div class="modal fade" role="dialog" id="delete">
+        <div class="modal-dialog modal-md" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Excluir usuário</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Tem certeza que deseja excluir este usuário?</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteUser()">Excluir</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>  
   </section>
 
@@ -45,25 +64,25 @@
     <div class="row">
       <div class="col-lg-12 col-md-12 my-3">
         <div class="card">              
-                <form>
+                <form #u="ngForm" (ngSubmit)="onSubmit(u)">
                     <div class="form-group my-3">
-                      <input type="text" class="form-control" id="nome" aria-describedby="nome" placeholder="Nome">
+                      <input type="text" class="form-control" name="full_name" aria-describedby="nome" placeholder="Nome" required ngModel #full_name="ngModel">
                     </div>
 
                     <div class="form-group my-3">
-                      <input type="text" class="form-control" id="login" aria-describedby="login" placeholder="Login de acesso">
+                      <input type="text" class="form-control" name="login" aria-describedby="login" placeholder="Login de acesso" required ngModel #login="ngModel">
                     </div>
   
                     <div class="form-inline my-3">
                       <div class="form-group col-lg-6 left">
-                        <input type="text" class="form-control inline" id="senha" placeholder="Senha">
+                        <input type="text" class="form-control inline" name="password" placeholder="Senha" required ngModel #password="ngModel">
                       </div>
                       <div class="form-group col-lg-6 right">
                         <input type="text" class="form-control inline" id="senhaconf" placeholder="Confirmar senha">
                       </div>
                     </div>
                 
-                    <button type="submit" class="btn btn-success">
+                    <button type="submit" [disabled]="u.invalid" class="btn btn-success">
                       <i class="fas fa-paper-plane"></i>
                       Salvar
                     </button>

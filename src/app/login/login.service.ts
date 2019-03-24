@@ -12,7 +12,7 @@ import { User } from '../models/user';
 export class LoginService {
     private loginUrl = 'http://api-teste-aslave-org-br.umbler.net/auth';
     private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    public currentUser: Observable<any>;
     public user: string;
 
     constructor(private http: HttpClient) {
@@ -32,7 +32,7 @@ export class LoginService {
                 if (user && user.obj.token) {
                     
                     localStorage.setItem('currentUser', JSON.stringify(user.obj));
-                    this.currentUserSubject.next(user);
+                    this.currentUserSubject.next(user.obj);
                     
                 }
 

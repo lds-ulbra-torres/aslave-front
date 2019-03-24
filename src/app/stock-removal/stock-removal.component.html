@@ -6,7 +6,7 @@
 <section *ngIf="displayRemoval">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <button type="button" class="btn btn-success" (click) = "onDisplayRemoval()"><i class="fas fa-plus"></i>Adicionar</button>
+      <button type="button" class="btn btn-success" (click) = "onDisplayRemoval()"><i class="fas fa-plus"></i> Adicionar</button>
       <form class="form-inline search">
         <input class="form-control mx-sm-2" type="search" placeholder="Produto" aria-label="produto">
         De:<input class="form-control mx-sm-2" type="date" >
@@ -20,17 +20,17 @@
     <table class="table table-responsive col-12">
       <thead>
         <tr>
-          <th scope="col" class="col-lg-3 col-sm-3">Produto</th>
-          <th scope="col" class="col-lg-3 col-sm-3">Data</th>
           <th scope="col" class="col-lg-3 col-sm-3">Usuário</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Data</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Valor</th>
           <th scope="col" class="col-lg-3 col-sm-3">Ações</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
-            <td class="col-lg-3 col-sm-3">Teste</td>
-            <td class="col-lg-3 col-sm-3">00000000000</td>
-            <td class="col-lg-3 col-sm-3">00000000000</td>
+        <tr *ngFor="let out of stockOut">
+            <td class="col-lg-3 col-sm-3">{{ out.user.full_name }}</td>
+            <td class="col-lg-3 col-sm-3">{{ out.createdAt }}</td>
+            <td class="col-lg-3 col-sm-3">{{ out.unit_price_output }}</td>
             <td class="col-lg-3 col-sm-3">
               <div class="btn-group" role="group" aria-label="actions">
                 <button type="button" class="btn btn-secondary"><i class="fas fa-eye"></i></button>

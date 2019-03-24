@@ -19,6 +19,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
 
 
 
@@ -35,7 +36,8 @@ import { FormsModule } from '@angular/forms';
     HomeComponent,
     StockRemovalComponent,
     StockPlacementComponent,
-    NavbarComponent
+    NavbarComponent,
+    ProcurarPessoaPipe
   ],
   imports: [
     BrowserModule,
