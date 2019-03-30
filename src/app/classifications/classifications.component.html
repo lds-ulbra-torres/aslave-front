@@ -1,3 +1,101 @@
-<p>
-  classifications works!
-</p>
+<div class="row">
+  <header class="col-lg-12 col-md-12 col-sm-12">
+    <h1>Classificações</h1>
+  </header>
+</div>
+<section *ngIf="!displayClassification">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+      <button type="button" class="btn btn-success" (click)="onDisplayClassification()"><i class="fas fa-plus"></i> Adicionar</button>
+      
+      <form class="form-inline search" #p="ngForm" >
+        <select name="tipoClassificação" type="search" class="btn btn-type mr-sm-2" #tipo>
+            <option selected value="-1">Tipo de Classificação</option>
+            <option value="0">Entrada</option>
+            <option value="1">Saida</option> 
+            <option value="2">Ambos</option> 
+        </select>
+        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </div>  
+
+  <div class="row">
+    <table class="table col-lg-12 col-md-12 col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-3 col-sm-3">Nome</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Classificação</th>
+          <th scope="col" class="col-lg-3 col-sm-3"></th>
+          <th scope="col" class="col-lg-3 col-sm-3">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let C of classification">
+              <td class="col-lg-3 col-sm-3">{{ C.name_classification }}</td>
+              <td class="col-lg-3 col-sm-3">{{ C.classifation_type }}</td>
+              <td class="col-lg-3 col-sm-3"></td>
+              <td class="col-lg-3 col-sm-3">
+                <div class="btn-group" role="group" aria-label="actions">
+                  <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
+                  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
+                </div>
+              </td>
+          </tr>
+        </tbody>
+    </table>
+    <div class="modal fade" role="dialog" id="delete">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Excluir Classificação</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p>Tem certeza que deseja excluir esta classificação?</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteClassification()">Excluir</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--Display de adição de nova classificação-->
+<section *ngIf="displayClassification">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+      <div class="card">        
+        <form #p="ngForm" (ngSubmit)="onSubmit(p)">
+
+          <div class="form-group my-3">
+            <input type="text" class="form-control" name="name" required ngModel #name_classification="ngModel" id="nome" aria-describedby="nome" placeholder="Nome">
+          </div>
+          <div class="form-group my-3">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <label class="btn btn-secondary active">
+                <input type="radio" name="classifation_type"  autocomplete="off"> Entrada
+              </label>
+              <label class="btn btn-secondary">
+                <input type="radio" name="classifation_type" autocomplete="off"> Saida
+              </label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-paper-plane"></i>Salvar
+          </button>
+
+         </form>
+      </div>
+      <button class="btn btn-light col-lg-1" (click)="onDisplayClassification()">
+        <i class="fas fa-angle-left"></i>Voltar
+      </button>
+    </div>
+  </div>
+</section>
+<!--Fim do display de adição-->
