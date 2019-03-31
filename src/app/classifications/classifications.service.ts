@@ -22,4 +22,8 @@ export class ClassificationsService {
   delete(id):Observable<HttpResponse<any>>{
     return this.http.delete(`${this.classificationUrl}/${id}`, { observe: 'response' });
   }
+
+  updateClassification(Classification: any, id): Observable<any>{
+    return this.http.put(`${this.classificationUrl}/${id}`, Classification);
+  }
 }

@@ -1,8 +1,9 @@
 import { Classifications } from './../models/classifications';
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder} from '@angular/forms';
 import { ClassificationsService } from './classifications.service';
+import { ProcurarClassificationPipe } from '../pipes/procurar-classificacao.pipe';
 
 @Component({
   selector: 'app-classifications',
@@ -15,7 +16,11 @@ export class ClassificationsComponent implements OnInit {
 
   classification: Classifications[];
   class: Classifications;
-  displayClassification: boolean = false;
+  displayClassification: string;
+  displayUpdate: string;
+  display: boolean;
+  displayUp: boolean;
+  procuraClassification: ProcurarClassificationPipe;
 
   ngOnInit() {
     this.getClassification();
@@ -26,21 +31,32 @@ export class ClassificationsComponent implements OnInit {
     .subscribe(classifications =>{ this.classification = [... classifications.body.obj] });
   }
 
-  onDisplayClassification(){
-    this.displayClassification = !this.displayClassification;
+  onDisplayClassification(value = 'e'){
+    this.displayClassification = value;
+    console.log(value);
+  }
+
+  onDisplay(){
+    this.display = !this.display;
+  }
+
+  onDisplayUp(){
+    this.displayUp = !this.displayUp;
+  }
+
+  onDisplayUpdate(value = 'e'){
+    this.displayUpdate = value;
   }
 
   select(C){
     this.class = Object.assign({},C);
-    console.log(C);
-    console.log(this.class);
   }
 
   deleteClassification(){
     this.classificationService.delete(this.class.id_classification)
       .subscribe(
         resp => {
-          this.class = null;
+          this.class = null
           this.getClassification();
         }
       ),
@@ -50,20 +66,34 @@ export class ClassificationsComponent implements OnInit {
   }
 
   onSubmit(p){
-    console.log(p.value);
-    
-    let classific = new FormData();
-    
-    classific.append('name_classification', p.value.name_classification);
-    classific.append('classifation_type', p.value.classifation_type);
-
+    const classific = {
+      'name_classification': p.value.name,
+      'classifation_type': this.displayClassification
+    };
     console.log(classific);
 
     this.classificationService.postClassifications(classific).subscribe((response) => {
       p.reset();
+      this.display = !this.display;
       this.getClassification();
-      this.displayClassification = !this.displayClassification;
       console.log(response);
     }, error => console.log(error))
+  }
+
+  updateClassification(p){
+    const classific = {
+      'name_classification': p.value.name,
+      'classifation_type': this.displayUpdate
+    };
+
+    console.log(classific)
+    this.classificationService.updateClassification(classific, this.class.id_classification)
+    .subscribe(
+      resp => {
+        this.class = null;
+        this.displayUp = !this.displayUp;
+        this.getClassification();
+      }
+    );
   }
 }
