@@ -20,6 +20,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
+import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
 
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
 
@@ -37,7 +38,8 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     HomeComponent,
     StockRemovalComponent,
     NavbarComponent,
-    ProcurarPessoaPipe
+    ProcurarPessoaPipe,
+    ProcurarCategoriaPipe
   ],
   imports: [
     BrowserModule,
