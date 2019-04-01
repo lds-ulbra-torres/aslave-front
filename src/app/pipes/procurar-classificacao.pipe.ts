@@ -10,11 +10,9 @@ export class ProcurarClassificationPipe implements PipeTransform {
 
     if(!items) return[];
     if(!procuraClassification) return items;
-
-    procuraClassification = procuraClassification.toLowerCase();
-
+    
     return items.filter( it => {
-      return it.classifation_type.toLocaleLowerCase().includes(procuraClassification);
+      return it.classifation_type == procuraClassification;
     })
   }
 
