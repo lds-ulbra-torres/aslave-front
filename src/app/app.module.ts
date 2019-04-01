@@ -21,6 +21,7 @@ import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
 import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe';
+import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
 
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
 
@@ -39,7 +40,8 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     StockRemovalComponent,
     NavbarComponent,
     ProcurarPessoaPipe,
-    ProcurarClassificationPipe
+    ProcurarClassificationPipe,
+    ProcurarCategoriaPipe
   ],
   imports: [
     BrowserModule,

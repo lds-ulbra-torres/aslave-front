@@ -7,6 +7,7 @@ import { PeopleService } from './people.service';
 import { Person } from '../models/person';
 import { ProcurarPessoaPipe } from '../pipes/procurar-pessoa.pipe';
 
+
 @Component({
   selector: 'app-people',
   templateUrl: './people.component.html',
