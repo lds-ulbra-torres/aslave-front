@@ -17,5 +17,4 @@ export class ProcurarPessoaPipe implements PipeTransform {
       return it.name.toLocaleLowerCase().includes(procuraPerson);
     })
   }
-
 }
