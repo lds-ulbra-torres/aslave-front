@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let categorias of categories | searcher : procura">
+        <tr *ngFor="let categorias of categories | search_category : procura">
           <td class="col-lg-3 col-sm-3">{{categorias.name_group}}</td>
           <td class="col-lg-3 col-sm-3">
             <div class="btn-group" role="group" aria-label="actions">

@@ -7,7 +7,7 @@ import { Categorias } from '../models/categories';
 export class ProcurarCategoriaPipe implements PipeTransform {
 
   transform(items: Categorias[], procuraPerson: string): Categorias[] {
-
+    console.log("category")
     if(!items) return[];
     if(!procuraPerson) return items;
 

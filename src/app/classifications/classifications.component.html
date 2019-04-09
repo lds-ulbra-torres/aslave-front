@@ -28,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let C of classification | searcher : procuraClassification">
+        <tr *ngFor="let C of classification | searcher_classification : procuraClassification">
           <td class="col-lg-3 col-sm-3">{{ C.name_classification }}</td>
           <td class="col-lg-3 col-sm-3">{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
           <td class="col-lg-3 col-sm-3"></td>

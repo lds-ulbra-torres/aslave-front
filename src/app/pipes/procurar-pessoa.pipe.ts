@@ -7,7 +7,7 @@ import { Person } from '../models/person';
 export class ProcurarPessoaPipe implements PipeTransform {
 
   transform(items: Person[], procuraPerson: string): Person[] {
-
+    
     if(!items) return[];
     if(!procuraPerson) return items;
 
