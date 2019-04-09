@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Categorias } from '../models/categories';
 
 @Pipe({
-  name: 'searcher'
+  name: 'search_category'
 })
 export class ProcurarCategoriaPipe implements PipeTransform {
 
