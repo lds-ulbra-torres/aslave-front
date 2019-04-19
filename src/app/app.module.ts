@@ -20,6 +20,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
+import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe';
 import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
 
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
@@ -39,6 +40,7 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     StockRemovalComponent,
     NavbarComponent,
     ProcurarPessoaPipe,
+    ProcurarClassificationPipe,
     ProcurarCategoriaPipe
   ],
   imports: [
@@ -47,7 +49,7 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-     StockPlacementModule
+    StockPlacementModule
   ],
   providers: [ 
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
