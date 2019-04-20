@@ -1,7 +1,11 @@
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {map, startWith} from 'rxjs/operators';
+import { map, startWith, first } from 'rxjs/operators';
+import { Person } from 'src/app/models/person';
+import { StockPlacementService } from '../stock-placement.service';
+import { PeopleService } from 'src/app/people/people.service';
 
 @Component({
   selector: 'app-stock-placement-maintain',
@@ -14,23 +18,18 @@ export class StockPlacementMaintainComponent implements OnInit {
   @ViewChild('quantity') quantity: ElementRef;
 
   myControl = new FormControl();
-  options: string[] = ['Cássio','Ramon','Vinicius','Adriana','Carol','Gatelli','LDS'];
-  optionsProdutos: string[] = ['Leite','Arroz','Azeite','Açucar','Feijão','Farinha','Papel higiênico'];
-  filteredOptions: Observable<string[]>;
+  
+  filteredOptions: Observable<Person[]>;
 
-  stockProducts: Array<any> = [
-    {id: 1, name: "Arroz", qtd: 30, value: 50.50,},
-    {id: 2, name: "Feijão", qtd: 15, value: 40.50,},
-    {id: 8, name: "Leite", qtd: 20, value: 60.50,},
-    {id: 4, name: "Farinha", qtd: 3, value: 10.50,},
-    {id: 5, name: "Amendoim", qtd: 2, value: 18.50,},
-    {id: 6, name: "Pamonha", qtd: 4, value: 20.50,},
-    {id: 7, name: "Cachaça", qtd: 10, value: 500.50,}
-  ];
+  stockProducts: Array<any> = [];
   selectValue = null;
+  options: Person[]= [];
+  products: any[]=[];
  
 
-  constructor() { }
+  constructor(private router: Router,
+    private _stockPlacementService: StockPlacementService,
+    private peopleService: PeopleService) { }
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
@@ -38,18 +37,30 @@ export class StockPlacementMaintainComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
+
+    this.getPeople();
+    this.getAllProducts();
   }
 
-  private _filter(value: string): string[] {
+  private _filter(value: string): Person[] {
     const filterValue = value.toLowerCase();
 
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+    return this.options.filter(option => option.name.toLowerCase().includes(filterValue));
   }
 
   removeProduct(index){
     this.stockProducts.splice(index, 1);
   }
   
+  getAllProducts(){
+    this._stockPlacementService.getProducts().pipe(first())
+      .subscribe(products => this.products = [...products.body.obj]);
+  }
+  getPeople(){
+    this.peopleService.getPeople().pipe(first())
+    .subscribe(people =>{ this.options = [... people.body.obj]
+    });
+  }
   addProduct(){
     let productV = this.product.nativeElement.value;
     let quantityV = this.quantity.nativeElement.value;
@@ -64,6 +75,14 @@ export class StockPlacementMaintainComponent implements OnInit {
     }
 
     this.stockProducts.push(newProduct);
+  }
+
+  goBack(){
+    this.router.navigate(['admin/entradas']);
+  }
+  searchProd(idProd){
+    let theProduct:any = this.products.find(product => product.id_product==idProd)
+    return theProduct.name_product
   }
 
 }

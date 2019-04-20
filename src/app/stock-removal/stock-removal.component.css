@@ -37,4 +37,9 @@ input.inline{
     width: 100%;
     text-align: right;
 }
-
+.plus{
+    width: 100%;
+}
+.stock-output{
+    width: 100%;
+}

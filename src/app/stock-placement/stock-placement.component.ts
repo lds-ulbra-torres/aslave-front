@@ -1,3 +1,6 @@
+import { Person } from './../models/person';
+import { PeopleService } from './../people/people.service';
+import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -15,30 +18,27 @@ import { StockPlacementService } from './stock-placement.service';
 })
 export class StockPlacementComponent implements OnInit {
 
-  arrayInputs: Array<IStockInput>;
-
-  stockInputs: IStockInput[] = [
-    {name: "Cássio", date: "2018-09-01", value: 120.50, input_type:1},
-    {name: "Vinicius", date: "2018-11-22", value: 60.50, input_type:2},
-    {name: "Ramon", date: "2018-11-20", value: 6000.50, input_type:1},
-    {name: "Adriana", date: "2018-11-19", value: 300.50, input_type:2},
-    {name: "Carol", date: "2018-11-20", value: 320.50, input_type:1},
-    {name: "Cássio", date: "2018-11-22", value: 120.50, input_type:1},
-    {name: "Vinicius", date: "2018-11-22", value: 60.50, input_type:1},
-    {name: "Ramon", date: "2018-11-20", value: 6000.50, input_type:1},
-    {name: "Adriana", date: "2018-11-19", value: 300.50, input_type:2},
-    {name: "Carol", date: "2018-11-22", value: 320.50, input_type:1}
-  ];
+  //arrayInputs: Array<IStockInput>;
+  inputs: any[]= [];
+  isLoading: boolean = true;
+  people: Person[]=[]
+  products: any[]=[];
+  stockInputs2: any[];
+  selectedStockInput: any;
+  selectedStockInputPerson: string;
+  ready: boolean = false;
+  loadProducts: boolean = false;
 
   procuraNome: ProcurarNomePipe;
   procuraTipo: ProcuraTipoPipe;
   procuraMinDate: PrcourarMinDatePipe;
   procuraMaxDate: PrcourarMaxDatePipe;
 
-  constructor(private _stockPlacemenetService: StockPlacementService) { }
+  constructor(private _stockPlacementService: StockPlacementService,
+              private peopleService: PeopleService) { }
 
   ngOnInit() {
-    this.login();
+    this.getInputs();
   }
 
   onSubmit(form){
@@ -48,34 +48,37 @@ export class StockPlacementComponent implements OnInit {
     console.log(form.value.type);
   }
 
-  login(){
-    let user = new FormData();
-    user.append('login', "admin");
-    user.append('password', "add");
-    user.append('id_departament', "1");
-
-    this._stockPlacemenetService.consultarLogin(user)
-      .subscribe(
-        (val) => {
-          //console.log(val.obj.token);
-          //window.localStorage.setItem("token",val.obj.token)
-          this.getAllProdutcs();
-        },
-        response => {
-          console.log("erro");
-        }
-      );
+  getInputs(){
+    this._stockPlacementService.getInputs().pipe(first())
+    .subscribe(inputs =>{ this.inputs = [... inputs.body.obj]
+      this.isLoading = false;
+      console.log(inputs);
+    });
   }
 
-  getAllProdutcs(){
-    this._stockPlacemenetService.getProducts()
-      .subscribe(
-        (val) => {
-          console.log(val);
-        },
-        response => {
-          console.log("erro");
-        }
-      );
+  getStockInputsById(id) {
+    
+    this._stockPlacementService.getStockInputById(id)
+      .subscribe(resp => {
+        this.selectedStockInput =  resp.body.obj[0];
+        this.ready = true;
+        this.selectedStockInputPerson = this.stockInputs2.find(obj => obj.id_stock == id).person.name
+        console.log(this.selectedStockInput);
+      });
   }
+  productName(id: number){
+    return this.products.find(product => product.id_product == id).name_product
+  }
+  deleteStockInput(id){
+    this._stockPlacementService.deleteStockInput(id)
+      .subscribe(
+        resp => {
+          this.getInputs()
+        }
+      ),
+       (
+         error => console.log(error)
+      )
+  }
+
 }

@@ -14,14 +14,14 @@
               <input class="form-control input-autocomplet pl-2 w-100" type="text" placeholder="Fornecedor" aria-label="Number" matInput
                 [formControl]="myControl" [matAutocomplete]="auto">
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                  {{option}}
+                <mat-option *ngFor="let o of filteredOptions | async" [value]="o.name">
+                  {{o.name}}
                 </mat-option>
               </mat-autocomplete>
             </div>
             <div class="form-group col-lg-4">
               <select name="tipo" class="btn btn-select mx-sm-2 stock-input">
-                <option selected value="0">Selecionar tipo</option>
+                <option selected disabled>Selecionar tipo</option>
                 <option value="2">Doação</option>
                 <option value="1">Compra</option>
               </select>
@@ -34,10 +34,10 @@
           <h5>Cadastro de produtos</h5>
           <div class="form-inline">
             <div class="form-group col-lg-4">
-              <select #product class="btn btn-select mx-sm-2 stock-input" placeholder="teste">
-                <option selected disabled value="0">Selecionar tipo</option>
-                <option *ngFor="let produto of optionsProdutos" [value]="produto">
-                  {{produto}}
+              <select #product class="btn btn-select mx-sm-2 stock-input">
+                <option selected disabled>Selecionar tipo</option>
+                <option *ngFor="let p of products" [value]="p.id_product">
+                  {{p.name_product}}
                 </option>
               </select>
             </div>
@@ -54,7 +54,7 @@
           <div class="row mt-4">
             <div class="table-responsive">
               <table class="table col-lg-12 col-md-12 col-sm-12">
-                <thead class="thead-dark">
+                <thead>
                   <tr>
                     <th scope="col">#</th>
                     <th scope="col">Nome</th>
@@ -65,12 +65,12 @@
                 </thead>
                 <tbody>
                   <tr *ngFor="let product of stockProducts; let i = index">
-                    <td>{{ product.id }}</td>
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.qtd }}</td>
-                    <td>{{ product.value }}</td>
+                    <td>{{ searchProd(product.id_product) }}</td>
+                    <td>{{ product.amount_input }}</td>
+                    <td>{{ product.unit_price_input | currency:'BRL' }}</td>
+                    <td>{{ product.amount_input*product.unit_price_input | currency:'BRL' }}</td>
                     <td>
-                      <button type="button" class="btn btn-danger" (click)="removeProduct(i)">
+                      <button type="button" class="btn btn-secondary" (click)="removeProduct(i)">
                         <i class="fas fa-minus"></i>
                       </button>
                     </td>
@@ -85,7 +85,7 @@
           </button>
         </form>
       </div>
-      <button class="btn btn-light col-lg-1 mt-2" routerLink="/entradas">
+      <button class="btn btn-light col-lg-1 mt-2" (click)="goBack()">
         <i class="fas fa-angle-left"></i>
         Voltar
       </button>

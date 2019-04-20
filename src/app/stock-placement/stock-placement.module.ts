@@ -15,6 +15,8 @@ import { StockPlacementMaintainComponent } from './stock-placement-maintain/stoc
 
 import { StockPlacementService } from './stock-placement.service';
 
+
+
 @NgModule({
   declarations: [
     StockPlacementComponent,
@@ -22,7 +24,8 @@ import { StockPlacementService } from './stock-placement.service';
     ProcuraTipoPipe,
     PrcourarMinDatePipe,
     PrcourarMaxDatePipe,
-    StockPlacementMaintainComponent
+    StockPlacementMaintainComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import { StockPlacementService } from './stock-placement.service';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+  
   ],
   providers: [
     StockPlacementService

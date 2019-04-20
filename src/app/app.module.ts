@@ -1,3 +1,5 @@
+import { CompareValidatorsDirective } from './directives/compare-validator.directive';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -20,8 +22,15 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
+import { OrdenarNomePipe } from './pipes/ordenar-por-nome.pipe';
 
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
+import { LoaderComponent } from "./shared/loader/loader.component";
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
+
+
 
 
 @NgModule({
@@ -37,7 +46,11 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     HomeComponent,
     StockRemovalComponent,
     NavbarComponent,
-    ProcurarPessoaPipe
+    ProcurarPessoaPipe,
+    LoaderComponent,
+    OrdenarNomePipe,
+    CompareValidatorsDirective,
+    ProcurarUserPipe
   ],
   imports: [
     BrowserModule,
@@ -45,7 +58,12 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-     StockPlacementModule
+    StockPlacementModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    
   ],
   providers: [ 
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -53,6 +71,7 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
   ],
 
 
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [ CompareValidatorsDirective ]
 })
 export class AppModule { }
