@@ -24,6 +24,7 @@ import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe'
 import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
 
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
+import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     NavbarComponent,
     ProcurarPessoaPipe,
     ProcurarClassificationPipe,
-    ProcurarCategoriaPipe
+    ProcurarCategoriaPipe,
+    ProcurarProductPipe
   ],
   imports: [
     BrowserModule,

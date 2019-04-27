@@ -29,6 +29,7 @@ export class CategoriesService {
     
     return this.http.put(`${this.categoriesURL}/${id}`, Categorias);
   }
+  
   }
 
 
