@@ -131,12 +131,16 @@ export class StockRemovalComponent implements OnInit {
 
   }
 
+  mostrar(id){
+    console.log(id);
+  }
   updateOutput(u){
     let date = `${u.createdAt}`;
-    let user = this.options.find(person => person.full_name==u.id_user);
     console.log(u);
+
     let number = parseInt(u.amount_output);
     let product = parseInt(u.id_product);
+
    const output = {
       "id_user": u.id_user,
       "id_product": product,
@@ -150,6 +154,7 @@ export class StockRemovalComponent implements OnInit {
     this.stockRemovalService.updateOutput(output, u.id_stock).subscribe(
       resp =>{
         this.getRemoval();
+        console.log(resp);
       }
     ),(
       error => console.log(error)
