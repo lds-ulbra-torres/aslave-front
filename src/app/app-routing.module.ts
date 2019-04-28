@@ -19,7 +19,7 @@ import { StockPlacementMaintainComponent } from './stock-placement/stock-placeme
 
 
 const routes: Routes = [
-  
+
   { path: '', redirectTo:'login' ,pathMatch:'full'},
   { path: 'login', component: LoginComponent },
   { path: 'admin', component: NavbarComponent, canActivate:[AuthGuard], children:[
@@ -29,14 +29,14 @@ const routes: Routes = [
     { path: 'categorias', component: CategoriesComponent },
     { path: 'entradas', component: StockPlacementComponent},
 	{ path: 'entradas/cadastrar', component: StockPlacementMaintainComponent},
-    { path: 'entradas/editar/?id', component: StockPlacementMaintainComponent},
+    { path: 'entradas/editar/:id', component: StockPlacementMaintainComponent},
     { path: 'saidas', component: StockRemovalComponent},
     { path: 'entradas', component: StockPlacementComponent},
     { path: 'classificacoes', component: ClassificationsComponent},
     { path: 'lancamentos', component: EntryComponent},
     { path: 'gerenciar', component: ManageComponent}
   ] }
-  
+
 ];
 
 @NgModule({

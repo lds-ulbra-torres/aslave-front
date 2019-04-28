@@ -15,4 +15,7 @@ export class StockRemovalService {
   getRemoval(): Observable<HttpResponse<any>>{
     return this.http.get<any[]>(this.stockOutUrl, { observe: 'response'});
   }
+  postOutput(form){
+    return this.http.post(this.stockOutUrl, form);
+  }
 }
