@@ -6,6 +6,7 @@ import {map, startWith} from 'rxjs/operators';
 
 import { StockPlacementService } from '../stock-placement.service';
 import { formatDate } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-stock-placement-maintain',
@@ -43,28 +44,7 @@ export class StockPlacementMaintainComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private _stockPlacementService: StockPlacementService) { }
 
   ngOnInit() {
-    this.sub = this.route.params.subscribe(params => {
-      console.log(params['id']) // (+) converts string 'id' to a number
-      this.id = params['id'];
-      // In a real app: dispatch action to load the details here.
-   });
-   
     this.getAllPeople();
-
-    if (this.id) {
-      this._stockPlacementService.getStockInputById(this.id)
-        .subscribe(resp => {
-          //this.product =  resp.body.obj[0];
-          console.log(resp.body.obj[0])
-          let inputStock = resp.body.obj[0];
-          this.namePerson.nativeElement.value = this.people.find(obj => obj.id_people == inputStock.id_people).name;
-          this.typeStock.nativeElement.value = inputStock.input_type;
-          this.dateStock.nativeElement.value = formatDate(inputStock.input_date, "yyyy-MM-dd", "z");
-          resp.body.obj[0].stock_input_products.map( obj => {
-            this.stockProducts.push(obj);
-          })
-        });
-     }
   }
 
   _filter(value: string): string[] {
@@ -72,12 +52,38 @@ export class StockPlacementMaintainComponent implements OnInit {
 
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
+  
+  getByID(){
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params['id'];
+    });
+
+    if (this.id) {
+      this._stockPlacementService.getStockInputById(this.id)
+        .subscribe(resp => {
+          moment.locale('pt-br')
+          let inputStock = resp.body.obj[0];
+          
+          this.namePerson.nativeElement.value = this.people.find(obj => obj.id_people == inputStock.id_people).name;
+          this.typeStock.nativeElement.value = inputStock.input_type;
+          this.totalSumValue = inputStock.sum_value;
+          this.dateStock.nativeElement.value = moment(inputStock.input_date).format("YYYY-MM-DD");
+          resp.body.obj[0].stock_input_products.map( obj => {
+            this.stockProducts.push({
+              id_product: parseInt(obj.id_product),
+              id_stock: parseInt(obj.id_stock),
+              unit_price_input: obj.unit_price_input,
+              amount_input: obj.amount_input
+            });
+          })
+        }, error => console.log(error));
+    }
+  }
 
   getAllProducts(){
     this._stockPlacementService.getProducts()
       .subscribe(resp => {
         this.products = [ ... resp.body.obj ];
-        console.log(this.products)
       });
       
   }
@@ -101,12 +107,15 @@ export class StockPlacementMaintainComponent implements OnInit {
     
           this.getAllProducts();
           this.initialSumValue();
+          this.getByID();
       });
   }
 
   searchProd(idProd){
     let theProduct:any = this.products.find(product => product.id_product==idProd)
-    return theProduct.name_product
+    if (theProduct)
+      return theProduct.name_product.toUpperCase();
+    return false;
   }
   
   addProduct(): boolean{
@@ -142,7 +151,7 @@ export class StockPlacementMaintainComponent implements OnInit {
   }
 
   removeProduct(index){
-    this.stockProducts.splice(index, 1);
+    this.stockProducts = this.stockProducts.filter( (item, i) => index !== i ? item : null);
     this.initialSumValue();
   }
   
@@ -157,7 +166,7 @@ export class StockPlacementMaintainComponent implements OnInit {
     this.router.navigate(['admin/entradas']);
   }
 
-  onSubmit(form): boolean{
+  onSubmit(): boolean {
     this.nameValidation = false; this.typeValidation = false; this.dateValidation = false;
     let namePersonV = this.namePerson.nativeElement.value;
     let typeStockV = this.typeStock.nativeElement.value;
@@ -175,8 +184,8 @@ export class StockPlacementMaintainComponent implements OnInit {
 
     let selectedPerson = this.people.find(person => person.name==namePersonV)
     let totalValor = this.totalSumValue.toString()
-
-    let theHell: any = {
+    
+    let stock: any = {
       input_date: dateStockV+'T12:01:01.000Z',
       input_type: typeStockV,
       sum_value: totalValor,
@@ -184,10 +193,17 @@ export class StockPlacementMaintainComponent implements OnInit {
       stock_input_products: this.stockProducts
     }
 
-    this._stockPlacementService.postStockInput(theHell).subscribe(
-      data => this.goBack(), 
-      error => console.log('error ',error),
-    )
+    if(this.id) {
+      this._stockPlacementService.putStockInput(this.id, stock).subscribe(
+        data => this.goBack(), 
+        error => console.log('error ',error),
+      )
+    } else {
+      this._stockPlacementService.postStockInput(stock).subscribe(
+        data => this.goBack(), 
+        error => console.log('error ',error),
+      )
+    }
     
   }
 

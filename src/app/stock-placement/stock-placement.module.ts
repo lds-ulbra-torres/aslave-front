@@ -1,8 +1,8 @@
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -36,7 +36,7 @@ import { StockPlacementService } from './stock-placement.service';
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
-  
+    NgbModule,
   ],
   providers: [
     StockPlacementService

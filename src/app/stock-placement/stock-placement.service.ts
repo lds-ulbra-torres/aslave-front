@@ -11,28 +11,32 @@ export class StockPlacementService {
   constructor(private http: HttpClient,
               private peopleService: PeopleService) { }
 
-  private base = 'http://api-teste-aslave-org-br.umbler.net';
+  private baseURL = 'http://api-teste-aslave-org-br.umbler.net';
 
   postStockInput(stockInput){
-    return this.http.post(`${this.base}/stock-input`, stockInput);
+    return this.http.post(`${this.baseURL}/stock-input`, stockInput);
+  }
+  
+  putStockInput(id, stockInput){
+    return this.http.put(`${this.baseURL}/stock-input/${id}`, stockInput);
   }
 
   getProducts(): Observable<HttpResponse<any>>{
-    return this.http.get<any[]>('http://api-teste-aslave-org-br.umbler.net/product', {observe: 'response'});
+    return this.http.get<any[]>(`${this.baseURL}/product`, {observe: 'response'});
   }
   getInputs(): Observable<HttpResponse<any>>{
-    return this.http.get<any[]>('http://api-teste-aslave-org-br.umbler.net/stock-input', {observe: 'response'});
+    return this.http.get<any[]>(`${this.baseURL}/stock-input`, {observe: 'response'});
   }
   getPeople(): Observable<HttpResponse<any>>{
-    return this.http.get<Person[]>('http://api-teste-aslave-org-br.umbler.net/people', { observe: 'response'});
+    return this.http.get<Person[]>(`${this.baseURL}/people`, { observe: 'response'});
   }
   getStockInputById(id): Observable<HttpResponse<any>> {
     return this.http.get<any>(
-      `${this.base}/stock-input/${id}`, { observe: 'response' });
+      `${this.baseURL}/stock-input/${id}`, { observe: 'response' });
   }
 
   deleteStockInput(id): Observable<HttpResponse<any>>{
-    return this.http.delete('http://api-teste-aslave-org-br.umbler.net/stock-input/'+id, { observe: 'response' })
+    return this.http.delete(`${this.baseURL}/stock-input/${id}`, { observe: 'response' })
   }
 
 }
