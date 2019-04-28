@@ -13,7 +13,10 @@ export class StockPlacementService {
 
   private base = 'http://api-teste-aslave-org-br.umbler.net';
 
-  
+  postStockInput(stockInput){
+    return this.http.post(`${this.base}/stock-input`, stockInput);
+  }
+
   getProducts(): Observable<HttpResponse<any>>{
     return this.http.get<any[]>('http://api-teste-aslave-org-br.umbler.net/product', {observe: 'response'});
   }
@@ -25,10 +28,11 @@ export class StockPlacementService {
   }
   getStockInputById(id): Observable<HttpResponse<any>> {
     return this.http.get<any>(
-      'http://api-teste-aslave-org-br.umbler.net/stock-input/'+id, { observe: 'response' });
+      `${this.base}/stock-input/${id}`, { observe: 'response' });
   }
 
   deleteStockInput(id): Observable<HttpResponse<any>>{
     return this.http.delete('http://api-teste-aslave-org-br.umbler.net/stock-input/'+id, { observe: 'response' })
   }
+
 }

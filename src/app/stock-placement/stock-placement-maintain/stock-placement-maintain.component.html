@@ -1,93 +1,102 @@
 <div class="row">
-  <header class="col-lg-12 col-md-12 col-sm-12">
-    <h1>Entradas</h1>
-  </header>
-</div>
-<section>
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <div class="card">
-        <form>
-          <h5>Dados da entrada</h5>
-          <div class="form-inline">
-            <div class="form-group col-lg-4">
-              <input class="form-control input-autocomplet pl-2 w-100" type="text" placeholder="Fornecedor" aria-label="Number" matInput
-                [formControl]="myControl" [matAutocomplete]="auto">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let o of filteredOptions | async" [value]="o.name">
-                  {{o.name}}
-                </mat-option>
-              </mat-autocomplete>
+        <header class="col-lg-12 col-md-12 col-sm-12">
+          <h1>Entradas</h1>
+        </header>
+      </div>
+      <section>
+        <div class="row">
+          <div class="col-lg-12 col-md-12 my-3">
+            <div class="card">
+              <form method="POST" #f="ngForm" (ngSubmit)="onSubmit(f)" >
+                <h5>Dados da entrada</h5>
+                <div class="form-inline">
+                  <div class="form-group col-lg-4">
+                    <input #namePerson class="form-control input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Fornecedor" aria-label="Number" matInput
+                      [formControl]="myControl" [matAutocomplete]="auto" [ngClass]="{'border-danger': nameValidation}" (change)="nameValidation = false">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async"  [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <p *ngIf="nameValidation"  class="text-danger">*Selecione um nome cadastrado</p>
+                  </div>
+                  <div class="col-lg-4 col-sm-6 mt-2">
+                    <select #typeStock name="tipo" class="btn btn-select stock-input" [ngClass]="{'border-danger': typeValidation}" (change)="typeValidation = false">
+                      <option selected value="0">Selecionar tipo</option>
+                      <option value="2">Doação</option>
+                      <option value="1">Compra</option>
+                    </select>
+                    <p *ngIf="typeValidation"  class="text-danger">*Selecione um tipo</p>
+                  </div>
+                  <div class="form-group col-lg-4 col-sm-6 mt-2">
+                    <input #dateStock type="date" pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])/(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])/(?:30))|(?:(?:0[13578]|1[02])-31))" [ngModel] ="dateStock | date:'yyyy-MM-dd'" class="form-control stock-input" [ngClass]="{'border-danger': dateValidation}" (change)="dateValidation = false">
+                    <p *ngIf="dateValidation"  class="text-danger">*Selecione uma data válida</p>
+                  </div>
+                </div>
+                <hr>
+                <h5>Cadastro de produtos</h5>
+                <div class="form-inline align-items-start">
+                  <div class="form-group col-lg-4">
+                    <select #product class="btn btn-select w-100 stock-input mt-2" placeholder="teste" [ngClass]="{'border-danger': productValidation}" (change)="productValidation = false">
+                      <option selected disabled value="">Selecionar produto</option>
+                      <option *ngFor="let produto of products" [value]="produto.id_product">
+                        {{produto.name_product.toUpperCase()}}
+                      </option>
+                    </select>
+                    <p *ngIf="productValidation" class="text-danger">*Selecione um produto</p>
+                  </div>
+                  <div class="form-group col-lg-3 col-sm-6 col-6">
+                    <input type="number" class="form-control stock-input mt-2" #quantity placeholder="Quantidade" [ngClass]="{'border-danger': amountValidation}" (change)="amountValidation = false">
+                    <p *ngIf="amountValidation" class="text-danger">*Digite a quantidade</p>
+                  </div>
+                  <div class="form-group col-lg-3 col-sm-6 col-6">
+                    <input type="number" class="form-control stock-input mt-2" #valueProduct placeholder="Valor" [ngClass]="{'border-danger': valueValidation}" (change)="valueValidation = false">
+                    <p *ngIf="valueValidation" class="text-danger">*Digite o valor</p>
+                  </div>
+                  <button type="button" class="btn btn-success col-lg-2 col-6 mt-2 " (click)="addProduct()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+                <div class="row mt-4">
+                  <div class="table-responsive">
+                    <table class="table col-lg-12 col-md-12 col-sm-12">
+                      <thead class="thead">
+                        <tr>
+                          <th scope="col-auto">Nome</th>
+                          <th scope="col-auto">Qtd</th>
+                          <th scope="col-auto">Valo un.</th>
+                          <th scope="col-auto">Total</th>
+                          <th scope="col-auto">Ações</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let product of stockProducts; let i = index">
+                          <td>{{ searchProd(product.id_product).toUpperCase() }}</td>
+                          <td>{{ product.amount_input }}</td>
+                          <td>{{ product.unit_price_input | currency:'BRL' }}</td>
+                          <td>{{ product.amount_input*product.unit_price_input | currency:'BRL' }}</td>
+                          <td>
+                            <button type="button" class="btn btn-danger" (click)="removeProduct(i)">
+                              <i class="fas fa-minus"></i>
+                            </button>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row justify-content-end">
+                  <div class="btn-info col-auto p-2 mr-3">Total final: {{ totalSumValue | currency:'BRL' }} </div>
+                </div>
+                <button type="submit" class="btn btn-success btn-save mt-3">
+                  <i class="fas fa-paper-plane"></i>
+                  Salvar
+                </button>
+              </form>
             </div>
-            <div class="form-group col-lg-4">
-              <select name="tipo" class="btn btn-select mx-sm-2 stock-input">
-                <option selected disabled>Selecionar tipo</option>
-                <option value="2">Doação</option>
-                <option value="1">Compra</option>
-              </select>
-            </div>
-            <div class="form-group col-lg-4">
-              <input type="date" class="form-control stock-input">
-            </div>
-          </div>
-          <hr>
-          <h5>Cadastro de produtos</h5>
-          <div class="form-inline">
-            <div class="form-group col-lg-4">
-              <select #product class="btn btn-select mx-sm-2 stock-input">
-                <option selected disabled>Selecionar tipo</option>
-                <option *ngFor="let p of products" [value]="p.id_product">
-                  {{p.name_product}}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-lg-3 col-sm-6 col-6">
-              <input type="number" class="form-control stock-input" #quantity placeholder="Quantidade">
-            </div>
-            <div class="form-group col-lg-3 col-sm-6 col-6">
-              <input type="number" class="form-control stock-input" #valueProduct placeholder="Valor">
-            </div>
-            <button class="btn btn-success col-lg-2 col-6" (click)="addProduct()">
-              <i class="fas fa-plus"></i>
+            <button class="btn btn-light col-lg-1 mt-2" routerLink="/admin/entradas">
+              <i class="fas fa-angle-left"></i>
+              Voltar
             </button>
           </div>
-          <div class="row mt-4">
-            <div class="table-responsive">
-              <table class="table col-lg-12 col-md-12 col-sm-12">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Qtd</th>
-                    <th scope="col">Valor</th>
-                    <th scope="col">Ações</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let product of stockProducts; let i = index">
-                    <td>{{ searchProd(product.id_product) }}</td>
-                    <td>{{ product.amount_input }}</td>
-                    <td>{{ product.unit_price_input | currency:'BRL' }}</td>
-                    <td>{{ product.amount_input*product.unit_price_input | currency:'BRL' }}</td>
-                    <td>
-                      <button type="button" class="btn btn-secondary" (click)="removeProduct(i)">
-                        <i class="fas fa-minus"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <button type="submit" class="btn btn-success btn-save mt-3">
-            <i class="fas fa-paper-plane"></i>
-            Salvar
-          </button>
-        </form>
-      </div>
-      <button class="btn btn-light col-lg-1 mt-2" (click)="goBack()">
-        <i class="fas fa-angle-left"></i>
-        Voltar
-      </button>
-    </div>
-  </div>
+        </div>

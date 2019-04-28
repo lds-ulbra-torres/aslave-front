@@ -1,8 +1,6 @@
-import { Person } from './../models/person';
-import { PeopleService } from './../people/people.service';
-import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { map } from 'rxjs/operators';
 
 import { IStockInput } from './../../domain/IStockInput';
 import { ProcurarNomePipe } from './../pipes/procurar-nome.pipe';
@@ -18,27 +16,31 @@ import { StockPlacementService } from './stock-placement.service';
 })
 export class StockPlacementComponent implements OnInit {
 
-  //arrayInputs: Array<IStockInput>;
-  inputs: any[]= [];
-  isLoading: boolean = true;
-  people: Person[]=[]
-  products: any[]=[];
-  stockInputs2: any[];
-  selectedStockInput: any;
-  selectedStockInputPerson: string;
-  ready: boolean = false;
-  loadProducts: boolean = false;
+  arrayInputs: Array<IStockInput>;
+
+  stockInputs: any[];
+
+  stockInputs2: IStockInput[];
+  products: any[];
+  persons: any[];
 
   procuraNome: ProcurarNomePipe;
   procuraTipo: ProcuraTipoPipe;
   procuraMinDate: PrcourarMinDatePipe;
   procuraMaxDate: PrcourarMaxDatePipe;
 
-  constructor(private _stockPlacementService: StockPlacementService,
-              private peopleService: PeopleService) { }
+  selectedStockInput: any;
+  selectedStockInputPerson: string;
+  ready: boolean = false;
+  loadProducts: boolean = false;
+
+  constructor(private _stockPlacementService: StockPlacementService) { }
 
   ngOnInit() {
-    this.getInputs();
+    this.getStockInputs();
+    this.getpersons();
+    this.getAllProducts()
+    
   }
 
   onSubmit(form){
@@ -48,37 +50,59 @@ export class StockPlacementComponent implements OnInit {
     console.log(form.value.type);
   }
 
-  getInputs(){
-    this._stockPlacementService.getInputs().pipe(first())
-    .subscribe(inputs =>{ this.inputs = [... inputs.body.obj]
-      this.isLoading = false;
-      console.log(inputs);
-    });
+  getpersons(){
+    this._stockPlacementService.getPeople()
+      .subscribe(resp => {
+        this.persons = [ ... resp.body.obj ];
+      });
+  }
+
+  getAllProducts(){
+    this._stockPlacementService.getProducts()
+      .subscribe(resp => {
+        this.products = [ ... resp.body.obj ];
+        this.loadProducts = true;
+      });
+      
+  }
+
+  productName(id){
+    return this.products.find(product => product.id_product == id).name_product
+  }
+
+  getStockInputs() {
+    this._stockPlacementService.getInputs()
+      .subscribe(resp => {
+        this.stockInputs2 = [ ... resp.body.obj ];
+        console.log(this.stockInputs2)
+        this.getStockInputsById(this.stockInputs2[this.stockInputs2.length-1].id_stock);
+      });
   }
 
   getStockInputsById(id) {
-    
     this._stockPlacementService.getStockInputById(id)
       .subscribe(resp => {
         this.selectedStockInput =  resp.body.obj[0];
         this.ready = true;
         this.selectedStockInputPerson = this.stockInputs2.find(obj => obj.id_stock == id).person.name
-        console.log(this.selectedStockInput);
+        console.log(this.selectedStockInput)
       });
   }
-  productName(id: number){
-    return this.products.find(product => product.id_product == id).name_product
-  }
+
+  
+
   deleteStockInput(id){
     this._stockPlacementService.deleteStockInput(id)
       .subscribe(
         resp => {
-          this.getInputs()
+          this.getStockInputs()
         }
       ),
        (
          error => console.log(error)
       )
   }
+
+
 
 }

@@ -1,139 +1,170 @@
+
 <div class="row">
-  <header class="col-lg-12 col-md-12 col-sm-12">
-    <h1>Entradas</h1>
-  </header>
-</div>
-<section>
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <button type="button" class="btn btn-success mb-2" routerLink="cadastrar">
-        <i class="fas fa-plus"></i> Adicionar</button>
-<!-- [(ngModel)]="procuraNome" name="fornecedor"-->
-      <form class="form-inline search" #f="ngForm" (ngSubmit)="onSubmit(f)" >
-        <input class="form-control mx-sm-2" [(ngModel)]="procuraNome" name="fornecedor" type="text" placeholder="Fornecedor" aria-label="fornecedor" ngModel> De:
-        <input class="form-control mx-sm-2" type="date" [(ngModel)]="procuraMinDate" name="dateInit"> a:
-        <input class="form-control mx-sm-2" type="date" [(ngModel)]="procuraMaxDate" name="dateEnd">
-        <select name="tipo" class="btn btn-select mx-sm-2" [(ngModel)]="procuraTipo" name="type">
-          <option selected value="0">Selecionar tipo</option>
-          <option value="2">Doação</option>
-          <option value="1">Compra</option>
-        </select>
-        <button class="btn btn-search" type="submit">
-          <i class="fas fa-search"></i>
-        </button>
-      </form>
-    </div>
+    <header class="col-lg-12 col-md-12 col-sm-12">
+      <h1>Entradas</h1>
+    </header>
   </div>
-
-  <div class="row">
-    <div class="table-responsive">
-      <table class="table col-lg-12 col-md-12 col-sm-12">
-        <thead>
-          <tr>
-            <th scope="col">Fornecedor</th>
-            <th scope="col">Data</th>
-            <th scope="col">Valor</th>
-            <th scope="col">Tipo de fornecimento</th>
-            <th scope="col">Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!--app-loader *ngIf="isLoading"></app-loader-->
-          
-          <tr *ngFor="let i of inputs | searcherType : procuraTipo | searcher : procuraNome | searcherMinDate : procuraMinDate | searcherMaxDate : procuraMaxDate ">
-            <td class="col-lg-3 col-sm-3">{{ i.person.name }}</td>
-            <td class="col-lg-2 col-sm-2">{{ i.input_date | date:'dd/MM/yyyy' }}</td>
-            <td class="col-lg-2 col-sm-2">{{ i.sum_value | currency:'BRL' }}</td>
-            <td class="col-lg-2 col-sm-2" [ngSwitch]="i.input_type">
-              <span *ngSwitchCase="2">Doação</span>
-              <span *ngSwitchCase="1">Compra</span>
-              <span *ngSwitchDefault>Não especificado</span>
-            </td>
-            <td class="col-lg-3 col-sm-3">
-              <div class="btn-group" role="group" aria-label="actions">
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#see" (click)="getStockInputsById(i.id_stock)">
-                  <i class="fas fa-eye"></i>
-                </button>
-                <button type="button" class="btn btn-secondary" (click)="selectUpdate(i)">
-                  <i class="fas fa-edit"></i>
-                </button>
-                
-                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="getStockInputsById(i.id_stock)">
-                  <i class="fas fa-trash-alt"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!--Modal de exclusão-->
-      <div class="modal fade" role="dialog" id="delete">
-        <div class="modal-dialog modal-md" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Excluir entrada</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Tem certeza que deseja excluir esta entrada?</p>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteStockInput(selectedStockInput.id_stock)">Excluir</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-            </div>
+  <section>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 my-3">
+        <div class="row">
+          <div class="col-12">
+            <button type="button" class="btn btn-success mb-2" routerLink="/admin/entradas/cadastrar">
+              <i class="fas fa-plus"></i> Adicionar
+            </button>
           </div>
         </div>
-      </div>
-
-      <!---Modal de visualização-->
-      <div class="modal fade" id="see" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="detailsModal">Detalhes da Entrada</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+        <form class="form-inline w-100" #f="ngForm" (ngSubmit)="onSubmit(f)">
+          <div class="row w-100 align-items-end">
+            <div class="col-12 col-sm-6 col-md-6 col-lg-3 mt-3">
+              <input class="form-control w-100" [(ngModel)]="procuraNome" name="fornecedor" type="text" placeholder="Fornecedor" aria-label="fornecedor"
+                ngModel>
             </div>
-            <div *ngIf="ready" class="modal-body" [ngSwitch]="selectedStockInput.input_type">
-              <b>Nome do fornecedor: </b>{{ selectedStockInputPerson }}
-              <br>
-              <b>Tipo de fornecimento: </b>
-              <span *ngSwitchCase="2">Doação</span>
-              <span *ngSwitchCase="1">Compra</span>
-              <br>
-              <b>Data: </b> {{ selectedStockInput.input_date | date:'dd/MM/yyyy' }}
-              <br>
-              <b>Valor total: </b> {{ selectedStockInput.sum_value | currency:'BRL' }}
-              <br>
-              <b>Itens doados: </b>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Qtd</th>
-                    <th scope="col">Valor Un.</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let product of selectedStockInput.stock_input_products">
-                    <td *ngIf="loadProducts">{{ productName(product.id_product) }}</td>
-                    <td>{{ product.amount_input }}</td>
-                    <td>{{ product.unit_price_input | currency:'BRL'}}</td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="form-group col-12 col-sm-6 col-md-6 col-lg-3 mt-3 ">
+              <select class="btn btn-select w-100" [(ngModel)]="procuraTipo" name="type">
+                  <option selected value="0">Selecionar tipo</option>
+                  <option value="2">Doação</option>
+                  <option value="1">Compra</option>
+              </select>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+            <div class="col-6 col-sm-6 col-md-6 col-lg-3 mt-2">
+              De:
+              <input class="form-control w-100" type="date" [(ngModel)]="procuraMinDate" name="dateInit">
+            </div>
+            <div class="col-6 col-sm-6 col-md-6 col-lg-3 mt-2">
+              Até:
+              <input class="form-control w-100" type="date" [(ngModel)]="procuraMaxDate" name="dateEnd">
             </div>
           </div>
+        </form>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="table-responsive" id="listStocks">
+        <table class="table col-lg-12 col-md-12 col-sm-12">
+          <thead class="thead">
+            <tr>
+              <th scope="col">Fornecedor</th>
+              <th scope="col">Data</th>
+              <th scope="col">Valor</th>
+              <th scope="col">Tipo</th>
+              <th scope="col">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let iten of stockInputs2 | searcherType : procuraTipo | searcher : procuraNome | searcherMinDate : procuraMinDate | searcherMaxDate : procuraMaxDate ">
+              <td class="col-lg-3 col-sm-3">{{ iten.person.name }}</td>
+              <td class="col-lg-2 col-sm-2">{{ iten.input_date | date:'dd/MM/yyyy' }}</td>
+              <td class="col-lg-2 col-sm-2">{{ iten.sum_value | currency:'BRL' }}</td>
+              <td class="col-lg-2 col-sm-2" [ngSwitch]="iten.input_type">
+                <span *ngSwitchCase="2">Doação</span>
+                <span *ngSwitchCase="1">Compra</span>
+                <span *ngSwitchDefault>Não especificado</span>
+              </td>
+              <td class="col-lg-3 col-sm-3">
+                <div class="btn-group" role="group" aria-label="actions">
+                  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#detailsModal" (click)="getStockInputsById(iten.id_stock)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button type="button" class="btn btn-secondary" routerLink="/admin/entradas/editar/{{iten.id_stock}}">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal" (click)="getStockInputsById(iten.id_stock)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Modal delete -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger" id="exampleModalLabel">Deletar entrada de estoque</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p *ngIf="ready" [ngSwitch]="selectedStockInput.input_type">
+            Deseja exlcuir a
+            <b>
+              <span *ngSwitchCase="2">Doação</span>
+              <span *ngSwitchCase="1">Compra</span>
+            </b>
+            de
+            <b>{{ selectedStockInputPerson }}</b> no valor de
+            <b>{{ selectedStockInput.sum_value | currency:'BRL' }}</b>
+            feita no dia
+            <b>{{ selectedStockInput.input_date | date:'dd/MM/yyyy' }}</b>?
+            <br>
+            <b>
+              <u>Todos</u>
+            </b> os itens relacionados à essa
+            <b>
+              <span *ngSwitchCase="2">Doação</span>
+              <span *ngSwitchCase="1">Compra</span>
+            </b>
+            também serão excluídos.
+          </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+          <button type="button" class="btn btn-danger" (click)="deleteStockInput(selectedStockInput.id_stock)" data-dismiss="modal">Excluir</button>
         </div>
       </div>
-     
     </div>
   </div>
-</section>
+  
+  <!-- Modal visualize-->
+  <div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="detailsModal">Detalhes da Entrada</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div *ngIf="ready" class="modal-body" [ngSwitch]="selectedStockInput.input_type">
+          <b>Nome do fornecedor: </b>{{ selectedStockInputPerson }}
+          <br>
+          <b>Tipo de fornecimento: </b>
+          <span *ngSwitchCase="2">Doação</span>
+          <span *ngSwitchCase="1">Compra</span>
+          <br>
+          <b>Data: </b> {{ selectedStockInput.input_date | date:'dd/MM/yyyy' }}
+          <br>
+          <b>Valor total: </b> {{ selectedStockInput.sum_value | currency:'BRL' }}
+          <br>
+          <b>Itens doados: </b>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Qtd</th>
+                <th scope="col">Valor Un.</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let product of selectedStockInput.stock_input_products">
+                <td *ngIf="loadProducts">{{ productName(product.id_product) }}</td>
+                <td>{{ product.amount_input }}</td>
+                <td>{{ product.unit_price_input }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
+        </div>
+      </div>
+    </div>
+  </div>
