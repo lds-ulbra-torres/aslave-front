@@ -1,31 +1,35 @@
 
 button{
-    width: 100%;
-    border-radius: 25pt;
-    background-color: #000046;
+    width: 50%;
+    
+    background-color: #ffff;
     border:none;
     height: 35pt;
-    color: white;
-}
-button:hover{
-    background-color: #008080;
-    
+    color:#229077;
+    align-self: center;
 }
 .card{
     border-radius: 15pt;
     padding-bottom: 20pt;
+    background-color: #229077;
 }
 .card-header{
     background: transparent;
     border: none;
 }
 .container-fluid{
-    background-image: linear-gradient(#000046, #1cb5e0);
+    background-image: url('/assets/image90.png');
+    background-repeat: repeat;
+    background-blend-mode: lighten;
     overflow: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+}
+img{
+    width: 100pt;
+    height: auto;
 }
 .row{  
     justify-content: center;
@@ -34,16 +38,22 @@ button:hover{
 form{
     width: 100%;
 }
-img#logo{
-    border-radius: 20pt;
-}
+
 input.form-control-lg{
-    border-radius: 25pt;
-    border: 1px solid #cccccc;
-    font-size: 11pt;
+    outline: none;
+    background-color: rgba(255, 255, 255, 0);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    color: #ffffff;
+    font-size: 10pt;
     width: 100%;
 }
 input.form-control-lg:focus{
+    background-color: rgba(255, 255, 255, 0);
+   
+    box-shadow: none;
     outline: none;
 }
 
@@ -51,6 +61,6 @@ input.form-control-lg:focus{
     width: 100%;
 }
 ::-webkit-input-placeholder {
-    
+    color: white;
     font-size: 11pt;
 }

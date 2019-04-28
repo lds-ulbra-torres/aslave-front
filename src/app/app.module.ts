@@ -29,6 +29,7 @@ import { LoaderComponent } from "./shared/loader/loader.component";
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
+import { ToastrModule } from 'ngx-toastr';
 
 
 
@@ -63,6 +64,7 @@ import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot()
     
   ],
   providers: [ 

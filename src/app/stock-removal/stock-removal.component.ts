@@ -29,6 +29,8 @@ export class StockRemovalComponent implements OnInit {
   output: Single;
   product: any;
   productName: string;
+  unit: string;
+  user: User;
 
   
   filteredOptions: Observable<User[]>;
@@ -91,9 +93,9 @@ export class StockRemovalComponent implements OnInit {
     this.stockRemovalService.getStockOutputById(out.id_stock).pipe(first())
     .subscribe(output => {
       this.output = output.body.obj;
-      console.log(this.output.unit_meansure.name);
       this.getProductById(this.output.id_product);
-      
+      this.user = this.options.find(person => person.id_user== this.output.id_user);
+      console.log(this.user);
     }), (error => console.log(error));
   }
   getRemoval(){
@@ -106,9 +108,11 @@ export class StockRemovalComponent implements OnInit {
   onSubmit(s){
     console.log(s);
     let date = `${s.value.createdAt}` + "T00:00:00.000Z";
+    let user = this.options.find(person => person.full_name==s.value.id_user);
+    console.log(user);
     console.log(date);
    const output = {
-      "id_user": s.value.id_user,
+      "id_user": user.id_user,
       "id_product": s.value.id_product,
       "createdAt": date,
       "description": s.value.description,
@@ -117,6 +121,7 @@ export class StockRemovalComponent implements OnInit {
       "unit_price_output": "1.50"
     }
 
+    console.log(output);
     this.stockRemovalService.postOutput(output).subscribe((response) => {
       s.reset();
       this.getRemoval();
@@ -126,6 +131,30 @@ export class StockRemovalComponent implements OnInit {
 
   }
 
+  updateOutput(u){
+    let date = `${u.createdAt}`;
+    let user = this.options.find(person => person.full_name==u.id_user);
+    console.log(u);
+    let number = parseInt(u.amount_output);
+    let product = parseInt(u.id_product);
+   const output = {
+      "id_user": u.id_user,
+      "id_product": product,
+      "createdAt": date,
+      "description": u.description,
+      "unit_measurement": u.unit_measurement,
+      "amount_output": number,
+      "unit_price_output": "1.50"
+    }
+    console.log(output);
+    this.stockRemovalService.updateOutput(output, u.id_stock).subscribe(
+      resp =>{
+        this.getRemoval();
+      }
+    ),(
+      error => console.log(error)
+   )
+  }
   deleteOutput(){
     this.stockRemovalService.deleteOutput(this.temp.id_stock)
       .subscribe(

@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { User } from '../models/user';
 
 @Pipe({
-  name: 'searcher'
+  name: 'searchPerson'
 })
 export class ProcurarUserPipe implements PipeTransform {
 

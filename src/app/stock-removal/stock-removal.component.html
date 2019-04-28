@@ -58,7 +58,7 @@
             <p><b>Nome do fornecedor: </b>{{ output.user.full_name }}</p>
             <p><b>Data: </b> {{ output.createdAt | date:'dd/MM/yyyy' }}</p>
             <p><b>Valor Unitário: </b> {{ output.unit_price_output | currency:'BRL' }}</p>
-            <p><b>Quantidade: </b> {{output.amount_output}} {{output.unit_meansure.name}}</p>
+            <p><b>Quantidade: </b> {{output.amount_output}} {{output.unit_meansurement}}</p>
             <p><b>Produto: </b> {{ productName }}</p>
             <p><b>Descrição: </b> {{ output.description }}</p>
           </div>
@@ -83,17 +83,17 @@
                 <form #edit="ngForm">
                     <div class="form-inline">
                       <div class="form-group col-lg-6 left">
-                      <input #id_user [(ngModel)]="output.id_user"  class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Number" matInput
+                      <input readonly="readonly" #id_user (ngModel)="output.id_user" [ngModel]="user.full_name" class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Number" matInput
                          [matAutocomplete]="auto" [ngClass]="{'border-danger': nameValidation}" (change)="nameValidation = false">
                       <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.id_user" >
+                        <mat-option *ngFor="let option of filteredOptions |async"  [value]="option.full_name" >
                           {{option.full_name}}
                         </mat-option>
                       </mat-autocomplete>
                         <p *ngIf="nameValidation"  class="text-danger">*Selecione um nome cadastrado</p>
                       </div>
                       <div class="form-group col-lg-6 right">
-                        <input class= "form-control inline" #createdAt [(ngModel)]="output.createdAt" id="data" name="createdAt" aria-describedby="data" placeholder="Data de retirada" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
+                        <input readonly="readonly" class= "form-control inline" #createdAt [ngModel]="output.createdAt | date:'dd/MM/yyyy'" (ngModel)="output.createdAt" id="data" name="createdAt" aria-describedby="data" placeholder="Data de retirada" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
                       </div>
                     </div>
                     
@@ -135,7 +135,7 @@
                 
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="edit.invalid" (click)="updateOutput(temp)">Salvar</button>
+              <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="edit.invalid" (click)="updateOutput(output)">Salvar</button>
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
             </div>
           
@@ -176,7 +176,7 @@
             <input #id_user ngModel  class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Number" matInput
                [matAutocomplete]="auto" [ngClass]="{'border-danger': nameValidation}" (change)="nameValidation = false">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.id_user" >
+              <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.full_name" >
                 {{option.full_name}}
               </mat-option>
             </mat-autocomplete>

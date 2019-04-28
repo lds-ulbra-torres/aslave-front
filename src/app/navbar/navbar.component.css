@@ -1,5 +1,5 @@
 nav{
-    background-color: #425f9c;
+    background-color: #229077;
     min-height: 5vh;
 }
 a.nav-link{
@@ -15,7 +15,7 @@ li{
 
 @media only screen and (max-width: 990px){
     .dropdown-menu{
-        background-color: #425f9c;
+        background-color: #229077;
         border: none;
     }
     a.dropdown-item{
