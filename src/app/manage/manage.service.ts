@@ -20,8 +20,8 @@ export class ManageService {
     return this.http.post(this.usersUrl, form);
   }
 
-  updateUser(user, id): Observable<HttpResponse<any>>{
-    return this.http.put(`${this.usersUrl}/${id}`, user, { observe: 'response'});
+  updateUser(user, u): Observable<HttpResponse<any>>{
+    return this.http.put(`${this.usersUrl}/${u.id_user}`, user, { observe: 'response'});
   }
  
   deleteUser(id):Observable<HttpResponse<any>>{

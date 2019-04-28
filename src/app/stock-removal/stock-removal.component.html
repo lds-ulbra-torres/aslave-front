@@ -3,6 +3,7 @@
     <h1>Saídas</h1>
   </header>
 </div>
+
 <section *ngIf="displayRemoval">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
@@ -34,9 +35,9 @@
             <td class="col-lg-3 col-sm-3">{{ out.unit_price_output | currency:'BRL'}}</td>
             <td class="col-lg-3 col-sm-3">
               <div class="btn-group" role="group" aria-label="actions">
-                <!--button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#see" (click)="getStockInputsById(i.id_stock)"><i class="fas fa-trash-alt"><i class="fas fa-eye"></i></button-->
-                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i></button>
-                <!--button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="getStockInputsById(i.id_stock)"><i class="fas fa-trash-alt"></i></button-->
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#see" (click)="getById(out)"><i class="fas fa-eye"></i></button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit" (click)="getById(out)"><i class="fas fa-edit"></i></button>
+                <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(out)"><i class="fas fa-trash-alt"></i></button>
               </div>
             </td>
         </tr>
@@ -44,73 +45,125 @@
       </tbody>
     </table>
 
-      <!--Modal de exclusão>
+    <div class="modal fade" role="dialog" id="see" *ngIf="output">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Detalhes</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <p><b>Nome do fornecedor: </b>{{ output.user.full_name }}</p>
+            <p><b>Data: </b> {{ output.createdAt | date:'dd/MM/yyyy' }}</p>
+            <p><b>Valor Unitário: </b> {{ output.unit_price_output | currency:'BRL' }}</p>
+            <p><b>Quantidade: </b> {{output.amount_output}} {{output.unit_meansure.name}}</p>
+            <p><b>Produto: </b> {{ productName }}</p>
+            <p><b>Descrição: </b> {{ output.description }}</p>
+          </div>
+          <div class="modal-footer">
+            
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+       </div>
+    </div> 
+
+    <div class="modal fade" role="dialog" id="edit" *ngIf="output">
+      <div class="modal-dialog modal-md" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Editar</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+            <div class="modal-body">
+                <form #edit="ngForm">
+                    <div class="form-inline">
+                      <div class="form-group col-lg-6 left">
+                      <input #id_user [(ngModel)]="output.id_user"  class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Number" matInput
+                         [matAutocomplete]="auto" [ngClass]="{'border-danger': nameValidation}" (change)="nameValidation = false">
+                      <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.id_user" >
+                          {{option.full_name}}
+                        </mat-option>
+                      </mat-autocomplete>
+                        <p *ngIf="nameValidation"  class="text-danger">*Selecione um nome cadastrado</p>
+                      </div>
+                      <div class="form-group col-lg-6 right">
+                        <input class= "form-control inline" #createdAt [(ngModel)]="output.createdAt" id="data" name="createdAt" aria-describedby="data" placeholder="Data de retirada" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
+                      </div>
+                    </div>
+                    
+                    
+                    <hr>
+          
+                    <h5>Produtos</h5>
+                  
+                    <div class="form-inline">
+                      <div class="form-group col-lg-6 left">
+                        <select #id_product [(ngModel)]="output.id_product" name="id_product" class="btn btn-select stock-output" required>
+                          <option value="" disabled selected>Selecionar Produto</option>
+                          <option *ngFor="let p of products" [value]="output.id_product">
+                              {{p.name_product}}
+                          </option>
+                        </select>
+                      </div>
+                      <div class="form-group col-lg-6 right">
+                        <input type="text" class="form-control inline" id="description"  name="description" [(ngModel)]="output.description" #description aria-describedby="description" required placeholder="Por quê?*">
+                      </div>
+                    </div>
+                    
+                    <div class="form-inline my-3">
+                      <div class="form-group col-lg-6 left">
+                        <input type="number" class="form-control inline" id="qtd" name="amount_output" #amount_output [(ngModel)]="output.amount_output" placeholder="Quantidade*" required>
+                      </div>
+                      <div class="form-group col-lg-6 right">
+                        <select name="unit_measurement" class="btn btn-select" #unit_measurement [(ngModel)]="output.unit_measurement" required>
+                          <option >Unidade de medida</option>
+                          <option  selected [value]="3">Caixa</option>
+                          <option selected [value]="1">Litro</option> 
+                          <option selected [value]="2">Quilograma</option>
+                          <option selected [value]="0">Unidade</option> 
+                        </select>
+                      </div>
+              
+                    </div>
+                </form>
+                
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="edit.invalid" (click)="updateOutput(temp)">Salvar</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div>
+          
+        </div>
+      </div>
+    </div> 
+      <!--Modal de exclusão-->
       <div class="modal fade" role="dialog" id="delete">
           <div class="modal-dialog modal-md" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Excluir entrada</h5>
+                <h5 class="modal-title">Excluir saída</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div class="modal-body">
-                <p>Tem certeza que deseja excluir esta entrada?</p>
+                <p>Tem certeza que deseja excluir esta saída?</p>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteStockInput(selectedStockInput.id_stock)">Excluir</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteOutput()">Excluir</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
               </div>
             </div>
           </div>
-        </div>
-
-        -Modal de visualização
-        <div class="modal fade" id="see" tabindex="-1" role="dialog" aria-labelledby="detailsModal" aria-hidden="true">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="detailsModal">Detalhes da Entrada</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div *ngIf="ready" class="modal-body" [ngSwitch]="selectedStockInput.input_type">
-                <b>Nome do fornecedor: </b>{{ selectedStockInputPerson }}
-                <br>
-                <b>Tipo de fornecimento: </b>
-                <span *ngSwitchCase="2">Doação</span>
-                <span *ngSwitchCase="1">Compra</span>
-                <br>
-                <b>Data: </b> {{ selectedStockInput.input_date | date:'dd/MM/yyyy' }}
-                <br>
-                <b>Valor total: </b> {{ selectedStockInput.sum_value | currency:'BRL' }}
-                <br>
-                <b>Itens doados: </b>
-                <table class="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">Nome</th>
-                      <th scope="col">Qtd</th>
-                      <th scope="col">Valor Un.</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let product of selectedStockInput.stock_input_products">
-                      <td *ngIf="loadProducts">{{ productName(product.id_product) }}</td>
-                      <td>{{ product.amount_input }}</td>
-                      <td>{{ product.unit_price_input }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Voltar</button>
-              </div>
-            </div>
-          </div>
-        </div-->
-  </div>  
+      </div>
+  </div>
+ 
 </section>
 
 <section *ngIf="!displayRemoval">
@@ -120,17 +173,17 @@
         <form #s="ngForm" (ngSubmit)="onSubmit(s)">
           <div class="form-inline">
             <div class="form-group col-lg-6 left">
-            <input #id_user ngModel class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Number" matInput
-              [formControl]="myControl" [matAutocomplete]="auto" [ngClass]="{'border-danger': nameValidation}" (change)="nameValidation = false">
+            <input #id_user ngModel  class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Number" matInput
+               [matAutocomplete]="auto" [ngClass]="{'border-danger': nameValidation}" (change)="nameValidation = false">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.full_name">
+              <mat-option *ngFor="let option of filteredOptions | async"  [value]="option.id_user" >
                 {{option.full_name}}
               </mat-option>
             </mat-autocomplete>
               <p *ngIf="nameValidation"  class="text-danger">*Selecione um nome cadastrado</p>
             </div>
             <div class="form-group col-lg-6 right">
-              <input class= "form-control inline"  id="data" aria-describedby="data" placeholder="Data de retirada*" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
+              <input class= "form-control inline" #createdAt ngModel id="data" name="createdAt" aria-describedby="data" placeholder="Data de retirada" type="text" onfocus="(this.type='date')" onblur="(this.type='text')">
             </div>
           </div>
           
@@ -143,13 +196,13 @@
             <div class="form-group col-lg-6 left">
               <select #id_product ngModel name="id_product" class="btn btn-select stock-output" required>
                 <option value="" disabled selected>Selecionar Produto</option>
-                <option *ngFor="let p of products" value="{{ p.id_product }}">
+                <option *ngFor="let p of products" [value]="p.id_product">
                     {{p.name_product}}
                 </option>
               </select>
             </div>
             <div class="form-group col-lg-6 right">
-              <input type="text" class="form-control inline" id="description"  name="description" #description ngModel aria-describedby="description" required placeholder="Por quê?*">
+              <input type="text" class="form-control inline" id="description"  name="description" ngModel #description aria-describedby="description" required placeholder="Por quê?*">
             </div>
           </div>
           
@@ -158,18 +211,18 @@
               <input type="number" class="form-control inline" id="qtd" name="amount_output" #amount_output ngModel placeholder="Quantidade*" required>
             </div>
             <div class="form-group col-lg-6 right">
-              <select name="unit_measurement" class="btn btn-select" #unit_measurement required>
+              <select name="unit_measurement" class="btn btn-select" #unit_measurement ngModel required>
                 <option selected disabled value="">Unidade de medida</option>
-                <option [value]="0">Caixa</option>
+                <option [value]="3">Caixa</option>
                 <option [value]="1">Litro</option> 
                 <option [value]="2">Quilograma</option>
-                <option [value]="3">Unidade</option> 
+                <option [value]="0">Unidade</option> 
               </select>
             </div>
     
           </div>
 
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success" [disabled]="s.invalid">
             <i class="fas fa-paper-plane"></i>
                Salvar
           </button>

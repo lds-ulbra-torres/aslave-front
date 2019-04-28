@@ -39,7 +39,7 @@ export class PeopleService {
       `${this.peopleUrl}/${id}`, { observe: 'response' });
   }
   updatePeople(person): Observable<any>{
-    return this.http.put(this.peopleUrl, person);
+    return this.http.put(`${this.peopleUrl}/${person.id_people}`, person, {observe: 'response'});
   }
  
   deletePeople(id):Observable<HttpResponse<any>>{
