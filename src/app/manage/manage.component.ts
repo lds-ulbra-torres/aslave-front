@@ -62,11 +62,16 @@ export class ManageComponent implements OnInit {
     
   }
 
-  updateUser(u, id){
-    this.manageService.updateUser(u, id).subscribe((response)=>{
-      this.displayUser = !this.displayUser;
-      this.getUser;
-      this.user = null;
+  updateUser(u){
+    console.log(u);
+
+    const user= {
+      "login": u.login,
+      "password": u.password,
+      "full_name": u.full_name
+    }
+    this.manageService.updateUser(user, u).subscribe((response)=>{
+      this.getUser();
     })
   }
   
@@ -116,16 +121,5 @@ export class ManageComponent implements OnInit {
         return 0;
       }
     }) 
-  }
-
-  validar(senha, pass){
-    if(senha === pass){
-      console.log("meu deus mano");
-    }else{
-      console.log("meu deus mano de novo");
-    }
-  }
-
-  
-  
+  }  
 }

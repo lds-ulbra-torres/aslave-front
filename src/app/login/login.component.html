@@ -2,13 +2,13 @@
   <div class = "row wrapper">
     
       
-        <div class = "card col-lg-4 col-md-4">
+        <div class = "card col-lg-3 col-md-3">
           <div class="card-header mb-5">
-            <img id="logo" class="img-fluid" src="../../assets/logo_slave.jpg">
+            <img class="img-fluid offset-3" src="../../assets/login.png">
           </div>
           <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <input type="text" formControlName="login" class="form-control-lg" [ngClass]="{ 'is-invalid': submitted && f.login.errors }" id="login" name="login" placeholder="Login">
+              <input type="text" formControlName="login" class="form-control-lg" [ngClass]="{ 'is-invalid': submitted && f.login.errors }" id="login" name="login" placeholder="Usuário">
               <div *ngIf="submitted && f.login.errors" class="invalid-feedback">
                 <div *ngIf="f.login.errors.required">Login inválido</div>
               </div>
@@ -19,7 +19,7 @@
                 <div *ngIf="f.password.errors.required">Senha inválida</div>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group offset-4">
               <button  class="btn btn-large">Entrar</button>
             </div>
             

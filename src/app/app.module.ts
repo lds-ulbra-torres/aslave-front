@@ -32,10 +32,14 @@ import { LoaderComponent } from "./shared/loader/loader.component";
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
+
 import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
 import { ProcurarMovPipe } from './pipes/procurar-mov-type.pipe';
 import { ProcurarPessoaNome } from './pipes/procurar-name-financial-people.pipe';
 import { Procurardate } from './pipes/procurar-date-financial.pipe';
+
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -75,6 +79,8 @@ import { Procurardate } from './pipes/procurar-date-financial.pipe';
     MatFormFieldModule,
     MatInputModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot()
+    
   ],
   providers: [ 
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

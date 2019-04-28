@@ -34,11 +34,16 @@ export class PeopleComponent implements OnInit {
   ngOnInit() {
     this.getPeople();
     this.getEstados();
-    this.getByCep();
-    this.getCities(23);
+    
+    
   }
   onDisplayPeople(){
     this.displayPeople = !this.displayPeople;
+  }
+  selectState(event: any){
+    let id = event.target.value;
+    console.log(id)
+    this.getCities(id);
   }
   getPeople(){
     this.peopleService.getPeople().pipe(first())
@@ -50,17 +55,23 @@ export class PeopleComponent implements OnInit {
     this.peopleService.getEstado().pipe(first())
     .subscribe(estados =>{ this.estados = [... estados.body.obj] });
   }
-  getCities(id){
-    
-    this.peopleService.getCidade(id).pipe(first())
-    .subscribe(cidades=>{this.cidades = [...cidades.body.obj]});
+  getCities(id: number){
+    console.log(id);
+    this.peopleService.getCidade(id)
+    .subscribe(cidades=>{
+     
+      this.cidades = [...cidades.body.obj]
+      console.log(this.cidades)
+      this.getByState(id);
+      }
+      );
   }
-  getByCep(){
-    this.peopleService.getByZip(this.cep).pipe(first()).subscribe(data=> {
-      this.object = data
-      console.log(data)
-    });   
+
+  getByState(id){
+    return this.cidades.filter(c => c.id_states === id);
   }
+  
+ 
 
   onSubmit(p){
     console.log(p);
@@ -90,6 +101,24 @@ export class PeopleComponent implements OnInit {
     this.person = Object.assign({}, p);
   }
 
+  updatePerson(p){
+    const form = {
+      "name": p.name,
+      "cpf_cnpj": p.cpf_cnpj,
+      "rg": `${p.rg}`,
+      "adress": p.adress,
+      "number": p.number,
+      "neighborhood": p.neighborhood,
+      "cep": p.cep,
+      "phone1": p.phone1,
+      "phone2": p.phone2,
+      "id_cities": p.id_cities
+
+    }
+    this.peopleService.updatePeople(form, p.id_people).subscribe((response) =>{
+      this.getPeople();
+    })
+  }
   deletePerson(){
     this.peopleService.deletePeople(this.person.id_people)
       .subscribe(

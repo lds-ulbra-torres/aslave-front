@@ -11,11 +11,11 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^7.1.0",
+    "@angular/animations": "^7.0.3",
     "@angular/cdk": "^7.1.0",
     "@angular/common": "~7.0.0",
     "@angular/compiler": "~7.0.0",
-    "@angular/core": "~7.0.0",
+    "@angular/core": "^7.0.3",
     "@angular/forms": "~7.0.0",
     "@angular/http": "~7.0.0",
     "@angular/material": "^7.1.0",
@@ -27,6 +27,7 @@
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",
     "moment": "^2.24.0",
+    "ngx-toastr": "^8.10.2",
     "popper": "^1.0.1",
     "rxjs": "~6.3.3",
     "zone.js": "~0.8.26"
