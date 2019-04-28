@@ -13,7 +13,7 @@
           <option value="s">  Saida  </option>
           <option value="">  Ambos  </option>
         </select>
-        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+        <button class="btn btn-search" disabled type="submit"><i class="fas fa-search"></i></button>
       </form>
     </div>
   </div>  
@@ -84,8 +84,8 @@
               </label>
             </div>
           </div>
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-paper-plane"></i>Salvar
+          <button type="submit" [disabled]="!p.valid" class="btn btn-success">
+            <i class="fas fa-paper-plane" ></i>Salvar
           </button>
          </form>
       </div>
@@ -112,11 +112,11 @@
                 <input type="radio" name="classifation_type" autocomplete="off" /> Entrada
               </label>
               <label class="btn btn-secondary" (click)="onDisplayUpdate('s')">
-                <input type="radio" name="classifation_type"  autocomplete="off" /> Saida
+                <input type="radio" name="classifation_type" autocomplete="off" /> Saida
               </label>
             </div>
           </div>
-          <button type="submit" class="btn btn-success">
+          <button type="submit" [disabled]="!a.valid" class="btn btn-success">
             <i class="fas fa-paper-plane"></i>Salvar
           </button>
          </form>

@@ -22,8 +22,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
 import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe';
 import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
+import { ProcurarMovPipe } from './pipes/procurar-mov-type.pipe';
+import { ProcurarPessoaNome } from './pipes/procurar-name-financial-people.pipe';
 
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
+import { Procurardate } from './pipes/procurar-date-financial.pipe';
 
 
 @NgModule({
@@ -41,7 +44,10 @@ import { StockPlacementModule } from './stock-placement/stock-placement.module';
     NavbarComponent,
     ProcurarPessoaPipe,
     ProcurarClassificationPipe,
-    ProcurarCategoriaPipe
+    ProcurarCategoriaPipe,
+    ProcurarMovPipe,
+    Procurardate,
+    ProcurarPessoaNome
   ],
   imports: [
     BrowserModule,
