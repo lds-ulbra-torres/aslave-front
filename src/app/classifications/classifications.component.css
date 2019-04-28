@@ -32,9 +32,12 @@ input.inline{
     background-color: #ffffff;
     border: solid 1px #ccc;
 }
-.ng-invalid:not(form){
+.ng-invalid.ng-touched:not(form){
     border-left: 15px solid #a94442; /* red */
 }
 .ng-valid[required], .ng-valid.required{
-    border-left: 15px solid #42A948; /* green */
+    border-left: 15px solid #42A948;  /*green*/ 
+}
+.ng:default{
+    border-left: 15px solid blue;  /*white*/ 
 }

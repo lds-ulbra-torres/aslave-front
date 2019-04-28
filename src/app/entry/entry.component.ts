@@ -77,12 +77,6 @@ export class EntryComponent implements OnInit {
   }
 
   onSubmit(p){
-    this.submitted = true;
-
-        // stop here if form is invalid
-        if (this.registerForm.invalid) {
-            return;
-        }
     console.log(p.value);
     let entry = new FormData();
     
