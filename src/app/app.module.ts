@@ -24,6 +24,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
 import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe';
 import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
+
 import { OrdenarNomePipe } from './pipes/ordenar-por-nome.pipe';
 
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
@@ -32,7 +33,9 @@ import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angu
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
 import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
-
+import { ProcurarMovPipe } from './pipes/procurar-mov-type.pipe';
+import { ProcurarPessoaNome } from './pipes/procurar-name-financial-people.pipe';
+import { Procurardate } from './pipes/procurar-date-financial.pipe';
 
 
 @NgModule({
@@ -55,7 +58,10 @@ import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
     OrdenarNomePipe,
     CompareValidatorsDirective,
     ProcurarUserPipe,
-    ProcurarProductPipe
+    ProcurarProductPipe,
+    ProcurarMovPipe,
+    Procurardate,
+    ProcurarPessoaNome
   ],
   imports: [
     BrowserModule,
