@@ -31,7 +31,7 @@ import { LoaderComponent } from "./shared/loader/loader.component";
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
-
+import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
 
 
 
@@ -54,7 +54,8 @@ import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
     LoaderComponent,
     OrdenarNomePipe,
     CompareValidatorsDirective,
-    ProcurarUserPipe
+    ProcurarUserPipe,
+    ProcurarProductPipe
   ],
   imports: [
     BrowserModule,

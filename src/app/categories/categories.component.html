@@ -8,7 +8,7 @@
     <div class="col-lg-12 col-md-12 my-3">
       <button type="button" class="btn btn-success" data-toggle="modal" (click)="onDisplay()"><i class="fas fa-plus"></i>Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
-        <input class="form-control mr-sm-2" type="search" name="search" [(ngModel)]="procura" placeholder="Buscar" aria-label="Buscar" ngModel>
+        <input class="form-control mr-sm-2" type="search" name="search_category" [(ngModel)]="procura" placeholder="Buscar" aria-label="Buscar" ngModel>
         <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
       </form>
     </div>
@@ -21,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let categorias of categories | searcher : procura">
+        <tr *ngFor="let categorias of categories | search_category : procura">
           <td class="col-lg-3 col-sm-3">{{categorias.name_group}}</td>
           <td class="col-lg-3 col-sm-3">
             <div class="btn-group" role="group" aria-label="actions">
@@ -33,6 +33,7 @@
       </tbody>
     </table>
   </div>
+  <!--Modal Excluir-->
   <div class="modal fade" role="dialog" id="delete">
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
@@ -66,7 +67,7 @@
             <input type="text" class="form-control" name="name_group" [(ngModel)]="category.name_group" required ngModel #name_group="ngModel" id="edit" aria-describedby="editar" placeholder="Informe a categoria">
             <div [hidden]="name_group.valid || name_group.pristine" class="alert alert-danger"> Campo Obrigatorio</div>
           </div>
-          <button type="submit" class="btn btn-success">
+          <button type="submit" class="btn btn-success" [disabled]="!b.valid">
             <i class="fas fa-paper-plane"></i>Salvar
             </button>
         </form>
@@ -77,7 +78,6 @@
     </div>
   </div>
 </section>
-<!--Fim do Display de Atualização-->
 <!--Display de Adição-->
 <section *ngIf="display">
   <div class="row">
@@ -91,7 +91,7 @@
             <input type="text" class="form-control" name="name" required ngModel #name_group="ngModel" id="nome" aria-describedby="nome" placeholder="Informe a categoria">
             <div [hidden]="name_group.valid || name_group.pristine" class="alert alert-danger"> Campo Obrigatorio</div>
           </div>
-         <button type="submit" class="btn btn-success">
+         <button type="submit" class="btn btn-success" [disabled]="!p.valid">
             <i class="fas fa-paper-plane"></i>Salvar
           </button>
         </form>
@@ -102,4 +102,4 @@
     </div>
   </div>
 </section>
-<!--Fim do Display de Adição-->
+

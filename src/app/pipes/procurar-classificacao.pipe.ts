@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { Classifications } from '../models/classifications';
 
 @Pipe({
-  name: 'searcher'
+  name: 'searcher_classification'
 })
 export class ProcurarClassificationPipe implements PipeTransform {
 

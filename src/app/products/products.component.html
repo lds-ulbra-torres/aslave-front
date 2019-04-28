@@ -1,3 +1,136 @@
-<p>
-  products works!
-</p>
+<div class="row">
+  <header class="col-lg-12 col-md-12 col-sm-12">
+    <h1>Produtos</h1>
+  </header>
+</div>
+<section *ngIf="!display && !displayUp">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+      <button type="button" class="btn btn-success" data-toggle="modal" (click)="onDisplay()"><i class="fas fa-plus"></i>Adicionar</button>
+      <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
+        <input class="form-control mr-sm-2" type="search" name="searcher_product" [(ngModel)]="procuraProduct" placeholder="Buscar" aria-label="Buscar" ngModel>
+        <button class="btn btn-search"><i class="fas fa-search"></i></button>
+      </form>
+    </div>
+  </div>
+  <!--Tabela-->
+  <div class="row">
+    <table class="table col-lg-12 col-md-12 col-sm-12">
+      <thead>
+        <tr>
+          <th scope="col" class="col-lg-3 col-sm-3">Descrição</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Categorias</th>
+          <th scope="col" class="col-lg-3 col-sm-3">Estoque</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of produtos | searcher_product : procuraProduct">
+          <td class="col-lg-3 col-sm-3">{{product.name_product}}</td>
+          <td class="col-lg-3 col-sm-3">{{product.stock_product_group.name_group}}</td>
+          <td class="col-lg-3 col-sm-3">{{product.amount}}</td>
+          <td class="col-lg-3 col-sm-3">
+            <div class="btn-group" role="group" aria-label="actions">
+              <button type="button" (click)="onDisplayUp()" (click)="select(product)" class="btn btn-secondary" data-toggle="modal" data-target="#edicao"><i class="fas fa-edit"></i></button>
+              <button type="button" class="btn btsecondary" data-toggle="modal" data-target="#delete" (click)="select(product)"><i class="fas fa-trash-alt"></i></button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!--Modal Excluir-->
+  <div class="modal fade" role="dialog" id="delete">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Excluir Produto</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>Tem certeza que deseja excluir este Produto?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="deleteProduct()">Excluir</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal" data-target="salvo">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!--Display de Atualização-->
+<section *ngIf="displayUp">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+      <div class="card">        
+        <form #b="ngForm" (ngSubmit)="updateProduct(b)">
+          <div class="modal-header">
+            <h5 class="modal-title">Editar Produto</h5>
+          </div>
+          <div class="modal-body" *ngIf="product">
+
+          <div class="form-group my-3">
+            <input type="text" class="form-control" name="name_product" [(ngModel)]="product.name_product" required ngModel #name_product="ngModel" id="edit" aria-describedby="editar" placeholder="Informe o produto"
+            [ngClass]="{'has-error': !name_product.valid && (name_product.dirty || name_product.touched)}">
+            <div *ngIf="name_product.errors && (name_product.dirty || name_product.touched)" class="alert alert alert-danger formValid" role="alert">
+            preenchimento obrigatório!
+            </div>
+          </div>
+          <div class="form-group my-3 ">
+            <select class="btn btn-select" name="id_group" required ngModel #id_group="ngModel" [ngClass]="{'has-error': !id_group.valid && (id_group.dirty || id_group.touched)}">
+              <option value="" disabled selected>Selecione uma Categoria</option>
+              <option *ngFor="let C of categories" value="{{C.id_group}}">
+                {{C.name_group}}
+              </option>
+            </select>
+            <div *ngIf="id_group.errors && (id_group.dirty || id_group.touched)" class="alert alert alert-danger formValid" role="alert">
+              preenchimento obrigatório!
+            </div>
+          </div>
+        </div>
+          <button type="submit" class="btn btn-success" [disabled]="!b.valid">Salvar</button>
+        </form>
+      </div>
+      <button class="btn btn-light col-lg-1" (click)="onDisplayUp()">
+        <i class="fas fa-angle-left"></i>Voltar
+      </button>
+    </div>
+  </div>
+</section>
+<!--Display de Adição-->
+<section *ngIf="display">
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+      <div class="card">        
+        <form #p="ngForm" (ngSubmit)="onSubmit(p)">
+          <div class="modal-header">
+            <h5 class="modal-title">Adicionar Produto</h5>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control" [ngClass]="{'has-error': !name_product.valid && (name_product.dirty || name_product.touched)}" name="name_product" required ngModel #name_product="ngModel" aria-describedby="name_product" placeholder="Informe o produto">
+              <div *ngIf="name_product.errors && (name_product.dirty || name_product.touched)" class="alert alert alert-danger formValid" role="alert">
+                preenchimento obrigatório!
+              </div>
+          </div>
+          <div class="form-group col-lg-6 right">
+            <select class="btn btn-select" [ngClass]="{'has-error': !id_group.valid && (id_group.dirty || id_group.touched)}"  name="id_group" required ngModel #id_group="ngModel">
+              <option value="" disabled selected>Selecione uma Categoria</option>
+              <option *ngFor="let C of categories" value="{{C.id_group}}">
+                {{C.name_group}}
+              </option>
+            </select>
+            <div *ngIf="id_group.errors && (id_group.dirty || id_group.touched)" class="alert alert alert-danger formValid" role="alert">
+              preenchimento obrigatório!
+            </div>
+          </div>
+         <button type="submit" [disabled]="!p.valid" class="btn btn-success">Salvar</button>
+        </form>
+      </div>
+      <button class="btn btn-light col-lg-1" (click)="onDisplay()">
+        <i class="fas fa-angle-left"></i>Voltar
+      </button>
+    </div>
+  </div>
+</section>
+
