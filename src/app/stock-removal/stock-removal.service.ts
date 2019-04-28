@@ -26,7 +26,7 @@ export class StockRemovalService {
     return this.http.post(this.stockOutUrl, form);
   }
   updateOutput(form, id): Observable<any>{
-    return this.http.put(`${this.product}/${id}`, form, { observe: 'response' });
+    return this.http.put(`${this.stockOutUrl}/${id}`, form, { observe: 'response' });
   }
   deleteOutput(id){
     return this.http.delete(`${this.stockOutUrl}/${id}`, {observe: 'response'});

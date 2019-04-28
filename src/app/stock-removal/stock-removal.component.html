@@ -104,9 +104,9 @@
                   
                     <div class="form-inline">
                       <div class="form-group col-lg-6 left">
-                        <select #id_product [(ngModel)]="output.id_product" name="id_product" class="btn btn-select stock-output" required>
+                        <select #id_product [(ngModel)]="output.id_product" name="id_product" (change)="mostrar(output.id_product)" class="btn btn-select stock-output" required>
                           <option value="" disabled selected>Selecionar Produto</option>
-                          <option *ngFor="let p of products" [value]="output.id_product">
+                          <option *ngFor="let p of products" [value]="p.id_product">
                               {{p.name_product}}
                           </option>
                         </select>
