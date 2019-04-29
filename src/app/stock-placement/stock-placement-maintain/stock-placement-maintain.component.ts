@@ -166,7 +166,7 @@ export class StockPlacementMaintainComponent implements OnInit {
     this.router.navigate(['admin/entradas']);
   }
 
-  onSubmit(): boolean {
+  onSubmit(form): boolean {
     this.nameValidation = false; this.typeValidation = false; this.dateValidation = false;
     let namePersonV = this.namePerson.nativeElement.value;
     let typeStockV = this.typeStock.nativeElement.value;
