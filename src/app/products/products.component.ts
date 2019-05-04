@@ -21,6 +21,12 @@ displayUp: boolean;
 categories: Categorias[];
 procuraProduct: ProcurarProductPipe;
 
+//identificadores de validação
+name_valid: boolean = false;
+id_valid: boolean = false;
+att_selectValidation: boolean = false;
+att_nameValidation: boolean = false;
+
   ngOnInit() {
     this.getProducts();
     this.getCategories();
@@ -35,8 +41,18 @@ procuraProduct: ProcurarProductPipe;
   }
 
    onSubmit(p){
-    console.log(p);
+    this.name_valid = false;
+    this.id_valid = false;
+    let name = p.value.name_product;
+    let category = p.value.id_group;
     
+    if(category == ''){
+      this.id_valid = true;
+    }
+    if(name == ''){
+      this.name_valid = true;
+    }
+
     const product = {
       'name_product': p.value.name_product,
       unit_price: '0',
@@ -55,7 +71,6 @@ procuraProduct: ProcurarProductPipe;
   }
 
   select(p){
-    console.log(p);
     this.product = Object.assign({},p);
     console.log(this.product.id_group);
   }
@@ -84,6 +99,20 @@ procuraProduct: ProcurarProductPipe;
   }
 
   updateProduct(b){
+    this.att_nameValidation = false;
+    this.att_selectValidation= false;
+    let name = b.value.name_product;
+    let category = b.value.id_group;
+    
+    if(category == ''){
+      this.att_selectValidation = true;
+    }
+    if(name == ''){
+      this.att_nameValidation  = true;
+    }
+
+
+
     const product = {
       'name_product': b.value.name_product,
       'unit_price': b.value.unit_price,

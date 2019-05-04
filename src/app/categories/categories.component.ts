@@ -19,6 +19,9 @@ export class CategoriesComponent implements OnInit {
   procura: ProcurarCategoriaPipe;
   display: boolean;
   displayUp: boolean;
+  name_valid: boolean = false;
+  att_nameValidation: boolean = false;
+  
 
   ngOnInit() {
     this.getCategories();
@@ -37,13 +40,14 @@ export class CategoriesComponent implements OnInit {
   }
 
   onSubmit(p){
-    console.log(p);
-    
+    this.name_valid = false;
+    let name = p.value.name_group;
+    if(name == ''){
+      this.name_valid = true;
+    }
     const category = {
       'name_group': p.value.name
     };  
-
-    console.log(category);
 
     this.CategoriServ.postCategory(category).subscribe((response) => {
       p.reset();
@@ -60,6 +64,13 @@ export class CategoriesComponent implements OnInit {
   }
 
   updateCategory(b){
+    this. att_nameValidation = false;
+    let name = b.value.name_group;
+
+    if(name == ''){
+      this.att_nameValidation = true;
+    }
+
     const category = {
       'name_group': b.value.name_group
     };

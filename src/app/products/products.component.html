@@ -15,6 +15,7 @@
   </div>
   <!--Tabela-->
   <div class="row">
+  
     <table class="table col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
@@ -71,25 +72,21 @@
           <div class="modal-body" *ngIf="product">
 
           <div class="form-group my-3">
-            <input type="text" class="form-control" name="name_product" [(ngModel)]="product.name_product" required ngModel #name_product="ngModel" id="edit" aria-describedby="editar" placeholder="Informe o produto"
-            [ngClass]="{'has-error': !name_product.valid && (name_product.dirty || name_product.touched)}">
-            <div *ngIf="name_product.errors && (name_product.dirty || name_product.touched)" class="alert alert alert-danger formValid" role="alert">
-            preenchimento obrigatório!
-            </div>
+            <input type="text" class="form-control" name="name_product" [(ngModel)]="product.name_product" [ngClass]="{'border-danger': att_nameValidation}" (change)="att_nameValidation = false"
+            required ngModel #name_product="ngModel" id="edit" aria-describedby="editar" placeholder="Informe o produto">
+            <p *ngIf="att_nameValidation"  class="text-danger">Preencha o campo</p>
           </div>
           <div class="form-group my-3 ">
-            <select class="btn btn-select" name="id_group" required ngModel #id_group="ngModel" [ngClass]="{'has-error': !id_group.valid && (id_group.dirty || id_group.touched)}">
+            <select class="btn btn-select" name="id_group" required ngModel #id_group="ngModel" [ngClass]="{'border-danger': att_selectValidation}" (change)="att_selectValidation = false">
               <option value="" disabled selected>Selecione uma Categoria</option>
               <option *ngFor="let C of categories" value="{{C.id_group}}">
                 {{C.name_group}}
               </option>
             </select>
-            <div *ngIf="id_group.errors && (id_group.dirty || id_group.touched)" class="alert alert alert-danger formValid" role="alert">
-              preenchimento obrigatório!
-            </div>
+            <p *ngIf="att_selectValidation"  class="text-danger">Preencha o campo</p>
           </div>
         </div>
-          <button type="submit" class="btn btn-success" [disabled]="!b.valid">Salvar</button>
+          <button type="submit" class="btn btn-success">Salvar</button>
         </form>
       </div>
       <button class="btn btn-light col-lg-1" (click)="onDisplayUp()">
@@ -108,23 +105,19 @@
             <h5 class="modal-title">Adicionar Produto</h5>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control" [ngClass]="{'has-error': !name_product.valid && (name_product.dirty || name_product.touched)}" name="name_product" required ngModel #name_product="ngModel" aria-describedby="name_product" placeholder="Informe o produto">
-              <div *ngIf="name_product.errors && (name_product.dirty || name_product.touched)" class="alert alert alert-danger formValid" role="alert">
-                preenchimento obrigatório!
-              </div>
+            <input type="text" class="form-control" [ngClass]="{'border-danger': name_valid}" (change)="name_valid = false" name="name_product" required ngModel #name_product="ngModel" aria-describedby="name_product" placeholder="Informe o produto">
+            <p *ngIf="name_valid" class="text-danger">Preencha o campo</p>
           </div>
           <div class="form-group col-lg-6 right">
-            <select class="btn btn-select" [ngClass]="{'has-error': !id_group.valid && (id_group.dirty || id_group.touched)}"  name="id_group" required ngModel #id_group="ngModel">
+            <select class="btn btn-select" [ngClass]="{'border-danger':id_valid}" (change)="id_valid = false" name="id_group" required ngModel #id_group="ngModel">
               <option value="" disabled selected>Selecione uma Categoria</option>
               <option *ngFor="let C of categories" value="{{C.id_group}}">
                 {{C.name_group}}
               </option>
             </select>
-            <div *ngIf="id_group.errors && (id_group.dirty || id_group.touched)" class="alert alert alert-danger formValid" role="alert">
-              preenchimento obrigatório!
-            </div>
+            <p *ngIf="id_valid" class="text-danger">Preencha o campo</p>
           </div>
-         <button type="submit" [disabled]="!p.valid" class="btn btn-success">Salvar</button>
+         <button type="submit" class="btn btn-success">Salvar</button>
         </form>
       </div>
       <button class="btn btn-light col-lg-1" (click)="onDisplay()">
