@@ -1,3 +1,5 @@
+import { CompareValidatorsDirective } from './directives/compare-validator.directive';
+
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -23,8 +25,21 @@ import { ProcurarPessoaPipe } from './pipes/procurar-pessoa.pipe';
 import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe';
 import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
 
+import { OrdenarNomePipe } from './pipes/ordenar-por-nome.pipe';
+
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
+import { LoaderComponent } from "./shared/loader/loader.component";
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
+
 import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
+import { ProcurarMovPipe } from './pipes/procurar-mov-type.pipe';
+import { ProcurarPessoaNome } from './pipes/procurar-name-financial-people.pipe';
+import { Procurardate } from './pipes/procurar-date-financial.pipe';
+
+import { ToastrModule } from 'ngx-toastr';
+
 
 
 @NgModule({
@@ -43,7 +58,14 @@ import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
     ProcurarPessoaPipe,
     ProcurarClassificationPipe,
     ProcurarCategoriaPipe,
-    ProcurarProductPipe
+    LoaderComponent,
+    OrdenarNomePipe,
+    CompareValidatorsDirective,
+    ProcurarUserPipe,
+    ProcurarProductPipe,
+    ProcurarMovPipe,
+    Procurardate,
+    ProcurarPessoaNome
   ],
   imports: [
     BrowserModule,
@@ -51,7 +73,14 @@ import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
     HttpClientModule,
     ReactiveFormsModule,
     FormsModule,
-    StockPlacementModule
+    StockPlacementModule,
+    StockPlacementModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
+    
   ],
   providers: [ 
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
@@ -59,6 +88,7 @@ import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
   ],
 
 
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [ CompareValidatorsDirective ]
 })
 export class AppModule { }

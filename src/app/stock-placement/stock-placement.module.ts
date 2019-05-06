@@ -1,8 +1,8 @@
 import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -15,6 +15,8 @@ import { StockPlacementMaintainComponent } from './stock-placement-maintain/stoc
 
 import { StockPlacementService } from './stock-placement.service';
 
+
+
 @NgModule({
   declarations: [
     StockPlacementComponent,
@@ -22,7 +24,8 @@ import { StockPlacementService } from './stock-placement.service';
     ProcuraTipoPipe,
     PrcourarMinDatePipe,
     PrcourarMaxDatePipe,
-    StockPlacementMaintainComponent
+    StockPlacementMaintainComponent,
+    
   ],
   imports: [
     CommonModule,
@@ -32,7 +35,8 @@ import { StockPlacementService } from './stock-placement.service';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NgbModule,
   ],
   providers: [
     StockPlacementService

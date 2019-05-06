@@ -14,12 +14,18 @@ export class PeopleService {
   constructor(private http: HttpClient) { }
   private peopleUrl = 'http://api-teste-aslave-org-br.umbler.net/people';
 
+  cities: Observable<any>
+
   getEstado(): Observable<HttpResponse<any>>{
     return this.http.get<any[]>('http://api-teste-aslave-org-br.umbler.net/states', {observe: 'response'});
   }
 
-  getCidade(): Observable<HttpResponse<any>>{
-    return this.http.get<any[]>('http://api-teste-aslave-org-br.umbler.net/cities', {observe: 'response'});
+  getCidade(id): Observable<HttpResponse<any>>{
+    return this.http.get<any[]>('http://api-teste-aslave-org-br.umbler.net/cities', {observe: 'response'})
+    .pipe(
+      //map((cidades: any[]) => cidades.filter(c => c.id_states == id))
+    );
+    
   }
 
 
@@ -30,8 +36,8 @@ export class PeopleService {
     return this.http.get<any>(
       `${this.peopleUrl}/${id}`, { observe: 'response' });
   }
-  updatePeople(person): Observable<any>{
-    return this.http.put(this.peopleUrl, person);
+  updatePeople(person, id): Observable<any>{
+    return this.http.put(`${this.peopleUrl}/${id}`, person, {observe: 'response'});
   }
  
   deletePeople(id):Observable<HttpResponse<any>>{

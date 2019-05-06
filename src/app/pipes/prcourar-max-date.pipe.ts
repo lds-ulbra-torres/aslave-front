@@ -12,7 +12,7 @@ export class PrcourarMaxDatePipe implements PipeTransform {
     if(!procuraMaxDate) return items;
 
     return items.filter( it => {
-      return it.date <= procuraMaxDate;
+      return it.input_date <= procuraMaxDate;
     })
   }
 

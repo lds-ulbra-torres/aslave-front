@@ -3,6 +3,7 @@ import { LoginService } from './login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,8 @@ export class LoginComponent implements OnInit {
   constructor(private loginService: LoginService,
               private router: Router,
               private formBuilder: FormBuilder,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
 
@@ -51,7 +53,10 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/admin']);
             },
             error => {
-                this.error = error;
+              this.error = error;
+                this.toastr.error('Falha na autenticação', 'Senha ou usuário inválidos', {
+                  timeOut: 3000
+                });
             });
   }
 }
