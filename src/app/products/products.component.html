@@ -9,7 +9,7 @@
       <button type="button" class="btn btn-success" data-toggle="modal" (click)="onDisplay()"><i class="fas fa-plus"></i>Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
         <input class="form-control mr-sm-2" type="search" name="searcher_product" [(ngModel)]="procuraProduct" placeholder="Buscar" aria-label="Buscar" ngModel>
-        <button class="btn btn-search"><i class="fas fa-search"></i></button>
+        <button class="btn btn-search" disabled><i class="fas fa-search"></i></button>
       </form>
     </div>
   </div>

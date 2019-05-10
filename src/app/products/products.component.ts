@@ -5,6 +5,8 @@ import { productsService } from './products.service';
 import { Product } from '../models/product';
 import { Categorias } from '../models/categories';
 import { ProcurarProductPipe } from '../pipes/procura-produto.pipe';
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -12,13 +14,17 @@ import { ProcurarProductPipe } from '../pipes/procura-produto.pipe';
 })
 export class ProductsComponent implements OnInit {
 
-constructor(private formBuilder: FormBuilder, private productServ:productsService) { }
+constructor(private formBuilder: FormBuilder, 
+            private productServ:productsService,
+            private toastr: ToastrService
+  ) { }
 
 produtos:Product[];
 product: Product;
 display: boolean;
 displayUp: boolean;
 categories: Categorias[];
+categorie: Categorias;
 procuraProduct: ProcurarProductPipe;
 
 //identificadores de validação
@@ -26,6 +32,8 @@ name_valid: boolean = false;
 id_valid: boolean = false;
 att_selectValidation: boolean = false;
 att_nameValidation: boolean = false;
+error = '';
+sucess = '';
 
   ngOnInit() {
     this.getProducts();
@@ -59,14 +67,21 @@ att_nameValidation: boolean = false;
       'id_group': p.value.id_group,
     };  
 
-    console.log(product);
 
     this.productServ.postProduct(product).subscribe((response) => {
       p.reset();
       this.getProducts();
       this.display = !this.display;
-      console.log(response);
-    }, error => console.log(error))
+      this.toastr.success('Produto adicionado', 'Sucesso!',{
+        timeOut: 5000
+      });
+    },
+    error => {
+      this.error = error;
+      this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+        timeOut: 5000
+      });
+    });
 
   }
 
@@ -91,11 +106,15 @@ att_nameValidation: boolean = false;
         resp => {
           this.produtos = null
           this.getProducts();
-        }
-      ),
-       (
-         error => console.log(error)
-      )
+          this.toastr.warning('O produto '+this.product.name_product+' foi deletado!','',{
+            timeOut: 5000
+          });
+        },error => {
+          this.error = error;
+          this.toastr.warning('', 'Não foi possível deletar o produto.', {
+            timeOut: 7000
+          });
+        });
   }
 
   updateProduct(b){
@@ -111,8 +130,6 @@ att_nameValidation: boolean = false;
       this.att_nameValidation  = true;
     }
 
-
-
     const product = {
       'name_product': b.value.name_product,
       'unit_price': b.value.unit_price,
@@ -124,8 +141,15 @@ att_nameValidation: boolean = false;
         this.product = null;
         this.displayUp = !this.displayUp;
         this.getProducts();
-      }
-    );
+        this.toastr.success('O produto foi editado!','Sucesso !',{
+          timeOut: 5000
+        });
+      },error => {
+        this.error = error;
+        this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+          timeOut: 7000
+        });
+      });
   }
 
 }

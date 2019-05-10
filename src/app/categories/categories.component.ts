@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategoriesService } from './categories.service';
 import { ProcurarCategoriaPipe } from '../pipes/procurar-categoria.pipe';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-categories',
@@ -12,16 +13,19 @@ import { ProcurarCategoriaPipe } from '../pipes/procurar-categoria.pipe';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private CategoriServ:CategoriesService) { }
+  constructor(private formBuilder: FormBuilder, 
+              private CategoriServ:CategoriesService,
+              private toastr: ToastrService) { }
 
   categories: Categorias[];
   category: Categorias;
   procura: ProcurarCategoriaPipe;
   display: boolean;
   displayUp: boolean;
+  //Validação de formulário
   name_valid: boolean = false;
   att_nameValidation: boolean = false;
-  
+  error: '';
 
   ngOnInit() {
     this.getCategories();
@@ -46,7 +50,7 @@ export class CategoriesComponent implements OnInit {
       this.name_valid = true;
     }
     const category = {
-      'name_group': p.value.name
+      'name_group': p.value.name_group
     };  
 
     this.CategoriServ.postCategory(category).subscribe((response) => {
@@ -54,13 +58,20 @@ export class CategoriesComponent implements OnInit {
       this.getCategories();
       this.display = !this.display;
       console.log(response);
-    }, error => console.log(error))
+      this.toastr.success('Categoria adicionada', 'Sucesso!', {
+        timeOut: 5000
+      });
+    }, error => {
+      this.error = error;
+      this.toastr.error('Verifique os campos.', 'Falha na envio!', {
+        timeOut: 5000
+      });
+    });
 
   }
 
   select(p){
     this.category = Object.assign({},p);
-    console.log(this.category.id_group);
   }
 
   updateCategory(b){
@@ -80,22 +91,32 @@ export class CategoriesComponent implements OnInit {
         this.category = null;
         this.displayUp = !this.displayUp;
         this.getCategories();
-      }
-    );
+        this.toastr.success('A categoria foi editada.', 'Sucesso!', {
+          timeOut: 5000
+        });
+      },error => {
+        this.error = error;
+        this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+          timeOut: 7000
+        })
+      }); 
   }
   
-
   deleteCategory(){
     this.CategoriServ.deleteCategory(this.category.id_group)
       .subscribe(
         resp => {
           this.categories = null
           this.getCategories();
-        }
-      ),
-       (
-         error => console.log(error)
-      )
+          this.toastr.warning('A categoria '+this.category.name_group+' foi deletada!','',{
+            timeOut: 5000
+          });
+        },error => {
+          this.error = error;
+          this.toastr.warning('', 'Você não pode excluir uma categoria que está em uso.', {
+            timeOut: 7000
+          });
+        });
   }
  
 }
