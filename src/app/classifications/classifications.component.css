@@ -4,6 +4,9 @@ h1{
 .card{
     padding: 15pt;
 }
+.space{
+    padding: 10%;
+}
 
 .btn-search{
     background-color: #425f94;
