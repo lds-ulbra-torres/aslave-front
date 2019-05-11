@@ -16,6 +16,7 @@ export class CategoriesService {
   }
 
   postCategory(form){
+    console.log(form);
     return this.http.post(this.categoriesURL, form);
   }
 

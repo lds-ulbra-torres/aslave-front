@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CategoriesService } from './categories.service';
 import { ProcurarCategoriaPipe } from '../pipes/procurar-categoria.pipe';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-categories',
@@ -12,13 +13,19 @@ import { ProcurarCategoriaPipe } from '../pipes/procurar-categoria.pipe';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private CategoriServ:CategoriesService) { }
+  constructor(private formBuilder: FormBuilder, 
+              private CategoriServ:CategoriesService,
+              private toastr: ToastrService) { }
 
   categories: Categorias[];
   category: Categorias;
   procura: ProcurarCategoriaPipe;
   display: boolean;
   displayUp: boolean;
+  //Validação de formulário
+  name_valid: boolean = false;
+  att_nameValidation: boolean = false;
+  error: '';
 
   ngOnInit() {
     this.getCategories();
@@ -37,29 +44,44 @@ export class CategoriesComponent implements OnInit {
   }
 
   onSubmit(p){
-    console.log(p);
-    
+    this.name_valid = false;
+    let name = p.value.name_group;
+    if(name == ''){
+      this.name_valid = true;
+    }
     const category = {
-      'name_group': p.value.name
+      'name_group': p.value.name_group
     };  
-
-    console.log(category);
 
     this.CategoriServ.postCategory(category).subscribe((response) => {
       p.reset();
       this.getCategories();
       this.display = !this.display;
       console.log(response);
-    }, error => console.log(error))
+      this.toastr.success('Categoria adicionada', 'Sucesso!', {
+        timeOut: 5000
+      });
+    }, error => {
+      this.error = error;
+      this.toastr.error('Verifique os campos.', 'Falha na envio!', {
+        timeOut: 5000
+      });
+    });
 
   }
 
   select(p){
     this.category = Object.assign({},p);
-    console.log(this.category.id_group);
   }
 
   updateCategory(b){
+    this. att_nameValidation = false;
+    let name = b.value.name_group;
+
+    if(name == ''){
+      this.att_nameValidation = true;
+    }
+
     const category = {
       'name_group': b.value.name_group
     };
@@ -69,22 +91,32 @@ export class CategoriesComponent implements OnInit {
         this.category = null;
         this.displayUp = !this.displayUp;
         this.getCategories();
-      }
-    );
+        this.toastr.success('A categoria foi editada.', 'Sucesso!', {
+          timeOut: 5000
+        });
+      },error => {
+        this.error = error;
+        this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+          timeOut: 7000
+        })
+      }); 
   }
   
-
   deleteCategory(){
     this.CategoriServ.deleteCategory(this.category.id_group)
       .subscribe(
         resp => {
           this.categories = null
           this.getCategories();
-        }
-      ),
-       (
-         error => console.log(error)
-      )
+          this.toastr.warning('A categoria '+this.category.name_group+' foi deletada!','',{
+            timeOut: 5000
+          });
+        },error => {
+          this.error = error;
+          this.toastr.warning('', 'Você não pode excluir uma categoria que está em uso.', {
+            timeOut: 7000
+          });
+        });
   }
  
 }
