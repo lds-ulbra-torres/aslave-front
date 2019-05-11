@@ -3,11 +3,12 @@ import { ProcurarMovPipe } from './../pipes/procurar-mov-type.pipe';
 import { PeopleComponent } from './../people/people.component';
 import { Classifications } from './../models/classifications';
 import { EntryService } from './entry.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Financial_releases } from './../models/financial_releases';
 import { Component, OnInit } from '@angular/core';
 import { Procurardate } from '../pipes/procurar-date-financial.pipe';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-entry',
@@ -28,12 +29,22 @@ export class EntryComponent implements OnInit {
   procurarmov: ProcurarMovPipe;
   procurardata: Procurardate;
   procurarNome: ProcurarPessoaNome;
-
+ 
   people: PeopleComponent[];
   classification: Classifications[];
+  options: string[] = [];
+
+  /*Variaveis de validação*/
+  num_docValidation: boolean=false;
+  id_classificationV: boolean=false;
+  peopleV: boolean=false;
+  valorV: boolean=false;
+  competenciaV: boolean=false;
+  lancamentoV: boolean=false;
+  historicoV: boolean=false;
+  /**/
 
   ngOnInit() {
-    
     this.getEntry();
     this.getClassification();
     this.getPeople();
@@ -67,17 +78,42 @@ export class EntryComponent implements OnInit {
 
   select(C){
     this.ent = Object.assign({},C);
-    console.log(this.ent)
   }
 
   getEntry(){
     this.entryService.getEntrys().pipe(first())
     .subscribe(entrys =>{ this.entry = [... entrys.body.obj ] });
-    console.log(this.entry)
   }
 
   onSubmit(p){
-    console.log(p.value);
+    this.num_docValidation = false, this.id_classificationV = false, this.peopleV = false,
+    this.valorV = false, this.competenciaV = false, this.lancamentoV = false, this.historicoV = false;
+    let numV = p.value.num_doc;
+    let typeV = p.value.id_classification;
+    let peopleV = p.value.id_people;
+    let valorV = p.value.valor;
+    let competenciaV = p.value.competencia;
+    let lancamentoV = p.value.lancamento;
+    let historicoV = p.value.historico;
+
+    if (numV=='') 
+      this.num_docValidation = true;
+    if (typeV=='')
+      this.id_classificationV = true;
+    if (peopleV=='')
+      this.peopleV = true;
+    if (valorV=='')
+      this.valorV = true;
+    if (competenciaV=='')
+      this.competenciaV = true;
+    if (lancamentoV=='')
+      this.lancamentoV = true;
+    if (historicoV=='')
+      this.historicoV = true;
+    
+    if (this.num_docValidation || this.id_classificationV || this.peopleV || this.valorV || this.competenciaV || this.lancamentoV || this.historicoV)
+    return false;  
+
     let entry = new FormData();
     
     entry.append('id_people', p.value.id_people)
@@ -93,14 +129,39 @@ export class EntryComponent implements OnInit {
       p.reset();
       this.display = !this.display;
       this.getEntry();
-      console.log(response);
     }, error => console.log(error))
   }
 
   updateClassification(p){
+    this.num_docValidation = false, this.id_classificationV = false, this.peopleV = false,
+    this.valorV = false, this.competenciaV = false, this.lancamentoV = false, this.historicoV = false;
+    let numV = p.value.num_doc;
+    let typeV = p.value.id_classification;
+    let peopleV = p.value.id_people;
+    let valorV = p.value.valor;
+    let competenciaV = p.value.competencia;
+    let lancamentoV = p.value.lancamento;
+    let historicoV = p.value.historico;
+
+    if (numV=='') 
+      this.num_docValidation = true;
+    if (typeV=='')
+      this.id_classificationV = true;
+    if (peopleV=='')
+      this.peopleV = true;
+    if (valorV=='' || valorV<=0)
+      this.valorV = true;
+    if (competenciaV=='')
+      this.competenciaV = true;
+    if (lancamentoV=='')
+      this.lancamentoV = true;
+    if (historicoV=='')
+      this.historicoV = true;
+    
+    if (this.num_docValidation || this.id_classificationV || this.peopleV || this.valorV || this.competenciaV || this.lancamentoV || this.historicoV)
+    return false;  
+
     let entry = new FormData();
-    console.log(p.value.lancamento)
-    console.log(p.value.competencia)
     
     entry.append('id_people', p.value.id_people)
     entry.append('id_classification', p.value.id_classification)
@@ -111,7 +172,6 @@ export class EntryComponent implements OnInit {
     entry.append('due_date_pay', p.value.competencia)
     entry.append('historic', p.value.historico)
 
-    console.log(p.value)
     this.entryService.updateEntry(entry, this.ent.id_financial_release)
     .subscribe(
       resp => {
@@ -133,6 +193,42 @@ export class EntryComponent implements OnInit {
        (
          error => console.log(error)
       )
+  }
+
+  possitiveValue(){
+    let size = Object.keys(this.entry).length;
+    let resultado=0;
+    let dataSearched=(String(this.procurardata));
+
+    for(let i=0;i<=size;i++){
+      this.select(this.entry[i]);
+      let valor=0;
+
+      if(this.ent.type_mov === "e" && moment.utc(dataSearched).format("MM YYYY") === moment.utc(this.ent.due_date_pay).format("MM YYYY")){
+        valor= this.ent.value;
+        resultado+=valor;
+        console.log("entrou no if");
+      }else{
+        console.log("entrou else")
+      }
+    }
+    return resultado;
+  }
+
+  negativeValue(){
+    let size = Object.keys(this.entry).length;
+    let resultado=0;
+    let dataSearched=(String(this.procurardata));
+
+    for(let i=0;i<size;i++){
+      this.select(this.entry[i]);
+      let valor=0;
+      if(this.ent.type_mov==="s" && moment.utc(dataSearched).format("MM YYYY")==moment.utc(this.ent.due_date_pay).format("MM YYYY")){
+        valor= this.ent.value;
+      }
+      resultado+=valor;
+    }
+    return resultado;
   }
 
 }
