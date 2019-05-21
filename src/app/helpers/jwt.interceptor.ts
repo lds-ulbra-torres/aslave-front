@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LoginService } from '../login/login.service';
+import { LoginService } from '../containers/login/login.service';
 
 
 
@@ -13,27 +13,16 @@ export class JwtInterceptor implements HttpInterceptor {
         console.log(this)
         let currentUser = this.loginService.currentUserValue;
         if (currentUser && currentUser.token) {
-            request = request.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${currentUser.token}`
-                }
-            });
+            if(request.url.search("viacep")=== -1){
+                request = request.clone({
+                    setHeaders: {
+                        Authorization: `Bearer ${currentUser.token}`
+                    }
+                 });
+            }
+            
         }
 
         return next.handle(request);
     }
-    /*
-        intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        let currentUser = <any> this.loginService.currentUserValue;
-        if (currentUser && currentUser.obj.token) {
-            request = request.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${currentUser.obj.token}`
-                }
-            });
-        }
-
-        return next.handle(request);
-    }
-    */
 }

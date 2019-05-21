@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../models/user';
+import { User } from '../shared/models/user';
 import { Router } from '@angular/router';
-import { LoginService } from '../login/login.service';
+import { LoginService } from '../containers/login/login.service';
 
 @Component({
   selector: 'app-navbar',
@@ -21,9 +21,5 @@ export class NavbarComponent implements OnInit {
   }
  
 
-  logOut(){
-    this.router.navigate['/login'];
-    this.loginService.logout();
-    
-  }
+  
 }

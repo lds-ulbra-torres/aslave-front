@@ -1,0 +1,98 @@
+<section class="container mt-3">
+    <div class="row">
+        <header class="col-lg-12">
+          <h2>Adicionar pessoa</h2>
+        </header>
+    </div>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 my-3">
+        <form #p="ngForm" (ngSubmit)="onSubmit(p)">
+          <div class="card">
+              
+                <div class="btn-group btn-group-toggle left col-lg-6" data-toggle="buttons">
+                  <label class="btn btn-type active" (click)= "toggleNaturalPerson()">
+                    <input type="radio" name="options" id="option1" autocomplete="off" checked> Cadastro de pessoa física
+                  </label>
+                  <label class="btn btn-type" (click)= "toggleLegalPerson()">
+                    <input type="radio" name="options" id="option2" autocomplete="off"> Cadastro de pessoa jurídica
+                  </label>
+                </div>
+                  
+                
+                      <div class="form-group my-3">
+                        <input type="text" class="form-control" name="name" required ngModel #name="ngModel" id="nome" aria-describedby="nome" placeholder="Nome*">
+                      </div>
+    
+                      <div class="form-inline row my-3" *ngIf = "displayNaturalPerson">
+                        <div class="form-group col-lg-6 ">
+                          <input type="text" class="form-control inline" mask='000.000.000-00' name="cpf_cnpj" ngModel #cpf_cnpj="ngModel" id="cpf" placeholder="CPF*">
+                        </div>
+                        <div class="form-group col-lg-6 ">
+                          <input type="text" class="form-control inline" mask='00000000000000' name="rg" required ngModel #rg="ngModel" id="rg" placeholder="RG*">
+                        </div>
+                      </div>
+    
+                      <div class="form-inline my-3 row" *ngIf = "displayLegalPerson">
+                        <div class="form-group col-lg-6">
+                          <input type="text" class="form-control inline" mask='00.000.000/0000-00'  name="cpf_cnpj"  ngModel #cpf_cnpj="ngModel" id="cnpj" placeholder="CNPJ*">
+                        </div>
+                        <div class="form-group col-lg-6">
+                          <input type="number" class="form-control inline" id="insc" name="documment" ngModel #documment="ngModel" placeholder="Inscrição estadual">
+                        </div>
+                      </div>
+    
+                      <div class="form-inline my-3 row">
+                        <div class="form-group col-lg-6">
+                          <input type="text" class="form-control inline" id="endereco" name="adress" required ngModel #adress="ngModel" aria-describedby="endereco" placeholder="Endereço*">
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input type="text" class="form-control inline" id="cep" mask='00000-000' required ngModel #cep="ngModel" (blur)="getByZip($event)"  placeholder="CEP*" name="cep">
+                        </div>
+                        
+                      </div>
+    
+                      <div class="form-inline my-3 row">
+                          <div class="form-group col-lg-6">
+                            <input type="text" class="form-control inline" id="cidade" name="city" required [(ngModel)]="localidade" #city maxlength="25" aria-describedby="city" placeholder="Cidade*">
+                          </div>
+                          <div class="form-group col-lg-6">
+                              <input type="text" class="form-control inline" id="state"  required [(ngModel)]="uf" #cep maxlength="20" placeholder="Estado*" name="state">
+                          </div>
+                        
+                      </div>
+                      <div class="form-inline my-3 row">
+                        <div class="form-group col-lg-6">
+                          <input type="number" class="form-control inline" id="numero" name="number" maxlength="6" required ngModel #number="ngModel" placeholder="Número*">
+                        </div>
+                        <div class="form-group col-lg-6">
+                          <input type="text" class="form-control inline" id="bairro" name="neighborhood" required ngModel #neighborhood="ngModel" placeholder="Bairro*">
+                        </div>
+                      </div>
+    
+                      
+                      <div class="form-inline my-3 row">
+                          <div class="form-group col-lg-6">
+                            <input type="tel" class="form-control inline" mask='(00)00000-0000' id="telefone1" name="phone1" maxlength="14" required ngModel #phone1="ngModel" placeholder="Telefone 1 *">
+                          </div>
+                          <div class="form-group col-lg-6">
+                            <input type="tel" class="form-control inline" mask='(00)00000-0000' id="telefone2" name="phone2" maxlength="14" ngModel #phone2="ngModel" placeholder="Telefone 2">
+                          </div>
+                      </div>
+     
+          </div>
+
+          <div>
+              <button class="btn btn-outline-success mt-2 col-lg-3" (click)="goBack()">
+                  <i class="fas fa-angle-left"></i> 
+                  Voltar
+              </button> 
+              <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="p.invalid">
+                  <i class="fas fa-save"></i>
+                     Salvar
+              </button>
+          </div>
+        </form>
+        
+      </div>
+    </div>
+  </section>

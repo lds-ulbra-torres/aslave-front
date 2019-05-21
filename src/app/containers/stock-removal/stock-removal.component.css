@@ -1,0 +1,48 @@
+h1, h5{
+    color: #229077;
+}
+.card{
+    padding: 15pt;
+}
+
+.btn-search{
+    background-color: #229077;
+    color: #ffffff;
+}
+.btn-add{
+    background-color: #229077;
+    color: white;
+}
+.search{
+    float: right;
+    
+}
+input.inline{
+    width: 100%;
+
+}
+.left{
+    padding-left: 0;
+}
+.right{
+    padding-right: 0;
+}
+.btn-select{
+    width: 100%;
+    background-color: #ffffff;
+    border: solid 1px #ccc;
+}
+
+.total-line{
+    background-color: #b3b3b3;
+    color: #ffffff;
+    font-weight: bold;
+    width: 100%;
+    text-align: right;
+}
+.plus{
+    width: 100%;
+}
+.stock-output{
+    width: 100%;
+}

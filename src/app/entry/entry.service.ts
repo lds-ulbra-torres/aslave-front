@@ -3,7 +3,7 @@ import { Financial_releases } from './../models/financial_releases';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse, HttpHeaders} from '@angular/common/http';
 import { Classifications } from '../models/classifications';
-import { Person } from '../models/person';
+import { Person } from '../shared/models/person';
 
 @Injectable({
   providedIn: 'root'
