@@ -32,7 +32,3 @@ input.inline{
     background-color: #ffffff;
     border: solid 1px #ccc;
 }
-
-.ng-valid[required], .ng-valid.required{
-    border-left: 15px solid #42A948; /* green */
-}
