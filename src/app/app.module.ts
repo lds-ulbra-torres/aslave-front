@@ -16,7 +16,6 @@ import { EntryComponent } from './entry/entry.component';
 import { ClassificationsComponent } from './classifications/classifications.component';
 import { HomeComponent } from './home/home.component';
 import { StockRemovalComponent } from './stock-removal/stock-removal.component';
-import { StockPlacementComponent } from './stock-placement/stock-placement.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
@@ -27,8 +26,9 @@ import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
 
 import { OrdenarNomePipe } from './pipes/ordenar-por-nome.pipe';
 
+import { SharedModule } from "./shared/shared.module";
 import { StockPlacementModule } from './stock-placement/stock-placement.module';
-import { LoaderComponent } from "./shared/loader/loader.component";
+
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcurarUserPipe } from './pipes/procurar-user.pipe';
@@ -58,7 +58,6 @@ import { ToastrModule } from 'ngx-toastr';
     ProcurarPessoaPipe,
     ProcurarClassificationPipe,
     ProcurarCategoriaPipe,
-    LoaderComponent,
     OrdenarNomePipe,
     CompareValidatorsDirective,
     ProcurarUserPipe,
@@ -75,6 +74,7 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     StockPlacementModule,
     StockPlacementModule,
+    SharedModule,
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,

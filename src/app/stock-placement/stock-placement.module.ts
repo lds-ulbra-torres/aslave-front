@@ -5,6 +5,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { SharedModule } from '../shared/shared.module';
 
 import { StockPlacementComponent } from './stock-placement.component';
 import { ProcurarNomePipe } from '../pipes/procurar-nome.pipe';
@@ -15,8 +16,6 @@ import { StockPlacementMaintainComponent } from './stock-placement-maintain/stoc
 
 import { StockPlacementService } from './stock-placement.service';
 
-
-
 @NgModule({
   declarations: [
     StockPlacementComponent,
@@ -24,8 +23,7 @@ import { StockPlacementService } from './stock-placement.service';
     ProcuraTipoPipe,
     PrcourarMinDatePipe,
     PrcourarMaxDatePipe,
-    StockPlacementMaintainComponent,
-    
+    StockPlacementMaintainComponent
   ],
   imports: [
     CommonModule,
@@ -37,6 +35,7 @@ import { StockPlacementService } from './stock-placement.service';
     MatInputModule,
     BrowserAnimationsModule,
     NgbModule,
+    SharedModule
   ],
   providers: [
     StockPlacementService

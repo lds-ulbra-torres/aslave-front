@@ -1,4 +1,4 @@
-h1, h5{
+h1, h3, h4, h5{
     color: #229077;
 }
 .card{
@@ -38,4 +38,7 @@ input.inline{
 }
 .btn-save{
     float: right;
+}
+.table td {
+    vertical-align: unset;
 }
