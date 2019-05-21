@@ -1,19 +1,22 @@
+import { AddUserComponent } from './containers/manage/add-user/add-user.component';
+import { AddOutputComponent } from './containers/stock-removal/add-output/add-output.component';
+import { AddPersonComponent } from './containers/people/add-person/add-person.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { HomeComponent } from './home/home.component';
-import { PeopleComponent } from './people/people.component';
-import { ProductsComponent } from './products/products.component';
-import { CategoriesComponent } from './categories/categories.component';
-import { StockPlacementComponent } from './stock-placement/stock-placement.component';
-import { StockRemovalComponent } from './stock-removal/stock-removal.component';
-import { ClassificationsComponent } from './classifications/classifications.component';
-import { EntryComponent } from './entry/entry.component';
-import { ManageComponent } from './manage/manage.component';
-import { LoginComponent } from './login/login.component';
+import { HomeComponent } from './containers/home/home.component';
+import { PeopleComponent } from './containers/people/people.component';
+import { ProductsComponent } from './containers/products/products.component';
+import { CategoriesComponent } from './containers/categories/categories.component';
+import { StockPlacementComponent } from './containers/stock-placement/stock-placement.component';
+import { StockRemovalComponent } from './containers/stock-removal/stock-removal.component';
+import { ClassificationsComponent } from './containers/classifications/classifications.component';
+import { EntryComponent } from './containers/entry/entry.component';
+import { ManageComponent } from './containers/manage/manage.component';
+import { LoginComponent } from './containers/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { AuthGuard } from './login/auth.guard';
-import { StockPlacementMaintainComponent } from './stock-placement/stock-placement-maintain/stock-placement-maintain.component';
+import { AuthGuard } from './containers/login/auth.guard';
+import { StockPlacementMaintainComponent } from './containers/stock-placement/stock-placement-maintain/stock-placement-maintain.component';
 
 
 
@@ -22,25 +25,27 @@ const routes: Routes = [
   
   { path: '', redirectTo:'login' ,pathMatch:'full'},
   { path: 'login', component: LoginComponent },
-  { path: 'admin', component: NavbarComponent, canActivate:[AuthGuard], children:[
-    {  path: '', component: HomeComponent },
-    { path: 'pessoas', component: PeopleComponent },
-    { path: 'produtos', component: ProductsComponent },
-    { path: 'categorias', component: CategoriesComponent },
-    { path: 'entradas', component: StockPlacementComponent},
-	{ path: 'entradas/cadastrar', component: StockPlacementMaintainComponent},
-    { path: 'entradas/editar/?id', component: StockPlacementMaintainComponent},
-    { path: 'saidas', component: StockRemovalComponent},
-    { path: 'entradas', component: StockPlacementComponent},
-    { path: 'classificacoes', component: ClassificationsComponent},
-    { path: 'lancamentos', component: EntryComponent},
-    { path: 'gerenciar', component: ManageComponent}
-  ] }
+ 
+    { path: 'home', component: HomeComponent, canActivate:[AuthGuard]},
+    { path: 'pessoas', component: PeopleComponent, canActivate:[AuthGuard] },
+    { path: 'pessoas/cadastrar', component:AddPersonComponent, canActivate:[AuthGuard]},
+    { path: 'produtos', component: ProductsComponent, canActivate:[AuthGuard] },
+    { path: 'categorias', component: CategoriesComponent, canActivate:[AuthGuard] },
+    { path: 'entradas', component: StockPlacementComponent, canActivate:[AuthGuard]},
+	  { path: 'entradas/cadastrar', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},
+    { path: 'entradas/editar/?id', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},
+    { path: 'saidas', component: StockRemovalComponent, canActivate:[AuthGuard]},
+    { path: 'saidas/cadastrar', component: AddOutputComponent, canActivate:[AuthGuard]},
+    { path: 'classificacoes', component: ClassificationsComponent, canActivate:[AuthGuard]},
+    { path: 'lancamentos', component: EntryComponent, canActivate:[AuthGuard]},
+    { path: 'gerenciar', component: ManageComponent, canActivate:[AuthGuard]},
+    { path: 'gerenciar/cadastrar', component: AddUserComponent, canActivate:[AuthGuard]}
+  
   
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {useHash: true})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

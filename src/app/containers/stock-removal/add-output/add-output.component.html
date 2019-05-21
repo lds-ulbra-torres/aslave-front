@@ -1,0 +1,85 @@
+<section class="container mt-3">
+      <div class="row">
+        <header class="col-lg-12">
+          <h2>Adicionar saída</h2>
+        </header>
+    </div>
+  <div class="row">
+    <div class="col-12 my-3">
+      
+      <form #s="ngForm" (ngSubmit)="onSubmit(s)">
+        <div class="card"> 
+            <div class="form-group col-lg-12">
+              <input #id_user ngModel [formControl]="myControl" class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Nome" matInput
+                [matAutocomplete]="auto" (change)="nameValidation = false">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let u of filteredOptions | async" [value]="u.full_name">
+                  {{ u.full_name }}
+                </mat-option>
+              </mat-autocomplete>
+                <p *ngIf="nameValidation"  class="text-danger">*Selecione um nome cadastrado</p>
+            </div>
+            <div class="form-group col-lg-12">
+              <input class= "form-control inline" #createdAt [(ngModel)]="date" id="data" name="createdAt" aria-describedby="data" placeholder="Data de retirada" type="date" readonly>
+            </div>
+          
+          
+          <hr>
+         
+            <div class="form-group col-lg-12">
+              <h5>Produtos</h5>
+              <select #id_product ngModel name="id_product" class="btn btn-select stock-output" required>
+                <option value="" disabled selected>Selecionar Produto</option>
+                <option *ngFor="let p of products" [value]="p.id_product">
+                    {{p.name_product}}
+                </option>
+              </select>
+
+              <!--input #id_product ngModel [formControl]="myProducts" class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Produto" name="id_product" aria-label="Produto" matInput
+                [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let p of filteredProducts | async" [value]="u.name_product">
+                  {{ p.name_product }}
+                </mat-option>
+              </mat-autocomplete-->
+            </div>
+            <div class="form-group col-lg-12">
+              <input type="text" class="form-control" id="description"  name="description" ngModel #description aria-describedby="description" required placeholder="Por quê?*">
+            </div>
+
+            <div class="form-group col-lg-12">
+                <input type="text" mask="dot_separator.2" class="form-control" id="unit_price_output"  name="unit_price_output" ngModel #unit_price_output aria-describedby="unit_price" (change) = "valor($event)" required placeholder="Valor unitário*">
+            </div>
+          
+            <div class="form-group col-lg-12">
+              <input type="number" class="form-control" id="qtd" name="amount_output" #amount_output ngModel placeholder="Quantidade*" required>
+            </div>
+            <div class="form-group col-lg-12">
+              <select name="unit_measurement" class="btn btn-select" #unit_measurement ngModel required>
+                <option selected disabled value="">Unidade de medida</option>
+                <option [value]="4">Caixa</option>
+                <option [value]="2">Litro</option> 
+                <option [value]="3">Quilograma</option>
+                <option [value]="1">Unidade</option> 
+              </select>
+            </div>
+        </div>
+        <div>
+
+            <button class="btn btn-outline-success  mt-2 col-lg-3" (click)="goBack()">
+                <i class="fas fa-angle-left"></i> 
+                Voltar
+            </button> 
+          
+            <button type="submit" class="btn col-lg-3  mt-2 btn-success" [disabled]="s.invalid">
+                <i class="fas fa-save"></i>
+                   Salvar
+            </button>
+
+        </div>
+        
+      </form>
+  
+    </div>
+  </div>
+</section>
