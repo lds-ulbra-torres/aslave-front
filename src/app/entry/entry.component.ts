@@ -9,6 +9,7 @@ import { Financial_releases } from './../models/financial_releases';
 import { Component, OnInit } from '@angular/core';
 import { Procurardate } from '../pipes/procurar-date-financial.pipe';
 import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-entry',
@@ -17,7 +18,7 @@ import * as moment from 'moment';
 })
 export class EntryComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private entryService: EntryService)  { }
+  constructor(private formBuilder: FormBuilder, private entryService: EntryService, private toastr: ToastrService)  { }
 
   entry: Financial_releases[];
   ent: Financial_releases;
@@ -29,10 +30,15 @@ export class EntryComponent implements OnInit {
   procurarmov: ProcurarMovPipe;
   procurardata: Procurardate;
   procurarNome: ProcurarPessoaNome;
+  compDate: string;
+
+  error = '';
+  sucess = '';
  
   people: PeopleComponent[];
   classification: Classifications[];
   options: string[] = [];
+  isLoading: boolean = true;
 
   /*Variaveis de validação*/
   num_docValidation: boolean=false;
@@ -82,8 +88,19 @@ export class EntryComponent implements OnInit {
 
   getEntry(){
     this.entryService.getEntrys().pipe(first())
-    .subscribe(entrys =>{ this.entry = [... entrys.body.obj ] });
+    .subscribe(entrys =>{ this.entry = [... entrys.body.obj ],
+      this.isLoading = false;
+      this.orderByDate();
+    });
   }
+
+  orderByDate(){
+    this.entry.sort(function compare(a, b) {
+      var dateA = <any>new Date(a.due_date_pay);
+      var dateB = <any>new Date(b.due_date_pay);
+      return dateB - dateA;
+    });
+  }  
 
   onSubmit(p){
     this.num_docValidation = false, this.id_classificationV = false, this.peopleV = false,
@@ -129,7 +146,15 @@ export class EntryComponent implements OnInit {
       p.reset();
       this.display = !this.display;
       this.getEntry();
-    }, error => console.log(error))
+      this.toastr.success('Produto adicionado', 'Sucesso!',{
+        timeOut: 5000
+      });
+    }, error => {
+      this.error = error;
+      this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+        timeOut: 5000
+      });
+    });
   }
 
   updateClassification(p){
@@ -178,8 +203,15 @@ export class EntryComponent implements OnInit {
         this.ent = null;
         this.displayUp = !this.displayUp;
         this.getEntry();
-      }
-    );
+        this.toastr.success('Produto editado', 'Sucesso!',{
+          timeOut: 5000
+        });
+      },error => {
+        this.error = error;
+        this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+          timeOut: 5000
+        });
+      });
   }
 
   deleteEntry(){
@@ -188,17 +220,34 @@ export class EntryComponent implements OnInit {
         resp => {
           this.ent = null
           this.getEntry();
+          this.toastr.success('Produto Deletado', 'Sucesso!',{
+            timeOut: 5000
+          });
         }
-      ),
-       (
-         error => console.log(error)
-      )
+      ),error => {
+        this.error = error;
+        this.toastr.warning('', 'Não foi possível deletar o produto.', {
+          timeOut: 7000
+        });
+      };
   }
 
   possitiveValue(){
     let size = Object.keys(this.entry).length;
     let resultado=0;
     let dataSearched=(String(this.procurardata));
+
+    if(!dataSearched || dataSearched === 'undefined'){
+      for(let i=0;i<=size;i++){
+        this.select(this.entry[i]);
+        let valor=0;
+  
+        if(this.ent.type_mov === "e"){
+          valor= this.ent.value;
+          resultado+=valor;
+        }
+      }
+    }
 
     for(let i=0;i<=size;i++){
       this.select(this.entry[i]);
@@ -207,18 +256,35 @@ export class EntryComponent implements OnInit {
       if(this.ent.type_mov === "e" && moment.utc(dataSearched).format("MM YYYY") === moment.utc(this.ent.due_date_pay).format("MM YYYY")){
         valor= this.ent.value;
         resultado+=valor;
-        console.log("entrou no if");
-      }else{
-        console.log("entrou else")
       }
     }
     return resultado;
+  }
+
+  getPossitive(){
+    let stringValue=this.possitiveValue();
+    return stringValue.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
   }
 
   negativeValue(){
     let size = Object.keys(this.entry).length;
     let resultado=0;
     let dataSearched=(String(this.procurardata));
+    
+    if(!dataSearched || dataSearched === 'undefined'){
+      for(let i=0;i<=size;i++){
+        this.select(this.entry[i]);
+        let valor=0;
+  
+        if(this.ent.type_mov === "s"){
+          valor= this.ent.value;
+          resultado+=valor;
+        }
+      }
+    }
 
     for(let i=0;i<size;i++){
       this.select(this.entry[i]);
@@ -229,6 +295,30 @@ export class EntryComponent implements OnInit {
       resultado+=valor;
     }
     return resultado;
+  }
+
+  getNegative(){
+    let stringValue=this.negativeValue();
+    return stringValue.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  balanceValue(){
+    let possitiveValue = this.possitiveValue();
+    let negativeValue = this.negativeValue();
+    let resultValue = +possitiveValue - +negativeValue;
+
+    return resultValue;
+  }
+
+  getBalance(){
+    let stringValue=this.balanceValue();
+    return stringValue.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
   }
 
 }

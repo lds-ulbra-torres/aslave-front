@@ -1,15 +1,15 @@
 h1{
-    color: #425f94;
+    color: #229077;
 }
 h4{
-    color: #425f94;
+    color: #229077;
 }
 .card{
     padding: 15pt;
 }
 
 .btn-search{
-    background-color: #425f94;
+    background-color: #229077;
     color: #ffffff;
 }
 
@@ -35,12 +35,18 @@ input.inline{
     background-color: #ffffff;
     border: solid 1px #ccc;
 }
-.ng-valid[required], .ng-valid.required{
-    border-left: 15px solid #42A948;  /*green*/ 
-}
 .possitiveValue{
     color: green;
+    text-align: left;
 }
 .negativeValue{
     color: red;
+    text-align: left;
+}
+.balanceValue{
+    color: #229077;
+    text-align: left;
+}
+.valueClass{
+    text-align: right;
 }

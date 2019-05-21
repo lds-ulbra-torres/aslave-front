@@ -9,7 +9,7 @@
       <button type="button" class="btn btn-success" data-toggle="modal" (click)="onDisplay()"><i class="fas fa-plus"></i>Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
         <input class="form-control mr-sm-2" type="search" name="search_category" [(ngModel)]="procura" placeholder="Buscar" aria-label="Buscar" ngModel>
-        <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
+        <button class="btn btn-search" type="submit" disabled><i class="fas fa-search"></i></button>
       </form>
     </div>
   </div>
@@ -33,6 +33,7 @@
       </tbody>
     </table>
   </div>
+  <!--Modal Excluir-->
   <div class="modal fade" role="dialog" id="delete">
     <div class="modal-dialog modal-md" role="document">
       <div class="modal-content">
@@ -63,8 +64,9 @@
             <h5 class="modal-title">Editar Categoria</h5>
           </div>
           <div class="modal-body" *ngIf="category">
-            <input type="text" class="form-control" name="name_group" [(ngModel)]="category.name_group" required ngModel #name_group="ngModel" id="edit" aria-describedby="editar" placeholder="Informe a categoria">
-            <div [hidden]="name_group.valid || name_group.pristine" class="alert alert-danger"> Campo Obrigatorio</div>
+            <input type="text" class="form-control" name="name_group" [(ngModel)]="category.name_group" [ngClass]="{'border-danger': att_nameValidation}" (change)="att_nameValidation = false" 
+            required ngModel #name_group="ngModel" id="edit" aria-describedby="editar" placeholder="Informe a categoria">
+            <p *ngIf="att_nameValidation"  class="text-danger">Preencha o campo</p>
           </div>
           <button type="submit" class="btn btn-success">
             <i class="fas fa-paper-plane"></i>Salvar
@@ -77,7 +79,6 @@
     </div>
   </div>
 </section>
-<!--Fim do Display de Atualização-->
 <!--Display de Adição-->
 <section *ngIf="display">
   <div class="row">
@@ -88,12 +89,10 @@
             <h5 class="modal-title">Adicionar Categoria</h5>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control" name="name" required ngModel #name_group="ngModel" id="nome" aria-describedby="nome" placeholder="Informe a categoria">
-            <div [hidden]="name_group.valid || name_group.pristine" class="alert alert-danger"> Campo Obrigatorio</div>
+            <input type="text" class="form-control" [ngClass]="{'border-danger': name_valid}" (change)="name_valid = false" name="name_group" required ngModel #name_group="ngModel" aria-describedby="name_group" placeholder="Informe a categoria">
+            <p *ngIf="name_valid" class="text-danger">Preencha o campo</p>
           </div>
-         <button type="submit" class="btn btn-success">
-            <i class="fas fa-paper-plane"></i>Salvar
-          </button>
+         <button type="submit" class="btn btn-success">Salvar</button>
         </form>
       </div>
       <button class="btn btn-light col-lg-1" (click)="onDisplay()">
@@ -102,4 +101,4 @@
     </div>
   </div>
 </section>
-<!--Fim do Display de Adição-->
+

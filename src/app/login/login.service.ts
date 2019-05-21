@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 
 import { map } from 'rxjs/operators';
 import { User } from '../models/user';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -13,9 +14,10 @@ export class LoginService {
     private loginUrl = 'http://api-teste-aslave-org-br.umbler.net/auth';
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<any>;
-    public user: string;
+    public username: string;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient,
+                private route: Router) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -33,15 +35,17 @@ export class LoginService {
                     
                     localStorage.setItem('currentUser', JSON.stringify(user.obj));
                     this.currentUserSubject.next(user.obj);
+                    this.username = login;
                     
                 }
-
+                
                 return user;
             }));
     }
 
     logout() {
         localStorage.removeItem('currentUser');
+        this.route.navigate(['../../login']);
         this.currentUserSubject.next(null);
     }
   
