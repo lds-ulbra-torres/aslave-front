@@ -40,8 +40,6 @@ import { Procurardate } from './pipes/procurar-date-financial.pipe';
 
 import { ToastrModule } from 'ngx-toastr';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +63,8 @@ import { ToastrModule } from 'ngx-toastr';
     ProcurarProductPipe,
     ProcurarMovPipe,
     Procurardate,
-    ProcurarPessoaNome
+    ProcurarPessoaNome,
+  
   ],
   imports: [
     BrowserModule,

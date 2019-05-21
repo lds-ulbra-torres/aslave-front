@@ -1,3 +1,4 @@
+<div class="container">
 <div class="row">
   <header class="col-lg-12 col-md-12 col-sm-12">
     <h1>Lançamentos</h1>
@@ -5,20 +6,31 @@
 </div>
 <section *ngIf="!display && !displayUp ">
   <div class="row">
-    <div class="col-lg-12 col-md-12 my-2">
+    <div class="col-lg-11 col-md-2 my-1 right">
       <button type="button" class="btn btn-success" (click)="onDisplayClassification('e')" (click)="onDisplay()"><i class="fas fa-plus"></i> Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
-          <input class="form-control mr-sm-2" type="search" name="search" placeholder="Buscar" [(ngModel)]="procurarNome" aria-label="Buscar" ngModel>
-          Competência:<input type="month" name="competencia" class="form-control mr-sm-2" [(ngModel)]="procurardata">
-          <select name="tipo" class="form-control mr-sm-2" [(ngModel)]="procurarmov" name="type">
+        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Buscar Pessoa" [(ngModel)]="procurarNome" aria-label="Buscar" ngModel>
+        Competência: <input type="date" name="competencia" class="form-control mr-sm-2" [(ngModel)]="procurardata">
+        <select name="tipo" class="form-control mr-sm-2" [(ngModel)]="procurarmov" name="type">
           <option value="e">  Entrada  </option>
           <option value="s">  Saida  </option>
           <option value="">  Ambos  </option>
         </select>
       </form>
     </div>
-  </div>  
+  </div> 
   <div class="row">
+    <div class="form-inline my-4 col-lg-12 col-md-12 col-sm-12">
+      <div class="col-lg-4 col-md-4 col-sm-4 left">
+        <h1 class="possitiveValue">Entrada: {{ getPossitive() }}</h1>
+      </div>
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <h1 class="negativeValue">Saída: -{{ getNegative() }}</h1>
+      </div>      
+      <div class="col-lg-4 col-md-4 col-sm-4 right">
+        <h1 class="balanceValue">Saldo: {{ getBalance() }}</h1>
+      </div>    
+    </div>  
     <table class="table col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
@@ -31,11 +43,15 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let C of entry | searcher_mov : procurarmov | searcherMovDate : procurardata | searcherP : procurarNome ">
+        <app-loader *ngIf="isLoading"></app-loader>
+        <tr *ngFor="let C of entry |searcher_mov : procurarmov | searcherMovDate : procurardata | searcherP : procurarNome ">
           <td class="">{{ C.due_date_pay | date:'MM/yyyy':'UTC'}}</td>
           <td class="">{{ C.date_financial_release | date:'dd/MM/yyyy':'UTC'}}</td>
           <td class="">{{ C.person.name }}</td>
-          <td class="">{{ C.value }}</td>
+          <td class="">{{ C.value.toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+          }) }}</td>
           <td class="">{{ C.type_mov==="e" ?"Entrada": "Saida" }}</td>
           <td class="">
             <div class="btn-group" role="group" aria-label="actions">
@@ -71,70 +87,79 @@
 </section>
 <!--Display de adição de nova classificação-->
 <section *ngIf="display">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-6">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-md-7 col-sm-12 my-6">
       <div class="card">
         <h4>Adicionar</h4>          
-          <form #p="ngForm" (ngSubmit)="onSubmit(p)">
-            <div class="form-inline my-3">
+          <form method="POST" #p="ngForm" (ngSubmit)="onSubmit(p)">
+             
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left">
+              *Data da competência
+              <input type="date" name="competencia" [ngClass]="{'border-danger': competenciaV}" (change)="competenciaV = false" class="form-control stock-input" ngModel #due_date_pay="ngModel">
+              <p *ngIf="competenciaV"  class="text-danger">*Preencha a Competencia</p>
+            </div>
+            
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left">
+              *Data do lançamento
+              <input type="date" required name="lancamento" [ngClass]="{'border-danger': lancamentoV}" (change)="lancamentoV = false" class="form-control stock-input" ngModel #date_financial_release="ngModel">
+              <p *ngIf="lancamentoV"  class="text-danger">*Preencha o Lançamento</p>
+            </div>
 
-              <div class="form-group col-lg-6 left">
-                <select name="tipo" required [(ngModel)]="procuraClassification" class="btn btn-select" ngModel #classifation_type="ngModel">
-                  <option value="e">  Entrada  </option>
-                  <option value="s">  Saida  </option>     
-                </select>
-              </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left">
+              Tipo de Classificação
+              <select name="tipo" [(ngModel)]="procuraClassification" required class="btn btn-select" ngModel #classifation_type="ngModel">
+                <option value="e">  Entrada  </option>
+                <option value="s">  Saida  </option>     
+              </select>
+            </div>
 
-              <div class="form-group col-lg-6 right">
-                <select name="classificacao" class="btn btn-select" name="id_classification" required ngModel #id_classification="ngModel">
-                  <option value="" disabled selected>Selecione uma classificação</option>
-                  <option *ngFor="let C of classification | searcher_classification : procuraClassification" value="{{C.id_classification}}">
-                    {{C.name_classification}}
-                  </option>        
-                </select>
-              </div>
+            <div class="form-group col-lg-12 my-3 col-md-12 col-sm-12 left">
+              *Classificação
+              <select name="classificacao" class="btn btn-select" required [ngClass]="{'border-danger': id_classificationV}" (change)="id_classificationV = false" name="id_classification" ngModel #id_classification="ngModel">
+                <option value="" disabled selected>Selecione uma classificação</option>
+                <option *ngFor="let C of classification | searcher_classification : procuraClassification" value="{{C.id_classification}}">
+                  {{C.name_classification}}
+                </option>        
+              </select>
+              <p *ngIf="id_classificationV" class="text-danger">*Selecione um tipo</p>
+            </div>
+      
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left">
+              *Pessoa
+              <select name="pessoa" class="btn btn-select" [ngClass]="{'border-danger': peopleV}" (change)="peopleV = false" required name="id_people" ngModel #id_people="ngModel">
+                <option value="" disabled selected>Selecione a Pessoa</option>
+                <option value="{{P.id_people}}" *ngFor="let P of people">
+                  {{P.name}}
+                </option>
+              </select>
+              <p *ngIf="peopleV" class="text-danger">*Escolha uma Pessoa</p> 
+            </div>  
 
-              </div>
-              <div class="form-group my-3">
-                <select name="pessoa" class="btn btn-select" name="id_people" required ngModel #id_people="ngModel">
-                  <option value="" disabled selected>Selecione a Pessoa</option>
-                  <option value="{{P.id_people}}" *ngFor="let P of people">
-                    {{P.name}}
-                  </option>        
-                </select>
-              </div>  
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left">
+              *Documento
+              <input type="text" class="form-control inline" required [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" name="num_doc" ngModel #num_doc="ngModel" placeholder="Numero do Documento">
+              <p *ngIf="num_docValidation"  class="text-danger">*Preencha o Documento</p>
+            </div>
 
-              <div class="form-inline my-3">
-                <div class="form-group col-lg-6 left">
-                  <input type="text" class="form-control inline" id="num_doc" required name="num_doc" ngModel #num_doc="ngModel" aria-describedby="num_doc" placeholder="Numero do Documento">
-                </div>
-                <div class="form-group col-lg-6 right">
-                  <input type="number" class="form-control inline" id="valor" required ngModel #value="ngModel" placeholder="Valor" name="valor">
-                </div> 
-              </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left">
+              *Valor
+              <input type="number" class="form-control inline valueClass" required [ngClass]="{'border-danger': valorV}" (change)="valorV = false" id="valor" ngModel #value="ngModel" placeholder="Valor" name="valor">
+              <p *ngIf="valorV"  class="text-danger">*Preencha o Valor</p>
+            </div>
+            
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left">
+              *Historico
+              <textarea class="form-control" required name="historico" [ngClass]="{'border-danger': historicoV}" (change)="historicoV = false" id="historico" cols="120" rows="3" placeholder="Historico" ngModel #historic="ngModel"></textarea>
+              <p *ngIf="historicoV"  class="text-danger">*Preencha o Historico</p>
+            </div>
 
-              <div class="form-inline my-3">
-                <div class="form-group col-lg-6 left">
-                  Data da competência:<input type="month" name="competencia" required class="form-control stock-input" ngModel #due_date_pay="ngModel">
-                </div>
-                <div class="form-group col-lg-6 right">
-                  Data do lançamento:<input type="date" name="lancamento" required class="form-control stock-input" ngModel #date_financial_release="ngModel">
-                </div> 
-              </div>
-
-              <div class="form-inline my-3">
-                <div class="form-group col-lg-12">
-                  <textarea class="form-control" name="historico" id="historico" required cols="120" rows="3" placeholder="Historico" ngModel #historic="ngModel"></textarea>
-                </div>
-              </div>
-
-              <button type="submit" [disabled]="!p.valid" class="btn btn-success">
-                <i class="fas fa-paper-plane"></i>
-                Salvar
-              </button>
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-paper-plane"></i>
+              Salvar
+            </button>
           </form>
-      </div>
-      <button class="btn btn-light col-lg-1" (click)="onDisplay()">
+        </div>
+      <button class="btn btn-light col-lg-2" (click)="onDisplay()">
         <i class="fas fa-angle-left"></i>Voltar
       </button>
     </div>
@@ -143,73 +168,82 @@
 <!--Fim do display de adição-->
 <!--Display de edição classificação-->
 <section *ngIf="displayUp">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-6">
+  <div class="row justify-content-center">
+    <div class="col-lg-7 col-md-7 col-sm-12 my-6">
       <div class="card">
         <h4>Editar</h4>        
           <form #p="ngForm" (ngSubmit)="updateClassification(p)">
-            <div class="form-inline my-3">
 
-              <div class="form-group col-lg-6 left" *ngIf="ent">
-                <select name="tipo" [(ngModel)]="ent.type_mov" required [(ngModel)]="procuraClassification" class="btn btn-select" ngModel #classifation_type="ngModel">
-                  <option value="e">  Entrada  </option>
-                  <option value="s">  Saida  </option>     
-                </select>
-              </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              *Data da competência
+              <input type="date" required name="competencia" required [(ngModel)]="ent.due_date_pay" [ngClass]="{'border-danger': competenciaV}" (change)="competenciaV = false" class="form-control stock-input" ngModel #due_date_pay="ngModel">
+              <p *ngIf="competenciaV"  class="text-danger">*Preencha a Competencia</p>
+            </div>
 
-              <div class="form-group col-lg-6 right" *ngIf="ent">
-                <select name="classificacao" required [(ngModel)]="ent.id_classification" class="btn btn-select" name="id_classification" ngModel #id_classification="ngModel">
-                  <option value="" disabled selected>Selecione uma classificação</option>
-                  <option *ngFor="let C of classification | searcher_classification : procuraClassification" value="{{C.id_classification}}">
-                    {{C.name_classification}}
-                  </option>        
-                </select>
-              </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              *Data do lançamento
+              <input type="date" required [(ngModel)]="ent.date_financial_release" name="lancamento" class="form-control stock-input" ngModel #date_financial_release="ngModel">
+            </div>
+  
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              Tipo de Classificação
+              <select name="tipo" [(ngModel)]="ent.type_mov" required [(ngModel)]="procuraClassification" class="btn btn-select" ngModel #classifation_type="ngModel">
+                <option value="e">  Entrada  </option>
+                <option value="s">  Saida  </option>     
+              </select>
+            </div>
 
-              </div>
-              <div class="form-group my-3" *ngIf="ent">
-                <select name="pessoa" required [(ngModel)]="ent.id_people"  class="btn btn-select" name="id_people" ngModel #id_people="ngModel">
-                  <option value="" disabled selected>Selecione a Pessoa</option>
-                  <option value="{{P.id_people}}" *ngFor="let P of people">
-                    {{P.name}}
-                  </option>               
-                </select>
-              </div>  
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              *Classificação
+              <select name="classificacao" [(ngModel)]="ent.id_classification" [ngClass]="{'border-danger': id_classificationV}" (change)="id_classificationV = false" required class="btn btn-select" name="id_classification" ngModel #id_classification="ngModel">
+                <option value="" disabled selected>Selecione uma classificação</option>
+                <option *ngFor="let C of classification | searcher_classification : procuraClassification" value="{{C.id_classification}}">
+                  {{C.name_classification}}
+                </option>        
+              </select>
+              <p *ngIf="id_classificationV" class="text-danger">*Selecione um tipo</p>
+            </div>
 
-              <div class="form-inline my-3" *ngIf="ent">
-                <div class="form-group col-lg-6 left">
-                  <input type="text" required [(ngModel)]="ent.num_doc" class="form-control inline" id="num_doc" name="num_doc" required ngModel #num_doc="ngModel" aria-describedby="num_doc" placeholder="Numero do Documento">
-                </div>
-                <div class="form-group col-lg-6 right">
-                  <input type="number" required [(ngModel)]="ent.value" class="form-control inline" id="valor"  required ngModel #value="ngModel" placeholder="Valor" name="valor">
-                </div> 
-              </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              *Pessoa
+              <select name="pessoa" [(ngModel)]="ent.id_people" [ngClass]="{'border-danger': peopleV}" (change)="peopleV = false" required class="btn btn-select" name="id_people" ngModel #id_people="ngModel">
+                <option value="" disabled selected>Selecione a Pessoa</option>
+                <option value="{{P.id_people}}" *ngFor="let P of people">
+                  {{P.name}}
+                </option>               
+              </select>
+              <p *ngIf="peopleV" class="text-danger">*Escolha uma Pessoa</p>
+            </div>  
 
-              <div class="form-inline my-3">
-                <div class="form-group col-lg-6 left" *ngIf="ent">
-                  Data da competência:<input type="month" required [(ngModel)]="ent.due_date_pay" name="competencia" class="form-control stock-input" ngModel #due_date_pay="ngModel">
-                </div>
-                <div class="form-group col-lg-6 right" *ngIf="ent">
-                  Data do lançamento:<input type="date" required [(ngModel)]="ent.date_financial_release" name="lancamento" class="form-control stock-input" ngModel #date_financial_release="ngModel">
-                </div> 
-              </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              *Documento
+              <input type="text" [(ngModel)]="ent.num_doc" required [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" class="form-control inline" id="num_doc" name="num_doc" ngModel #num_doc="ngModel" aria-describedby="num_doc" placeholder="Numero do Documento">
+              <p *ngIf="num_docValidation"  class="text-danger">*Preencha o Documento</p>
+            </div>
 
-              <div class="form-inline my-3" *ngIf="ent">
-                <div class="form-group col-lg-12">
-                  <textarea [(ngModel)]="ent.historic" required class="form-control" name="historico" id="historico" cols="120" rows="3" placeholder="Historico" ngModel #historic="ngModel"></textarea>
-                </div>
-              </div>
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              *Valor
+              <input type="number" [(ngModel)]="ent.value" required [ngClass]="{'border-danger': valorV}" (change)="valorV = false" class="form-control inline" id="valor"  ngModel #value="ngModel" placeholder="Valor" name="valor">
+              <p *ngIf="valorV" class="text-danger">*Preencha o Valor</p>
+            </div>  
+                          
+            <div class="form-group col-lg-12 col-md-12 col-sm-12 left" *ngIf="ent">
+              *Historico
+              <textarea [(ngModel)]="ent.historic" required class="form-control" [ngClass]="{'border-danger': historicoV}" (change)="historicoV = false" name="historico" id="historico" cols="120" rows="3" placeholder="Historico" ngModel #historic="ngModel"></textarea>
+              <p *ngIf="historicoV"  class="text-danger">*Preencha o Historico</p>
+            </div>
 
-              <button type="submit" [disabled]="!p.valid" class="btn btn-success">
-                <i class="fas fa-paper-plane"></i>
-                Salvar
-              </button>
+            <button type="submit" required class="btn btn-success">
+              <i class="fas fa-paper-plane"></i>
+              Salvar
+            </button>
           </form>
-      </div>
+        </div>
       <button class="btn btn-light col-lg-1" (click)="onDisplayUp()">
         <i class="fas fa-angle-left"></i>Voltar
       </button>
     </div>
   </div>
 </section>
+</div>
 <!--Fim do display de edição-->

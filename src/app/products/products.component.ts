@@ -73,8 +73,7 @@ editButton: boolean = true;
       'name_product': p.value.name_product,
       unit_price: '0',
       'id_group': p.value.id_group,
-    };  
-
+    }; 
 
     this.productServ.postProduct(product).subscribe((response) => {
       p.reset();
@@ -99,9 +98,8 @@ editButton: boolean = true;
 
   select(p){
     this.product = Object.assign({},p);
-    console.log(this.product.id_group);
   }
-
+  
   getCategories(){
     this.productServ.getProductServ().pipe(first())
     .subscribe(cate =>{ this.categories = [... cate.body.obj] });

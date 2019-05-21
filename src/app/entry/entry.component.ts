@@ -3,11 +3,13 @@ import { ProcurarMovPipe } from './../pipes/procurar-mov-type.pipe';
 import { PeopleComponent } from './../people/people.component';
 import { Classifications } from './../models/classifications';
 import { EntryService } from './entry.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { Financial_releases } from './../models/financial_releases';
 import { Component, OnInit } from '@angular/core';
 import { Procurardate } from '../pipes/procurar-date-financial.pipe';
+import * as moment from 'moment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-entry',
@@ -16,7 +18,7 @@ import { Procurardate } from '../pipes/procurar-date-financial.pipe';
 })
 export class EntryComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, private entryService: EntryService)  { }
+  constructor(private formBuilder: FormBuilder, private entryService: EntryService, private toastr: ToastrService)  { }
 
   entry: Financial_releases[];
   ent: Financial_releases;
@@ -28,12 +30,27 @@ export class EntryComponent implements OnInit {
   procurarmov: ProcurarMovPipe;
   procurardata: Procurardate;
   procurarNome: ProcurarPessoaNome;
+  compDate: string;
 
+  error = '';
+  sucess = '';
+ 
   people: PeopleComponent[];
   classification: Classifications[];
+  options: string[] = [];
+  isLoading: boolean = true;
+
+  /*Variaveis de validação*/
+  num_docValidation: boolean=false;
+  id_classificationV: boolean=false;
+  peopleV: boolean=false;
+  valorV: boolean=false;
+  competenciaV: boolean=false;
+  lancamentoV: boolean=false;
+  historicoV: boolean=false;
+  /**/
 
   ngOnInit() {
-    
     this.getEntry();
     this.getClassification();
     this.getPeople();
@@ -67,17 +84,53 @@ export class EntryComponent implements OnInit {
 
   select(C){
     this.ent = Object.assign({},C);
-    console.log(this.ent)
   }
 
   getEntry(){
     this.entryService.getEntrys().pipe(first())
-    .subscribe(entrys =>{ this.entry = [... entrys.body.obj ] });
-    console.log(this.entry)
+    .subscribe(entrys =>{ this.entry = [... entrys.body.obj ],
+      this.isLoading = false;
+      this.orderByDate();
+    });
   }
 
+  orderByDate(){
+    this.entry.sort(function compare(a, b) {
+      var dateA = <any>new Date(a.due_date_pay);
+      var dateB = <any>new Date(b.due_date_pay);
+      return dateB - dateA;
+    });
+  }  
+
   onSubmit(p){
-    console.log(p.value);
+    this.num_docValidation = false, this.id_classificationV = false, this.peopleV = false,
+    this.valorV = false, this.competenciaV = false, this.lancamentoV = false, this.historicoV = false;
+    let numV = p.value.num_doc;
+    let typeV = p.value.id_classification;
+    let peopleV = p.value.id_people;
+    let valorV = p.value.valor;
+    let competenciaV = p.value.competencia;
+    let lancamentoV = p.value.lancamento;
+    let historicoV = p.value.historico;
+
+    if (numV=='') 
+      this.num_docValidation = true;
+    if (typeV=='')
+      this.id_classificationV = true;
+    if (peopleV=='')
+      this.peopleV = true;
+    if (valorV=='')
+      this.valorV = true;
+    if (competenciaV=='')
+      this.competenciaV = true;
+    if (lancamentoV=='')
+      this.lancamentoV = true;
+    if (historicoV=='')
+      this.historicoV = true;
+    
+    if (this.num_docValidation || this.id_classificationV || this.peopleV || this.valorV || this.competenciaV || this.lancamentoV || this.historicoV)
+    return false;  
+
     let entry = new FormData();
     
     entry.append('id_people', p.value.id_people)
@@ -93,14 +146,47 @@ export class EntryComponent implements OnInit {
       p.reset();
       this.display = !this.display;
       this.getEntry();
-      console.log(response);
-    }, error => console.log(error))
+      this.toastr.success('Produto adicionado', 'Sucesso!',{
+        timeOut: 5000
+      });
+    }, error => {
+      this.error = error;
+      this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+        timeOut: 5000
+      });
+    });
   }
 
   updateClassification(p){
+    this.num_docValidation = false, this.id_classificationV = false, this.peopleV = false,
+    this.valorV = false, this.competenciaV = false, this.lancamentoV = false, this.historicoV = false;
+    let numV = p.value.num_doc;
+    let typeV = p.value.id_classification;
+    let peopleV = p.value.id_people;
+    let valorV = p.value.valor;
+    let competenciaV = p.value.competencia;
+    let lancamentoV = p.value.lancamento;
+    let historicoV = p.value.historico;
+
+    if (numV=='') 
+      this.num_docValidation = true;
+    if (typeV=='')
+      this.id_classificationV = true;
+    if (peopleV=='')
+      this.peopleV = true;
+    if (valorV=='' || valorV<=0)
+      this.valorV = true;
+    if (competenciaV=='')
+      this.competenciaV = true;
+    if (lancamentoV=='')
+      this.lancamentoV = true;
+    if (historicoV=='')
+      this.historicoV = true;
+    
+    if (this.num_docValidation || this.id_classificationV || this.peopleV || this.valorV || this.competenciaV || this.lancamentoV || this.historicoV)
+    return false;  
+
     let entry = new FormData();
-    console.log(p.value.lancamento)
-    console.log(p.value.competencia)
     
     entry.append('id_people', p.value.id_people)
     entry.append('id_classification', p.value.id_classification)
@@ -111,15 +197,21 @@ export class EntryComponent implements OnInit {
     entry.append('due_date_pay', p.value.competencia)
     entry.append('historic', p.value.historico)
 
-    console.log(p.value)
     this.entryService.updateEntry(entry, this.ent.id_financial_release)
     .subscribe(
       resp => {
         this.ent = null;
         this.displayUp = !this.displayUp;
         this.getEntry();
-      }
-    );
+        this.toastr.success('Produto editado', 'Sucesso!',{
+          timeOut: 5000
+        });
+      },error => {
+        this.error = error;
+        this.toastr.error('Verifique os campos.', 'Falha no envio!', {
+          timeOut: 5000
+        });
+      });
   }
 
   deleteEntry(){
@@ -128,11 +220,105 @@ export class EntryComponent implements OnInit {
         resp => {
           this.ent = null
           this.getEntry();
+          this.toastr.success('Produto Deletado', 'Sucesso!',{
+            timeOut: 5000
+          });
         }
-      ),
-       (
-         error => console.log(error)
-      )
+      ),error => {
+        this.error = error;
+        this.toastr.warning('', 'Não foi possível deletar o produto.', {
+          timeOut: 7000
+        });
+      };
+  }
+
+  possitiveValue(){
+    let size = Object.keys(this.entry).length;
+    let resultado=0;
+    let dataSearched=(String(this.procurardata));
+
+    if(!dataSearched || dataSearched === 'undefined'){
+      for(let i=0;i<=size;i++){
+        this.select(this.entry[i]);
+        let valor=0;
+  
+        if(this.ent.type_mov === "e"){
+          valor= this.ent.value;
+          resultado+=valor;
+        }
+      }
+    }
+
+    for(let i=0;i<=size;i++){
+      this.select(this.entry[i]);
+      let valor=0;
+
+      if(this.ent.type_mov === "e" && moment.utc(dataSearched).format("MM YYYY") === moment.utc(this.ent.due_date_pay).format("MM YYYY")){
+        valor= this.ent.value;
+        resultado+=valor;
+      }
+    }
+    return resultado;
+  }
+
+  getPossitive(){
+    let stringValue=this.possitiveValue();
+    return stringValue.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  negativeValue(){
+    let size = Object.keys(this.entry).length;
+    let resultado=0;
+    let dataSearched=(String(this.procurardata));
+    
+    if(!dataSearched || dataSearched === 'undefined'){
+      for(let i=0;i<=size;i++){
+        this.select(this.entry[i]);
+        let valor=0;
+  
+        if(this.ent.type_mov === "s"){
+          valor= this.ent.value;
+          resultado+=valor;
+        }
+      }
+    }
+
+    for(let i=0;i<size;i++){
+      this.select(this.entry[i]);
+      let valor=0;
+      if(this.ent.type_mov==="s" && moment.utc(dataSearched).format("MM YYYY")==moment.utc(this.ent.due_date_pay).format("MM YYYY")){
+        valor= this.ent.value;
+      }
+      resultado+=valor;
+    }
+    return resultado;
+  }
+
+  getNegative(){
+    let stringValue=this.negativeValue();
+    return stringValue.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
+  }
+
+  balanceValue(){
+    let possitiveValue = this.possitiveValue();
+    let negativeValue = this.negativeValue();
+    let resultValue = +possitiveValue - +negativeValue;
+
+    return resultValue;
+  }
+
+  getBalance(){
+    let stringValue=this.balanceValue();
+    return stringValue.toLocaleString(undefined, {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    });
   }
 
 }
