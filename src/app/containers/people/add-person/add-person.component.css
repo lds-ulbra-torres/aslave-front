@@ -1,0 +1,51 @@
+h2{
+    color: #229077;
+}
+.card{
+    padding: 15pt;
+}
+.btn-add{
+    background-color: #229077;
+    color: white;
+}
+.col-12{
+    padding-right: 0;
+    padding-left: 0;
+}
+.btn-search{
+    background-color: #229077;
+    color: #ffffff;
+}
+.btn-group-toggle{
+    width: 100% !important;
+}
+.btn-type{
+    border-color: #229077;
+    color: #229077;
+}
+.active{
+    background-color: #229077;
+    color: #ffffff;
+}
+.search{
+    float: right;
+    
+}
+input.inline{
+    width: 100%;
+
+}
+.left{
+    padding-left: 0;
+}
+.right{
+    padding-right: 0;
+}
+.btn-select{
+    width: 100%;
+    background-color: #ffffff;
+    border: solid 1px #ccc;
+}
+.btn-success{
+    float: right;
+}
