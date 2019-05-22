@@ -22,15 +22,15 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { ReactiveFormsModule } from '@angular/forms';
 
-import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe';
-import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
+import { ProcurarClassificationPipe } from './shared/pipes/procurar-classificacao.pipe';
+import { ProcurarCategoriaPipe } from './shared/pipes/procurar-categoria.pipe';
 
 import { SharedModule } from "./shared/shared.module";
 
-import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
-import { ProcurarMovPipe } from './pipes/procurar-mov-type.pipe';
-import { ProcurarPessoaNome } from './pipes/procurar-name-financial-people.pipe';
-import { Procurardate } from './pipes/procurar-date-financial.pipe';
+import { ProcurarProductPipe } from './shared/pipes/procura-produto.pipe';
+import { ProcurarMovPipe } from './shared/pipes/procurar-mov-type.pipe';
+import { ProcurarPessoaNome } from './shared/pipes/procurar-name-financial-people.pipe';
+import { Procurardate } from './shared/pipes/procurar-date-financial.pipe';
 
 import { ProcurarPessoaPipe } from './shared/pipes/procurar-pessoa.pipe';
 import { OrdenarNomePipe } from './shared/pipes/ordenar-por-nome.pipe';

@@ -1,9 +1,9 @@
 import { Observable } from 'rxjs';
-import { Financial_releases } from './../models/financial_releases';
+import { Financial_releases } from '../../shared//models/financial_releases';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders} from '@angular/common/http';
-import { Classifications } from '../models/classifications';
-import { Person } from '../models/person';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Classifications } from '../../shared/models/classifications';
+import { Person } from '../../shared/models/person';
 
 @Injectable({
   providedIn: 'root'

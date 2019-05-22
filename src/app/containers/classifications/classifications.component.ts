@@ -1,11 +1,10 @@
-import { Classifications } from './../models/classifications';
+import { Classifications } from '../../shared/models/classifications';
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder} from '@angular/forms';
 import { ClassificationsService } from './classifications.service';
-import { ProcurarClassificationPipe } from '../pipes/procurar-classificacao.pipe';
+import { ProcurarClassificationPipe } from '../../shared/pipes/procurar-classificacao.pipe';
 import { ToastrService } from 'ngx-toastr';
-import { OrdenarNomePipe } from '../pipes/ordenar-por-nome.pipe';
 
 @Component({
   selector: 'app-classifications',

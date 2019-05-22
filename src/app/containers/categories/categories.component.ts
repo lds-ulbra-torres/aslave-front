@@ -1,9 +1,9 @@
-import { Categorias } from './../models/categories';
+import { Categorias } from '../../shared/models/categories';
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { CategoriesService } from './categories.service';
-import { ProcurarCategoriaPipe } from '../pipes/procurar-categoria.pipe';
+import { ProcurarCategoriaPipe } from '../../shared/pipes/procurar-categoria.pipe';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormsModule } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 import { productsService } from './products.service';
-import { Product } from '../models/product';
-import { Categorias } from '../models/categories';
-import { ProcurarProductPipe } from '../pipes/procura-produto.pipe';
+import { Product } from '../../shared/models/product';
+import { Categorias } from '../../shared/models/categories';
+import { ProcurarProductPipe } from '../../shared/pipes/procura-produto.pipe';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

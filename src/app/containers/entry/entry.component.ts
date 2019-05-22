@@ -1,13 +1,13 @@
-import { ProcurarPessoaNome } from './../pipes/procurar-name-financial-people.pipe';
-import { ProcurarMovPipe } from './../pipes/procurar-mov-type.pipe';
-import { PeopleComponent } from './../people/people.component';
-import { Classifications } from './../models/classifications';
+import { ProcurarPessoaNome } from '../../shared/pipes/procurar-name-financial-people.pipe';
+import { ProcurarMovPipe } from '../../shared/pipes/procurar-mov-type.pipe';
+import { PeopleComponent } from '../people/people.component';
+import { Classifications } from '../../shared/models/classifications';
 import { EntryService } from './entry.service';
 import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { Financial_releases } from './../models/financial_releases';
+import { Financial_releases } from '../../shared/models/financial_releases';
 import { Component, OnInit } from '@angular/core';
-import { Procurardate } from '../pipes/procurar-date-financial.pipe';
+import { Procurardate } from '../../shared/pipes/procurar-date-financial.pipe';
 import * as moment from 'moment';
 import { ToastrService } from 'ngx-toastr';
 
