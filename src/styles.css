@@ -9,3 +9,6 @@
 body{
     min-height: 95vh;
 }
+#toast-container > div {
+    opacity:1;
+}

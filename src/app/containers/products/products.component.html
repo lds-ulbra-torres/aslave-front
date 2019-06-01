@@ -1,12 +1,13 @@
+<div class="container mt-2">
 <div class="row">
-  <header class="col-lg-12 col-md-12 col-sm-12">
+  <header class="col-12">
     <h1>Produtos</h1>
   </header>
 </div>
 <section *ngIf="!display && !displayUp">
   <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <button type="button" class="btn btn-success" data-toggle="modal" (click)="onDisplay()"><i class="fas fa-plus"></i>Adicionar</button>
+    <div class="col-12 my-3">
+      <button type="button" class="btn btn-add" data-toggle="modal" (click)="onDisplay()"><i class="fas fa-plus"></i>&nbsp;Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
         <input class="form-control mr-sm-2" type="search" name="searcher_product" [(ngModel)]="procuraProduct" placeholder="Digite o produto" aria-label="Buscar" ngModel>
         <button class="btn btn-search" disabled><i class="fas fa-search"></i></button>
@@ -14,26 +15,26 @@
     </div>
   </div>
   <!--Tabela-->
-  <div class="row">
-    <table class="table col-lg-12 col-md-12 col-sm-12">
+  <div class="row table-reponsive">
+    <table class="table text-center table-hover table-striped col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
-          <th scope="col" class="col-lg-3 col-sm-3">Descrição</th>
-          <th scope="col" class="col-lg-3 col-sm-3">Categorias</th>
-          <th scope="col" class="col-lg-3 col-sm-3">Estoque</th>
-          <th scope="col" class="col-lg-3 col-sm-3"></th>
+          <th scope="col" >Descrição</th>
+          <th scope="col">Categorias</th>
+          <th scope="col" >Estoque</th>
+          <th scope="col" >Ações</th>
         </tr>
       </thead>
       <tbody>
           <app-loader *ngIf="isLoading"></app-loader>
         <tr *ngFor="let product of produtos | searcher_product : procuraProduct">
-          <td class="col-lg-3 col-sm-3">{{product.name_product}}</td>
-          <td class="col-lg-3 col-sm-3">{{product.stock_product_group.name_group}}</td>
-          <td class="col-lg-3 col-sm-3">{{product.amount.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2})}}</td>
-          <td class="col-lg-3 col-sm-3">
+          <td >{{product.name_product}}</td>
+          <td >{{product.stock_product_group.name_group}}</td>
+          <td>{{product.amount.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2})}}</td>
+          <td >
             <div class="btn-group" role="group" aria-label="actions">
               <button type="button" (click)="onDisplayUp()" (click)="select(product)" class="btn btn-secondary" data-toggle="modal" data-target="#edicao"><i class="fas fa-edit"></i></button>
-              <button type="button" class="btn btsecondary" data-toggle="modal" data-target="#delete" (click)="select(product)"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(product)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>
@@ -65,8 +66,9 @@
 <section *ngIf="displayUp">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <div class="card">        
-        <form #b="ngForm" (ngSubmit)="updateProduct(b)">
+             
+      <form #b="ngForm" (ngSubmit)="updateProduct(b)">
+        <div class="card"> 
           <app-loader *ngIf="editLoading"></app-loader>
           <div class="modal-header">
             <h5 class="modal-title">Editar Produto</h5>
@@ -78,7 +80,7 @@
             <p *ngIf="att_nameValidation"  class="text-danger">Preencha o campo</p>
           </div>
           <div class="form-group my-3 ">
-            <select class="btn btn-select" required [(ngModel)]="product.id_group" name="id_group" required ngModel #id_group="ngModel" [ngClass]="{'border-danger': att_selectValidation}" (change)="att_selectValidation = false">
+            <select class="btn btn-select w-100" required [(ngModel)]="product.id_group" name="id_group" required ngModel #id_group="ngModel" [ngClass]="{'border-danger': att_selectValidation}" (change)="att_selectValidation = false">
               <option value="" disabled selected>Selecione uma Categoria</option>
               <option *ngFor="let C of categories" value="{{C.id_group}}">
                 {{C.name_group}}
@@ -87,12 +89,19 @@
             <p *ngIf="att_selectValidation"  class="text-danger">Preencha o campo</p>
           </div>
         </div>
-          <button type="submit" class="btn btn-success" [disabled]="!editButton">Salvar</button>
-        </form>
-      </div>
-      <button class="btn btn-light col-lg-1" (click)="onDisplayUp()">
-        <i class="fas fa-angle-left"></i>Voltar
-      </button>
+         
+        </div>
+        <div class="justify-content-between">
+            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplayUp()">
+                <i class="fas fa-angle-left"></i>&nbsp; Voltar
+            </button> 
+            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="!editButton">
+                <i class="fas fa-save"></i>&nbsp;
+                   Salvar
+            </button>
+        </div>
+      </form>
+   
     </div>
   </div>
 </section>
@@ -100,15 +109,16 @@
 <section *ngIf="display">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <div class="card">        
-        <form #p="ngForm" (ngSubmit)="onSubmit(p)">
+             
+      <form #p="ngForm" (ngSubmit)="onSubmit(p)">
+        <div class="card"> 
           <app-loader *ngIf="addLoading"></app-loader>
           <div class="modal-header">
             <h5 class="modal-title">Adicionar Produto</h5>
           </div>
           <div class="modal-body">
-            <div class="form-group col-lg-10 right">
-              <select class="btn btn-select" [ngClass]="{'border-danger':id_valid}" (change)="id_valid = false" name="id_group" required ngModel #id_group="ngModel">
+            <div class="form-group col-lg-12 right">
+              <select class="btn btn-select w-100" [ngClass]="{'border-danger':id_valid}" (change)="id_valid = false" name="id_group" required ngModel #id_group="ngModel">
                 <option value="" disabled selected>Selecione uma Categoria</option>
                 <option *ngFor="let C of categories" value="{{C.id_group}}">
                 {{C.name_group}}
@@ -121,13 +131,21 @@
               <p *ngIf="name_valid" class="text-danger">Preencha o campo</p>
             </div>
           </div>
-         <button type="submit" class="btn btn-success" [disabled]="!addButton">Salvar</button>
-        </form>
-      </div>
-      <button class="btn btn-light col-lg-1" (click)="onDisplay()">
-        <i class="fas fa-angle-left"></i>Voltar
-      </button>
+        
+        </div>
+        <div class="justify-content-between">
+            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplay()">
+                <i class="fas fa-angle-left"></i>&nbsp; Voltar
+            </button> 
+            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="!addButton">
+                <i class="fas fa-save"></i>&nbsp;
+                   Salvar
+            </button>
+        </div>
+      </form>
+    
     </div>
   </div>
 </section>
+</div>
 

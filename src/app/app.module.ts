@@ -48,6 +48,7 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { MinDatePipe } from './shared/pipes/min-date.pipe';
 import { MaxDatePipe } from './shared/pipes/max-date.pipe';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 export var options: Partial<IConfig> | (() => Partial<IConfig>);
 registerLocaleData(localePt);
@@ -79,7 +80,8 @@ registerLocaleData(localePt);
     AddUserComponent,
     AddOutputComponent,
     MinDatePipe,
-    MaxDatePipe
+    MaxDatePipe,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

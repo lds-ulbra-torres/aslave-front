@@ -1,13 +1,13 @@
-<div class="container">
+<div class="container mt-3">
 <div class="row">
-  <header class="col-lg-12 col-md-12 col-sm-12">
+  <header class="col-12">
     <h1>Classificações</h1>
   </header>
 </div>
 <section *ngIf="!display && !displayUp ">
   <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <button type="button" class="btn btn-success" (click)="onDisplayClassification('e')" (click)="onDisplay()"><i class="fas fa-plus"></i> Adicionar</button>
+    <div class="col-12 my-3">
+      <button type="button" class="btn btn-add" (click)="onDisplayClassification('e')" (click)="onDisplay()"><i class="fas fa-plus"></i> Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
         <select name="tipo" class="form-control mr-sm-2"[(ngModel)]="procuraClassification" name="type">
           <option [selected] value="">  Todos  </option>
@@ -19,22 +19,22 @@
     </div>
   </div>  
   <div class="row">
-    <table class="table col-lg-12 col-md-12 col-sm-12">
+    <table class="table text-center table-hover table-striped col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
-          <th scope="col" class="col-lg-3 col-sm-3">Nome</th>
-          <th scope="col" class="col-lg-5 col-sm-5">Tipo</th>
-          <th scope="col" class="col-lg-1 col-sm-1"></th>
-          <th scope="col" class="col-lg-3 col-sm-3">Ações</th>
+          <th scope="col" >Nome</th>
+          <th scope="col" >Tipo</th>
+         
+          <th scope="col" >Ações</th>
         </tr>
       </thead>
       <tbody>
         <app-loader *ngIf="isLoading"></app-loader>
         <tr *ngFor="let C of classification | searcher_classification : procuraClassification">
-          <td class="col-lg-3 col-sm-3">{{ C.name_classification }}</td>
-          <td class="col-lg-5 col-sm-5">{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
-          <td class="col-lg-1 col-sm-1"></td>
-          <td class="col-lg-3 col-sm-3">
+          <td >{{ C.name_classification }}</td>
+          <td >{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
+         
+          <td >
             <div class="btn-group" role="group" aria-label="actions">
               <button type="button" class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUpdate('e')" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
               <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
@@ -70,14 +70,16 @@
 <section *ngIf="display">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <div class="card">        
-        <form method="post" #p="ngForm" (ngSubmit)="onSubmit(p)">
+             
+      <form method="post" #p="ngForm" (ngSubmit)="onSubmit(p)">
+        <div class="card"> 
+          <div class="card-body">
           <div class="form-group my-3">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-outline-light active" (click)="onDisplayClassification('e')">
+              <label class="btn btn-type active" (click)="onDisplayClassification('e')">
                 <input type="radio" name="classifation_type" autocomplete="off" /> Entrada
               </label>
-              <label class="btn btn-outline-light" (click)="onDisplayClassification('s')">
+              <label class="btn btn-type" (click)="onDisplayClassification('s')">
                 <input type="radio" name="classifation_type"  autocomplete="off" /> Saida
               </label>
             </div>
@@ -86,14 +88,22 @@
             <input type="text" class="form-control" [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" name="name" required ngModel #name_classification="ngModel" id="nome" aria-describedby="nome" placeholder="Nome">
             <p *ngIf="num_docValidation" class="text-danger">*Insira um Nome</p>  
           </div>
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-paper-plane" ></i>Salvar
-          </button>
-         </form>
-      </div>
-      <button class="btn btn-light col-lg-1" (click)="onDisplay()">
-        <i class="fas fa-angle-left"></i>Voltar
-      </button>
+          
+          </div>
+        </div>
+        <div class="justify-content-between">
+            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplay()">
+                <i class="fas fa-angle-left"></i> 
+                Voltar
+            </button> 
+            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="p.invalid">
+                <i class="fas fa-save"></i>
+                   Salvar
+            </button>
+        </div>
+      </form>
+      
+    
     </div>
   </div>
 </section>
@@ -102,30 +112,39 @@
 <section *ngIf="displayUp">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <div class="card">        
-        <form #a="ngForm" (ngSubmit)="updateClassification(a)">
-          <div class="form-group my-3"> 
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label [class.active]="radioResult==='e'" class="btn btn-outline-light" (click)="onDisplayClassification('e')">
-                <input type="radio" name="classifation_type" autocomplete="off" /> Entrada
-              </label>
-              <label [class.active]="radioResult==='s'" class="btn btn-outline-light" (click)="onDisplayClassification('s')">
-                <input type="radio" name="classifation_type"  autocomplete="off" /> Saida
-              </label>
+              
+      <form #a="ngForm" (ngSubmit)="updateClassification(a)">
+
+        <div class="card">
+          <div class="card-body">
+            <div class="form-group my-3"> 
+              <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                <label [class.active]="radioResult==='e'" class="btn btn-type" (click)="onDisplayClassification('e')">
+                  <input type="radio" name="classifation_type" autocomplete="off" /> Entrada
+                </label>
+                <label [class.active]="radioResult==='s'" class="btn btn-type" (click)="onDisplayClassification('s')">
+                  <input type="radio" name="classifation_type"  autocomplete="off" /> Saida
+                </label>
+              </div>
             </div>
+            <div class="form-group my-3" *ngIf="class">
+              <input type="text" class="form-control" name="name" required [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" ngModel #name_classification="ngModel" id="nome" aria-describedby="nome" [(ngModel)]="class.name_classification">
+              <p *ngIf="num_docValidation" class="text-danger">*Insira um Nome</p>  
+            </div>
+         
           </div>
-          <div class="form-group my-3" *ngIf="class">
-            <input type="text" class="form-control" name="name" required [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" ngModel #name_classification="ngModel" id="nome" aria-describedby="nome" [(ngModel)]="class.name_classification">
-            <p *ngIf="num_docValidation" class="text-danger">*Insira um Nome</p>  
-          </div>
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-paper-plane"></i>Salvar
-          </button>
-         </form>
-      </div>
-      <button class="btn btn-light col-lg-1" (click)="onDisplayUp()">
-        <i class="fas fa-angle-left"></i>Voltar
-      </button>
+        </div>
+        <div class="justify-content-between">
+            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplayUp()">
+                <i class="fas fa-angle-left"></i>&nbsp; Voltar
+            </button> 
+            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="a.invalid">
+                <i class="fas fa-save"></i>&nbsp;
+                   Salvar
+            </button>
+        </div>
+      </form>
+
     </div>
   </div>
 </section>
