@@ -7,6 +7,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+
 import { PeopleComponent } from './containers/people/people.component';
 import { ProductsComponent } from './containers/products/products.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
@@ -17,6 +18,7 @@ import { ClassificationsComponent } from './containers/classifications/classific
 import { HomeComponent } from './containers/home/home.component';
 import { StockRemovalComponent } from './containers/stock-removal/stock-removal.component';
 import { StockPlacementComponent } from './containers/stock-placement/stock-placement.component';
+
 import { NavbarComponent } from './navbar/navbar.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
@@ -27,6 +29,8 @@ import { OrdenarNomePipe } from './shared/pipes/ordenar-por-nome.pipe';
 
 import { StockPlacementModule } from './containers/stock-placement/stock-placement.module';
 import { LoaderComponent } from "./shared/loader/loader.component";
+import { SharedModule } from "./shared/shared.module";
+
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcurarUserPipe } from './shared/pipes/procurar-user.pipe';
@@ -68,7 +72,6 @@ registerLocaleData(localePt);
     ProcurarPessoaPipe,
     ProcurarClassificationPipe,
     ProcurarCategoriaPipe,
-    LoaderComponent,
     OrdenarNomePipe,
     CompareValidatorsDirective,
     ProcurarUserPipe,
@@ -90,6 +93,7 @@ registerLocaleData(localePt);
     FormsModule,
     StockPlacementModule,
     StockPlacementModule,
+    SharedModule,
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import {map, startWith} from 'rxjs/operators';
+import { ToastrService } from 'ngx-toastr';
 
 import { StockPlacementService } from '../stock-placement.service';
 import * as moment from 'moment';
@@ -28,6 +29,10 @@ export class StockPlacementMaintainComponent implements OnInit {
   selectValue = null;
 
   products: Array<any> = [];
+  myControlProduct = new FormControl();
+  optionsProducts: string[] = [];  
+  filteredProducts: Observable<string[]>;
+
   people: Array<any> = [];
   totalSumValue:number = 0;
 
@@ -40,7 +45,12 @@ export class StockPlacementMaintainComponent implements OnInit {
   sub: any;
   id = null;
 
-  constructor(private router: Router, private route: ActivatedRoute, private _stockPlacementService: StockPlacementService) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute, 
+    private _stockPlacementService: StockPlacementService,
+    private toastr: ToastrService
+  ) { }
 
   ngOnInit() {
     this.getAllPeople();
@@ -50,6 +60,12 @@ export class StockPlacementMaintainComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  _filterProduct(value: string): string[] {
+    const filterValue = value.toLowerCase();
+
+    return this.optionsProducts.filter(option => option.toLowerCase().includes(filterValue));
   }
   
   getByID(){
@@ -83,6 +99,16 @@ export class StockPlacementMaintainComponent implements OnInit {
     this._stockPlacementService.getProducts()
       .subscribe(resp => {
         this.products = [ ... resp.body.obj ];
+        this.products.forEach(product => {
+          this.optionsProducts.push(product.name_product.toUpperCase());
+        });
+        this.optionsProducts.sort();
+
+        this.filteredProducts = this.myControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => this._filterProduct(value))
+          );
       });
       
   }
@@ -117,14 +143,22 @@ export class StockPlacementMaintainComponent implements OnInit {
     return false;
   }
   
-  addProduct(): boolean{
-    this.productValidation = false; 
-    this.amountValidation = false;
-    this.valueValidation = false;
+  productID(productName){
+    try {
+      return this.products.find(product => product.name_product.toUpperCase() == productName).id_product
+    } catch (error) {
+      this.toastr.error('Produto indefinido', 'Produto não registrado', { timeOut: 3000 });
+      // Retorna um string vazia para cair na validação de produto não selecionado
+      return '';
+    }
+  }
 
-    let productV = this.product.nativeElement.value;
-    let quantityV = this.quantity.nativeElement.value;
-    let valueProductV = parseFloat(this.valueProduct.nativeElement.value);
+  addProduct(): boolean{
+    this.productValidation = this.amountValidation = this.valueValidation = false;
+
+    const productV = this.productID(this.product.nativeElement.value),
+        quantityV = this.quantity.nativeElement.value,
+        valueProductV = parseFloat(this.valueProduct.nativeElement.value);
 
     if (productV=='')
       this.productValidation = true;
@@ -136,16 +170,17 @@ export class StockPlacementMaintainComponent implements OnInit {
     if (this.productValidation || this.amountValidation || this.valueValidation )
       return false;
 
-    let newProduct: any = {
+    const newProduct: any = {
       id_product: parseInt(productV),
       unit_price_input: valueProductV,
       amount_input: quantityV
     }
-    this.product.nativeElement.value = '';
-    this.quantity.nativeElement.value = '';
-    this.valueProduct.nativeElement.value = '';
+
+    this.product.nativeElement.value = this.quantity.nativeElement.value = this.valueProduct.nativeElement.value = '';
+
     this.stockProducts.push(newProduct);
     this.initialSumValue();
+
     return true;
   }
 
@@ -165,7 +200,7 @@ export class StockPlacementMaintainComponent implements OnInit {
     this.router.navigate(['entradas']);
   }
 
-  onSubmit(form): boolean {
+  onSubmit(): boolean {
     this.nameValidation = false; this.typeValidation = false; this.dateValidation = false;
     let namePersonV = this.namePerson.nativeElement.value;
     let typeStockV = this.typeStock.nativeElement.value;
@@ -194,13 +229,23 @@ export class StockPlacementMaintainComponent implements OnInit {
 
     if(this.id) {
       this._stockPlacementService.putStockInput(this.id, stock).subscribe(
-        data => this.goBack(), 
+        data => {
+          this.toastr.error('', 'Entrada realizada com sucesso', {
+            timeOut: 3000
+          });
+          this.goBack()
+        }, 
         error => console.log('error ',error),
       )
     } else {
       this._stockPlacementService.postStockInput(stock).subscribe(
         data => this.goBack(), 
-        error => console.log('error ',error),
+        error => {
+          this.toastr.error('Falha na autenticação', 'Senha ou usuário inválidos', {
+            timeOut: 3000
+          });
+          console.log('error ',error)
+        },
       )
     }
     

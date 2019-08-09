@@ -1,6 +1,6 @@
 import { ProcurarPessoaNome } from '../../pipes/procurar-name-financial-people.pipe';
 import { ProcurarMovPipe } from '../../pipes/procurar-mov-type.pipe';
-import { PeopleComponent } from '../../people/people.component';
+import { PeopleComponent } from '../people/people.component';
 import { Classifications } from '../../models/classifications';
 import { EntryService } from '../../entry/entry.service';
 import { FormBuilder } from '@angular/forms';
@@ -34,7 +34,7 @@ export class EntryComponent implements OnInit {
 
   error = '';
   sucess = '';
- 
+
   people: PeopleComponent[];
   classification: Classifications[];
   options: string[] = [];
@@ -100,7 +100,7 @@ export class EntryComponent implements OnInit {
       var dateB = <any>new Date(b.due_date_pay);
       return dateB - dateA;
     });
-  }  
+  }
 
   onSubmit(p){
     this.num_docValidation = false, this.id_classificationV = false, this.peopleV = false,
@@ -113,7 +113,7 @@ export class EntryComponent implements OnInit {
     let lancamentoV = p.value.lancamento;
     let historicoV = p.value.historico;
 
-    if (numV=='') 
+    if (numV=='')
       this.num_docValidation = true;
     if (typeV=='')
       this.id_classificationV = true;
@@ -127,12 +127,12 @@ export class EntryComponent implements OnInit {
       this.lancamentoV = true;
     if (historicoV=='')
       this.historicoV = true;
-    
+
     if (this.num_docValidation || this.id_classificationV || this.peopleV || this.valorV || this.competenciaV || this.lancamentoV || this.historicoV)
-    return false;  
+    return false;
 
     let entry = new FormData();
-    
+
     entry.append('id_people', p.value.id_people)
     entry.append('id_classification', p.value.id_classification)
     entry.append('type_mov', p.value.tipo)
@@ -168,7 +168,7 @@ export class EntryComponent implements OnInit {
     let lancamentoV = p.value.lancamento;
     let historicoV = p.value.historico;
 
-    if (numV=='') 
+    if (numV=='')
       this.num_docValidation = true;
     if (typeV=='')
       this.id_classificationV = true;
@@ -182,12 +182,12 @@ export class EntryComponent implements OnInit {
       this.lancamentoV = true;
     if (historicoV=='')
       this.historicoV = true;
-    
+
     if (this.num_docValidation || this.id_classificationV || this.peopleV || this.valorV || this.competenciaV || this.lancamentoV || this.historicoV)
-    return false;  
+    return false;
 
     let entry = new FormData();
-    
+
     entry.append('id_people', p.value.id_people)
     entry.append('id_classification', p.value.id_classification)
     entry.append('type_mov', p.value.tipo)
@@ -241,7 +241,7 @@ export class EntryComponent implements OnInit {
       for(let i=0;i<=size;i++){
         this.select(this.entry[i]);
         let valor=0;
-  
+
         if(this.ent.type_mov === "e"){
           valor= this.ent.value;
           resultado+=valor;
@@ -273,12 +273,12 @@ export class EntryComponent implements OnInit {
     let size = Object.keys(this.entry).length;
     let resultado=0;
     let dataSearched=(String(this.procurardata));
-    
+
     if(!dataSearched || dataSearched === 'undefined'){
       for(let i=0;i<=size;i++){
         this.select(this.entry[i]);
         let valor=0;
-  
+
         if(this.ent.type_mov === "s"){
           valor= this.ent.value;
           resultado+=valor;

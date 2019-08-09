@@ -5,6 +5,7 @@ import { ProcurarNomePipe } from '../../shared/pipes/procurar-nome.pipe';
 import { ProcuraTipoPipe } from '../../shared/pipes/procura-tipo.pipe';
 import { PrcourarMinDatePipe } from '../../shared/pipes/prcourar-min-date.pipe';
 import { PrcourarMaxDatePipe } from '../../shared/pipes/prcourar-max-date.pipe';
+
 import { StockPlacementService } from './stock-placement.service';
 
 @Component({
@@ -14,6 +15,7 @@ import { StockPlacementService } from './stock-placement.service';
 })
 export class StockPlacementComponent implements OnInit {
 
+  isLoading: boolean = true;
   arrayInputs: Array<IStockInput>;
 
   stockInputs: any[];
@@ -38,14 +40,6 @@ export class StockPlacementComponent implements OnInit {
     this.getStockInputs();
     this.getpersons();
     this.getAllProducts()
-    
-  }
-
-  onSubmit(form){
-    console.log(form.value.fornecedor);
-    console.log(form.value.dateInit);
-    console.log(form.value.dateEnd);
-    console.log(form.value.type);
   }
 
   getpersons(){
@@ -61,7 +55,7 @@ export class StockPlacementComponent implements OnInit {
         this.products = [ ... resp.body.obj ];
         this.loadProducts = true;
       });
-      
+
   }
 
   productName(id){
@@ -71,8 +65,8 @@ export class StockPlacementComponent implements OnInit {
   getStockInputs() {
     this._stockPlacementService.getInputs()
       .subscribe(resp => {
-        this.stockInputs2 = [ ... resp.body.obj ];
-        console.log(this.stockInputs2)
+        this.isLoading = false;
+        this.stockInputs2 = [ ... resp.body.obj ].reverse();
         this.getStockInputsById(this.stockInputs2[this.stockInputs2.length-1].id_stock);
       });
   }
@@ -83,11 +77,8 @@ export class StockPlacementComponent implements OnInit {
         this.selectedStockInput =  resp.body.obj[0];
         this.ready = true;
         this.selectedStockInputPerson = this.stockInputs2.find(obj => obj.id_stock == id).person.name
-        console.log(this.selectedStockInput)
       });
   }
-
-  
 
   deleteStockInput(id){
     this._stockPlacementService.deleteStockInput(id)

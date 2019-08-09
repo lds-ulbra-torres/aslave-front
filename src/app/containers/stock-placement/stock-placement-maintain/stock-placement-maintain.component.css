@@ -47,3 +47,7 @@ input.inline{
 .input-autocomplet::placeholder{
     color: black;
 }
+
+.table td {
+    vertical-align: unset;
+}
