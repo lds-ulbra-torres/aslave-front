@@ -8,6 +8,7 @@ export class Financial_releases{
     value: number;
     due_date_pay: string;
     historic: string;
+    createdAt: string;
     person: {
         name: string;
     }
