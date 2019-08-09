@@ -1,3 +1,5 @@
+<div class="container mt-3">
+
 <div class="row">
   <header class="col-lg-12 col-md-12 col-sm-12">
     <h1>Categorias</h1>
@@ -59,14 +61,14 @@
 <section *ngIf="displayUp">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <div class="card">        
+      <div class="card">
         <form #b="ngForm" (ngSubmit)="updateCategory(b)">
             <app-loader *ngIf="editLoading"></app-loader>
           <div class="modal-header">
             <h5 class="modal-title">Editar Categoria</h5>
           </div>
           <div class="modal-body" *ngIf="category">
-            <input type="text" class="form-control" name="name_group" [(ngModel)]="category.name_group" [ngClass]="{'border-danger': att_nameValidation}" (change)="att_nameValidation = false" 
+            <input type="text" class="form-control" name="name_group" [(ngModel)]="category.name_group" [ngClass]="{'border-danger': att_nameValidation}" (change)="att_nameValidation = false"
             required ngModel #name_group="ngModel" id="edit" aria-describedby="editar" placeholder="Informe a categoria">
             <p *ngIf="att_nameValidation"  class="text-danger">Preencha o campo</p>
           </div>
@@ -85,7 +87,7 @@
 <section *ngIf="display">
   <div class="row">
     <div class="col-lg-12 col-md-12 my-3">
-      <div class="card">        
+      <div class="card">
         <form #p="ngForm" (ngSubmit)="onSubmit(p)">
             <app-loader *ngIf="addLoading"></app-loader>
           <div class="modal-header">
@@ -105,3 +107,4 @@
   </div>
 </section>
 
+</div>
