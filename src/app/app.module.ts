@@ -50,7 +50,7 @@ import { MinDatePipe } from './shared/pipes/min-date.pipe';
 import { MaxDatePipe } from './shared/pipes/max-date.pipe';
 import { FooterComponent } from './shared/components/footer/footer.component';
 
-export var options: Partial<IConfig> | (() => Partial<IConfig>);
+//export const options: Partial<IConfig> | (() => Partial<IConfig>);
 registerLocaleData(localePt);
 
 @NgModule({
@@ -97,7 +97,7 @@ registerLocaleData(localePt);
     MatInputModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxMaskModule.forRoot(options)
+    NgxMaskModule.forRoot()
     
   ],
   providers: [ 

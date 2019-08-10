@@ -10,7 +10,7 @@
       <form #s="ngForm" (ngSubmit)="onSubmit(s)">
         <div class="card"> 
             <div class="form-group col-lg-12">
-              <input #id_user ngModel [formControl]="myControl" class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" name="id_user" aria-label="Nome" matInput
+              <input #id_user ngModel [formControl]="myControl" class="form-control inline input-autocomplet mt-2 pl-2 w-100" type="text" placeholder="Nome*" (change)="alter($event)" name="id_user" aria-label="Nome" matInput
                 [matAutocomplete]="auto" (change)="nameValidation = false">
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let u of filteredOptions | async" [value]="u.full_name">
@@ -48,7 +48,7 @@
             </div>
 
             <div class="form-group col-lg-12">
-                <input type="text" mask="dot_separator.2" class="form-control" id="unit_price_output"  name="unit_price_output" ngModel #unit_price_output aria-describedby="unit_price" (change) = "valor($event)" required placeholder="Valor unitário*">
+                <input type="text" mask="dot_separator.2" class="form-control" id="unit_price_output"  name="unit_price_output"  ngModel #unit_price_output aria-describedby="unit_price" required placeholder="Valor unitário*">
             </div>
           
             <div class="form-group col-lg-12">
