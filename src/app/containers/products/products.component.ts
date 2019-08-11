@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormsModule } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
-import { productsService } from '../../products/products.service';
-import { Product } from '../../models/product';
-import { Categorias } from '../../models/categories';
-import { ProcurarProductPipe } from '../../pipes/procura-produto.pipe';
+import { productsService } from './products.service';
+import { Product } from '../../shared/models/product';
+import { Categorias } from '../../shared/models/categories';
+import { ProcurarProductPipe } from '../../shared/pipes/procura-produto.pipe';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ProductsComponent implements OnInit {
 
-constructor(private formBuilder: FormBuilder, 
+constructor(private formBuilder: FormBuilder,
             private productServ:productsService,
             private toastr: ToastrService
   ) { }
@@ -61,7 +61,7 @@ editButton: boolean = true;
     this.id_valid = false;
     let name = p.value.name_product;
     let category = p.value.id_group;
-    
+
     if(category == ''){
       this.id_valid = true;
     }
@@ -73,7 +73,7 @@ editButton: boolean = true;
       'name_product': p.value.name_product,
       unit_price: '0',
       'id_group': p.value.id_group,
-    }; 
+    };
 
     this.productServ.postProduct(product).subscribe((response) => {
       p.reset();
@@ -99,7 +99,7 @@ editButton: boolean = true;
   select(p){
     this.product = Object.assign({},p);
   }
-  
+
   getCategories(){
     this.productServ.getProductServ().pipe(first())
     .subscribe(cate =>{ this.categories = [... cate.body.obj] });
@@ -147,7 +147,7 @@ editButton: boolean = true;
     this.att_selectValidation= false;
     let name = b.value.name_product;
     let category = b.value.id_group;
-    
+
     if(category == ''){
       this.att_selectValidation = true;
     }
@@ -190,7 +190,7 @@ editButton: boolean = true;
       } else {
         return 0;
       }
-    }) 
+    })
   }
 
 }

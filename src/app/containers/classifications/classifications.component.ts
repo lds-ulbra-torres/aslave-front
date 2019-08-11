@@ -1,9 +1,9 @@
-import { Classifications } from '../../models/classifications';
+import { Classifications } from '../../shared/models/classifications';
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder} from '@angular/forms';
-import { ClassificationsService } from '../../classifications/classifications.service';
-import { ProcurarClassificationPipe } from '../../pipes/procurar-classificacao.pipe';
+import { ClassificationsService } from './classifications.service';
+import { ProcurarClassificationPipe } from '../../shared/pipes/procurar-classificacao.pipe';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({

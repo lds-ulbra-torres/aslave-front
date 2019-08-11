@@ -1,9 +1,10 @@
 import { Observable } from 'rxjs';
-import { Financial_releases } from './../models/financial_releases';
+import { Financial_releases } from '../../shared//models/financial_releases';
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse, HttpHeaders} from '@angular/common/http';
-import { Classifications } from '../models/classifications';
-import { Person } from '../shared/models/person';
+
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Classifications } from '../../shared/models/classifications';
+import { Person } from '../../shared/models/person';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class EntryService {
   private EntryUrl = 'http://api-teste-aslave-org-br.umbler.net/financial-releses';
   private ClassUrl = 'http://api-teste-aslave-org-br.umbler.net/financial-classifications';
   private peopleUrl = 'http://api-teste-aslave-org-br.umbler.net/people';
-  
+
   getEntrys(): Observable<HttpResponse<any>>{
     return this.http.get<Financial_releases[]>(this.EntryUrl, { observe: 'response'});
   }

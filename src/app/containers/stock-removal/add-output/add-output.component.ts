@@ -17,7 +17,7 @@ import { Product } from 'src/app/shared/models/produto';
 })
 export class AddOutputComponent implements OnInit {
   @ViewChild('id_user') id_user: ElementRef;
-
+ 
     options: User[]= [];
     products: any[]=[];
     product: any;
@@ -28,7 +28,7 @@ export class AddOutputComponent implements OnInit {
     filteredOptions: Observable<User[]>;
     filteredProducts: Observable<Product[]>;
     date: string;
-
+    nameValidation: boolean = false;
     selectValue = null;
   constructor(private toastr: ToastrService,
     private stockRemovalService: StockRemovalService,
@@ -38,6 +38,7 @@ export class AddOutputComponent implements OnInit {
 
   
   ngOnInit() {
+    console.log(this.options)
     this.getUsers();
       this.getProducts();
       this.getDate();
@@ -55,7 +56,9 @@ export class AddOutputComponent implements OnInit {
       console.log(this.filteredProducts)
       
   }
-
+  alter(event){
+    console.log(event.target.value);
+  }
   getDate(){
     let current = new Date();
     let data = current.toLocaleDateString();
@@ -66,11 +69,21 @@ export class AddOutputComponent implements OnInit {
 
   
   onSubmit(s){
+
+    let namePersonV = this.id_user.nativeElement.value;
+
+    this.nameValidation = false;
+    if (!this.options.find((person: User) => person.full_name==namePersonV)) 
+      this.nameValidation = true
+
+    if (this.nameValidation)
+      return false;
+
     console.log(s.value.id_user);
     let date = `${this.date}` + "T03:00:00.000Z";
-    let name = this.id_user.nativeElement.value;
-    let user = this.options.find((person: User) => person.full_name==name);
-    console.log(user);
+   
+    let user = this.options.find((person: User) => person.full_name==namePersonV);
+
 
    const output = {
       "id_user": user.id_user,

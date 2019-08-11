@@ -6,7 +6,7 @@
   </header>
 </div>
 <section>
-  <div class="row">
+  <div class="row justify-content-between">
     <div class="col-12 my-3">
       <button type="button" class="btn btn-add" routerLink="cadastrar" routerLinkActive="router-link-active" ><i class="fas fa-plus"></i> Adicionar</button>
       
@@ -18,23 +18,23 @@
   </div>
 
   <div class="row">
-    <table class=" table table-responsive table-striped col-12">
+    <table class=" table text-center  table-hover table-striped col-12">
       <thead>
         <tr>
-          <th scope="col" class="col-lg-3 col-sm-3">Nome</th>
-          <th scope="col" class="col-lg-3 col-sm-3">CPF/CNPJ</th>
-          <th scope="col" class="col-lg-3 col-sm-3">Documento</th>
-          <th scope="col" class="col-lg-3 col-sm-3">Ações</th>
+          <th scope="col">Nome</th>
+          <th scope="col">CPF/CNPJ</th>
+          <th scope="col">Documento</th>
+          <th scope="col">Ações</th>
         </tr>
       </thead>
       <tbody>
         <app-loader *ngIf="isLoading"></app-loader>
         <tr *ngFor="let person of people | searchPerson : procuraPerson">
-            <td class="col-lg-3 col-sm-3">{{ person.name }}</td>
-            <td class="col-lg-3 col-sm-3">{{ person.cpf_cnpj }}</td>
-            <td class="col-lg-3 col-sm-3"><span [hidden]="person.document === undefined"> {{ person.documment }}</span></td>
+            <td>{{ person.name }}</td>
+            <td>{{ person.cpf_cnpj }}</td>
+            <td><span [hidden]="person.document === undefined"> {{ person.documment }}</span></td>
             
-            <td class="col-lg-3 col-sm-3">
+            <td>
               <div class="btn-group" role="group" aria-label="actions">
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#see" (click)="select(person)"><i class="fas fa-eye"></i></button>
                 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit" (click)="select(person)"><i class="fas fa-edit"></i></button>

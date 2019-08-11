@@ -1,4 +1,4 @@
-import { Financial_releases } from './../models/financial_releases';
+import { Financial_releases } from '../models/financial_releases';
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
