@@ -1,9 +1,9 @@
-import { Categorias } from '../../models/categories';
+import { Categorias } from '../../shared/models/categories';
 import { first } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CategoriesService } from '../../categories/categories.service';
-import { ProcurarCategoriaPipe } from '../../pipes/procurar-categoria.pipe';
+import { FormBuilder } from '@angular/forms';
+import { CategoriesService } from './categories.service';
+import { ProcurarCategoriaPipe } from '../../shared/pipes/procurar-categoria.pipe';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
@@ -13,7 +13,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder, 
+  constructor(private formBuilder: FormBuilder,
               private CategoriServ:CategoriesService,
               private toastr: ToastrService) { }
 
@@ -22,7 +22,7 @@ export class CategoriesComponent implements OnInit {
   procura: ProcurarCategoriaPipe;
   display: boolean;
   displayUp: boolean;
-  
+
   //Validação de formulário
   name_valid: boolean = false;
   att_nameValidation: boolean = false;
@@ -61,7 +61,7 @@ export class CategoriesComponent implements OnInit {
     }
     const category = {
       'name_group': p.value.name_group
-    };  
+    };
 
     this.CategoriServ.postCategory(category).subscribe((response) => {
       p.reset();
@@ -119,9 +119,9 @@ export class CategoriesComponent implements OnInit {
         })
         this.editLoading = false;
         this.editButton = true;
-      }); 
+      });
   }
-  
+
   deleteCategory(){
     this.isLoading = true;
     this.CategoriServ.deleteCategory(this.category.id_group)
@@ -151,7 +151,7 @@ export class CategoriesComponent implements OnInit {
       } else {
         return 0;
       }
-    }) 
+    })
   }
- 
+
 }

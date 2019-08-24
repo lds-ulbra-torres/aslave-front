@@ -1,6 +1,6 @@
 import { HttpClient, HttpResponse, HttpHeaders} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Classifications } from '../models/classifications';
+import { Classifications } from '../../shared/models/classifications';
 import { Observable } from 'rxjs';
 
 @Injectable({

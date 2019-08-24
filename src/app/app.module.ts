@@ -7,7 +7,6 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-
 import { PeopleComponent } from './containers/people/people.component';
 import { ProductsComponent } from './containers/products/products.component';
 import { CategoriesComponent } from './containers/categories/categories.component';
@@ -18,6 +17,7 @@ import { ClassificationsComponent } from './containers/classifications/classific
 import { HomeComponent } from './containers/home/home.component';
 import { StockRemovalComponent } from './containers/stock-removal/stock-removal.component';
 import { StockPlacementComponent } from './containers/stock-placement/stock-placement.component';
+
 
 import { NavbarComponent } from './navbar/navbar.component';
 import { JwtInterceptor } from './helpers/jwt.interceptor';
@@ -31,15 +31,19 @@ import { StockPlacementModule } from './containers/stock-placement/stock-placeme
 import { LoaderComponent } from "./shared/loader/loader.component";
 import { SharedModule } from "./shared/shared.module";
 
+import { ProcurarClassificationPipe } from './shared/pipes/procurar-classificacao.pipe';
+import { ProcurarCategoriaPipe } from './shared/pipes/procurar-categoria.pipe';
+
+
+import { ProcurarProductPipe } from './shared/pipes/procura-produto.pipe';
+import { ProcurarMovPipe } from './shared/pipes/procurar-mov-type.pipe';
+import { ProcurarPessoaNome } from './shared/pipes/procurar-name-financial-people.pipe';
+import { Procurardate } from './shared/pipes/procurar-date-financial.pipe';
+
+
 import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ProcurarUserPipe } from './shared/pipes/procurar-user.pipe';
-import { ProcurarClassificationPipe } from './pipes/procurar-classificacao.pipe';
-import { ProcurarCategoriaPipe } from './pipes/procurar-categoria.pipe';
-import { ProcurarProductPipe } from './pipes/procura-produto.pipe';
-import { ProcurarMovPipe } from './pipes/procurar-mov-type.pipe';
-import { ProcurarPessoaNome } from './pipes/procurar-name-financial-people.pipe';
-import { Procurardate } from './pipes/procurar-date-financial.pipe';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -51,10 +55,10 @@ import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { MinDatePipe } from './shared/pipes/min-date.pipe';
 import { MaxDatePipe } from './shared/pipes/max-date.pipe';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
-export var options: Partial<IConfig> | (() => Partial<IConfig>);
+//export const options: Partial<IConfig> | (() => Partial<IConfig>);
 registerLocaleData(localePt);
-
 
 @NgModule({
   declarations: [
@@ -83,7 +87,8 @@ registerLocaleData(localePt);
     AddUserComponent,
     AddOutputComponent,
     MinDatePipe,
-    MaxDatePipe
+    MaxDatePipe,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +104,7 @@ registerLocaleData(localePt);
     MatInputModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxMaskModule.forRoot(options)
+    NgxMaskModule.forRoot()
 
   ],
   providers: [
