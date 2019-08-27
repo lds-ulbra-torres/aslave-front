@@ -1,0 +1,40 @@
+<section class="container mt-3">
+    <div class="row">
+      <div class="col-lg-12 col-md-12 my-3">
+        <form #p="ngForm" (ngSubmit)="onSubmit(p)">
+          <div class="card">
+            <app-loader *ngIf="addLoading"></app-loader>
+            <div class="modal-header">
+              <h5 class="modal-title">Adicionar Produto</h5>
+            </div>
+            <div class="modal-body">
+              <div class="form-group col-lg-12 right">
+                <select class="btn btn-type w-100" [ngClass]="{'border-danger':id_valid}" (change)="id_valid = false" name="id_group" required ngModel #id_group="ngModel">
+                  <option value="">Selecione uma Categoria</option>
+                  <option *ngFor="let C of categories" value="{{C.id_group}}">
+                  {{C.name_group}}
+                  </option>
+                </select>
+                <p *ngIf="id_valid" class="text-danger">Preencha o campo</p>
+              </div>
+              <div class="form-group col-lg-12 right">
+                <input type="text" class="form-control" [ngClass]="{'border-danger': name_valid}" (change)="name_valid = false" name="name_product" required ngModel #name_product="ngModel" aria-describedby="name_product" placeholder="Informe o produto">
+                <p *ngIf="name_valid" class="text-danger">Preencha o campo</p>
+              </div>
+            </div>
+  
+          </div>
+          <div class="justify-content-between">
+              <button class="btn btn-outline-success mt-2 col-lg-3" (click)="goBack()">
+                  <i class="fas fa-angle-left"></i>&nbsp; Voltar
+              </button>
+              <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="!addButton">
+                  <i class="fas fa-save"></i>&nbsp;
+                     Salvar
+              </button>
+          </div>
+        </form>
+  
+      </div>
+    </div>
+  </section>

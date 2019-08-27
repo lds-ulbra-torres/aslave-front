@@ -27,6 +27,10 @@ export class productsService {
     return this.http.delete(`${this.produtoURL}/${id}`, { observe: 'response' });
   }
 
+  getproductById(id): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.produtoURL}/${id}`, { observe: 'response' });
+  }
+
   getProductServ(): Observable<HttpResponse<any>>{
     return this.http.get<Categorias[]>(this.categoriesURL, { observe: 'response'});
   }
