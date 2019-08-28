@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'categorias', component: CategoriesComponent, canActivate:[AuthGuard] },
   { path: 'entradas', component: StockPlacementComponent, canActivate:[AuthGuard]},
   { path: 'entradas/cadastrar', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},
-  { path: 'entradas/editar/?id', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},
+  { path: 'entradas/editar/:id', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},
   { path: 'saidas', component: StockRemovalComponent, canActivate:[AuthGuard]},
   { path: 'saidas/cadastrar', component: AddOutputComponent, canActivate:[AuthGuard]},
   { path: 'classificacoes', component: ClassificationsComponent, canActivate:[AuthGuard]},
