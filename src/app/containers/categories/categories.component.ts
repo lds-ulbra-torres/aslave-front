@@ -1,6 +1,6 @@
 import { Categorias } from '../../shared/models/categories';
 import { first } from 'rxjs/operators';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { CategoriesService } from './categories.service';
 import { ProcurarCategoriaPipe } from '../../shared/pipes/procurar-categoria.pipe';
@@ -13,10 +13,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private formBuilder: FormBuilder,
-              private CategoriServ:CategoriesService,
-              private toastr: ToastrService) { }
-
+  constructor(
+    private formBuilder: FormBuilder,
+    private CategoriServ:CategoriesService,
+    private toastr: ToastrService,
+    ) { }
+   
   categories: Categorias[];
   category: Categorias;
   procura: ProcurarCategoriaPipe;
@@ -33,9 +35,11 @@ export class CategoriesComponent implements OnInit {
   addButton: boolean = true;
   editButton: boolean = true;
 
+
   ngOnInit() {
     this.getCategories();
   }
+
   getCategories(){
     this.CategoriServ.getCategoriesServ().pipe(first())
     .subscribe(cate =>{ this.categories = [... cate.body.obj]
@@ -90,7 +94,6 @@ export class CategoriesComponent implements OnInit {
 
   updateCategory(b){
     this.editButton = false;
-    this.editLoading = true;
     this. att_nameValidation = false;
     let name = b.value.name_group;
 
@@ -114,11 +117,18 @@ export class CategoriesComponent implements OnInit {
         this.editButton = true;
       },error => {
         this.error = error;
+        if(name != ''){
+          this.toastr.error('O produto '+name+' já existe.', 'Falha no envio!', {
+            timeOut: 5000 
+          });
+          this.editButton = true;
+        }else{
         this.toastr.error('Verifique os campos.', 'Falha no envio!', {
-          timeOut: 7000
-        })
-        this.editLoading = false;
+          timeOut: 5000
+        });
+        this.editButton = false;
         this.editButton = true;
+        }
       });
   }
 

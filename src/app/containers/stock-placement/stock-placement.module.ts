@@ -3,7 +3,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MatAutocompleteModule, MatFormFieldModule, MatInputModule } from '@angular/material';
+import { MatAutocompleteModule, MatFormFieldModule, MatInputModule, MatTooltipModule } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { SharedModule } from '../../shared/shared.module';
 
@@ -35,7 +35,9 @@ import { StockPlacementService } from './stock-placement.service';
     MatInputModule,
     BrowserAnimationsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    BrowserAnimationsModule,
+    MatTooltipModule,
   ],
   providers: [
     StockPlacementService

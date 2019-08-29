@@ -31,6 +31,7 @@ export class EntryComponent implements OnInit {
   procurardata: Procurardate;
   procurarNome: ProcurarPessoaNome;
   compDate: string;
+  deleteDataEntry: string;
 
   error = '';
   sucess = '';
@@ -84,6 +85,10 @@ export class EntryComponent implements OnInit {
 
   select(C){
     this.ent = Object.assign({},C);
+  }
+
+  saveId(id){
+    this.deleteDataEntry=id;
   }
 
   getEntry(){
@@ -215,10 +220,10 @@ export class EntryComponent implements OnInit {
   }
 
   deleteEntry(){
-    this.entryService.delete(this.ent.id_financial_release)
+    this.entryService.delete(this.deleteDataEntry)
       .subscribe(
         resp => {
-          this.ent = null
+          this.deleteDataEntry = null
           this.getEntry();
           this.toastr.success('Produto Deletado', 'Sucesso!',{
             timeOut: 5000

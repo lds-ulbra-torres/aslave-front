@@ -7,7 +7,7 @@
 <section *ngIf="!display && !displayUp ">
   <div class="row">
     <div class="col-12 my-3">
-      <button type="button" class="btn btn-add" (click)="onDisplayClassification('e')" (click)="onDisplay()"><i class="fas fa-plus"></i> Adicionar</button>
+      <button type="button" class="btn btn-add" (click)="onDisplayClassification('e')" routerLink="cadastrar" routerLinkActive="router-link-active"><i class="fas fa-plus"></i> Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
         <select name="tipo" class="form-control mr-sm-2"[(ngModel)]="procuraClassification" name="type">
           <option [selected] value="">  Todos  </option>
@@ -22,22 +22,22 @@
     <table class="table text-center table-hover table-striped col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
-          <th scope="col" >Nome</th>
-          <th scope="col" >Tipo</th>
-
-          <th scope="col" >Ações</th>
+          <th class="" scope="col" >#</th>
+          <th class="text-left" scope="col" >Nome</th>
+          <th class="text-left" scope="col" >Tipo</th>
+          <th class="text-center" scope="col" >Ações</th>
         </tr>
       </thead>
       <tbody>
         <app-loader *ngIf="isLoading"></app-loader>
         <tr *ngFor="let C of classification | searcher_classification : procuraClassification">
-          <td >{{ C.name_classification }}</td>
-          <td >{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
-
-          <td >
+          <td >{{ C.id_classification }}</td>
+          <td class="text-left">{{ C.name_classification }}</td>
+          <td class="text-left">{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
+          <td class="text-center">
             <div class="btn-group" role="group" aria-label="actions">
-              <button type="button" class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUpdate('e')" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
-              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" mat-raised-button matTooltip="Editar a classificação {{C.name_classification}}"class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUpdate('e')" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
+              <button type="button" mat-raised-button matTooltip="Excluir a classificação {{C.name_classification}}"class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>
@@ -66,83 +66,3 @@
     <!--Fim do Modal de Deletar Classificação-->
   </div>
 </section>
-<!--Display de adição de nova classificação-->
-<section *ngIf="display">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <form method="post" #p="ngForm" (ngSubmit)="onSubmit(p)">
-        <div class="card">
-          <div class="card-body">
-          <div class="form-group my-3">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons">
-              <label class="btn btn-type active" (click)="onDisplayClassification('e')">
-                <input type="radio" name="classifation_type" autocomplete="off" /> Entrada
-              </label>
-              <label class="btn btn-type" (click)="onDisplayClassification('s')">
-                <input type="radio" name="classifation_type"  autocomplete="off" /> Saida
-              </label>
-            </div>
-          </div>
-          <div class="form-group my-3">
-            <input type="text" class="form-control" [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" name="name" required ngModel #name_classification="ngModel" id="nome" aria-describedby="nome" placeholder="Nome">
-            <p *ngIf="num_docValidation" class="text-danger">*Insira um Nome</p>
-          </div>
-
-          </div>
-        </div>
-        <div class="justify-content-between">
-            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplay()">
-                <i class="fas fa-angle-left"></i>
-                Voltar
-            </button>
-            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="p.invalid">
-                <i class="fas fa-save"></i>
-                   Salvar
-            </button>
-        </div>
-      </form>
-
-
-    </div>
-  </div>
-</section>
-<!--Fim do display de adição-->
-<!--Display de edição de classificação-->
-<section *ngIf="displayUp">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <form #a="ngForm" (ngSubmit)="updateClassification(a)">
-
-        <div class="card">
-          <div class="card-body">
-            <div class="form-group my-3">
-              <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label [class.active]="radioResult==='e'" class="btn btn-type" (click)="onDisplayClassification('e')">
-                  <input type="radio" name="classifation_type" autocomplete="off" /> Entrada
-                </label>
-                <label [class.active]="radioResult==='s'" class="btn btn-type" (click)="onDisplayClassification('s')">
-                  <input type="radio" name="classifation_type"  autocomplete="off" /> Saida
-                </label>
-              </div>
-            </div>
-            <div class="form-group my-3" *ngIf="class">
-              <input type="text" class="form-control" name="name" required [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" ngModel #name_classification="ngModel" id="nome" aria-describedby="nome" [(ngModel)]="class.name_classification">
-              <p *ngIf="num_docValidation" class="text-danger">*Insira um Nome</p>
-            </div>
-          </div>
-        </div>
-        <div class="justify-content-between">
-            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplayUp()">
-                <i class="fas fa-angle-left"></i>&nbsp; Voltar
-            </button>
-            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="a.invalid">
-                <i class="fas fa-save"></i>&nbsp;
-                   Salvar
-            </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-</div>
-<!--Fim do display de edição de classificação-->
