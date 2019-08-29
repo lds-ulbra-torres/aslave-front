@@ -28,6 +28,10 @@ export class EntryService {
     return this.http.get<Classifications[]>(this.ClassUrl, { observe: 'response'});
   }
 
+  getEntryById(id): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.EntryUrl}/${id}`, { observe: 'response' });
+  }
+
   postEntrys(form){
     return this.http.post(this.EntryUrl, form);
   }

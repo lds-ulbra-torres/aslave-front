@@ -1,0 +1,42 @@
+<div class="container mt-3">
+  <section>
+    <div class="row">
+      <div class="col-lg-12 col-md-12 my-3">
+        <form #b="ngForm" (ngSubmit)="updateClassification(b)">
+          <div class="card">
+            <app-loader *ngIf="editLoading"></app-loader>
+            <div class="modal-header">
+              <h5 class="modal-title">Editar Classificação</h5>
+            </div>
+            <div class="modal-body" *ngIf="class">
+              <div class="form-group my-3">
+                <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                  <label [class.active]="radioResult==='e'" class="btn btn-type" (click)="onDisplayClassification('e')">
+                    <input type="radio" name="classifation_type" autocomplete="off" /> Entrada
+                  </label>
+                  <label [class.active]="radioResult==='s'" class="btn btn-type" (click)="onDisplayClassification('s')">
+                    <input type="radio" name="classifation_type"  autocomplete="off" /> Saida
+                  </label>
+                </div>
+              </div>
+              <div class="form-group my-3" *ngIf="class">
+                <input type="text" class="form-control" name="name" required [ngClass]="{'border-danger': num_docValidation}" (change)="num_docValidation = false" ngModel #name_classification="ngModel" id="nome" aria-describedby="nome" [(ngModel)]="class.name_classification">
+                <p *ngIf="num_docValidation" class="text-danger">*Insira um Nome</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="goBack()">
+              <i class="fas fa-angle-left"></i>
+              Voltar
+            </button>
+            <button type="submit" class="btn  mt-2 col-lg-3 btn-success">
+              <i class="fas fa-save"></i>
+              Salvar
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+</div>

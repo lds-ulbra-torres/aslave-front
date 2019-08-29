@@ -56,6 +56,10 @@ import localePt from '@angular/common/locales/pt';
 import { MinDatePipe } from './shared/pipes/min-date.pipe';
 import { MaxDatePipe } from './shared/pipes/max-date.pipe';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { AddClassificationComponent } from './containers/classifications/add-classification/add-classification.component';
+import { EditClassificationComponent } from './containers/classifications/edit-classification/edit-classification.component';
+import { AddEntryComponent } from './containers/entry/add-entry/add-entry.component';
+import { EditEntryComponent } from './containers/entry/edit-entry/edit-entry.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 registerLocaleData(localePt);
@@ -88,7 +92,11 @@ registerLocaleData(localePt);
     AddOutputComponent,
     MinDatePipe,
     MaxDatePipe,
-    FooterComponent
+    FooterComponent,
+    AddClassificationComponent,
+    EditClassificationComponent,
+    AddEntryComponent,
+    EditEntryComponent
   ],
   imports: [
     BrowserModule,
