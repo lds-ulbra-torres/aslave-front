@@ -59,6 +59,10 @@ import { MaxDatePipe } from './shared/pipes/max-date.pipe';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { AddCategorieComponent } from './containers/categories/add-categorie/add-categorie.component';
 import { EditCategorieComponent } from './containers/categories/edit-categorie/edit-categorie.component';
+import { AddClassificationComponent } from './containers/classifications/add-classification/add-classification.component';
+import { EditClassificationComponent } from './containers/classifications/edit-classification/edit-classification.component';
+import { AddEntryComponent } from './containers/entry/add-entry/add-entry.component';
+import { EditEntryComponent } from './containers/entry/edit-entry/edit-entry.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 registerLocaleData(localePt);
@@ -93,7 +97,11 @@ registerLocaleData(localePt);
     MaxDatePipe,
     FooterComponent,
     AddCategorieComponent,
-    EditCategorieComponent
+    EditCategorieComponent,
+    AddClassificationComponent,
+    EditClassificationComponent,
+    AddEntryComponent,
+    EditEntryComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,3 +1,6 @@
+import { EditEntryComponent } from './containers/entry/edit-entry/edit-entry.component';
+import { AddEntryComponent } from './containers/entry/add-entry/add-entry.component';
+import { AddClassificationComponent } from './containers/classifications/add-classification/add-classification.component';
 import { AddUserComponent } from './containers/manage/add-user/add-user.component';
 import { AddOutputComponent } from './containers/stock-removal/add-output/add-output.component';
 import { AddPersonComponent } from './containers/people/add-person/add-person.component';
@@ -19,8 +22,7 @@ import { AuthGuard } from './containers/login/auth.guard';
 import { StockPlacementMaintainComponent } from './containers/stock-placement/stock-placement-maintain/stock-placement-maintain.component';
 import { AddCategorieComponent } from './containers/categories/add-categorie/add-categorie.component';
 import { EditCategorieComponent } from './containers/categories/edit-categorie/edit-categorie.component';
-
-
+import { EditClassificationComponent } from './containers/classifications/edit-classification/edit-classification.component';
 
 
 const routes: Routes = [
@@ -40,7 +42,11 @@ const routes: Routes = [
   { path: 'saidas', component: StockRemovalComponent, canActivate:[AuthGuard]},
   { path: 'saidas/cadastrar', component: AddOutputComponent, canActivate:[AuthGuard]},
   { path: 'classificacoes', component: ClassificationsComponent, canActivate:[AuthGuard]},
+  { path: 'classificacoes/cadastrar', component: AddClassificationComponent, canActivate:[AuthGuard]},
+  { path: 'classificacoes/editar/:id', component: EditClassificationComponent, canActivate:[AuthGuard]},
   { path: 'lancamentos', component: EntryComponent, canActivate:[AuthGuard]},
+  { path: 'lancamentos/cadastrar', component: AddEntryComponent, canActivate:[AuthGuard]},
+  { path: 'lancamentos/editar/:id', component: EditEntryComponent, canActivate:[AuthGuard]},
   { path: 'gerenciar', component: ManageComponent, canActivate:[AuthGuard]},
   { path: 'gerenciar/cadastrar', component: AddUserComponent, canActivate:[AuthGuard]}
 

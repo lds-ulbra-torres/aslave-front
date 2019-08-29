@@ -26,4 +26,8 @@ export class ClassificationsService {
   updateClassification(Classification: any, id): Observable<any>{
     return this.http.put(`${this.classificationUrl}/${id}`, Classification);
   }
+
+  getClassificationById(id): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.classificationUrl}/${id}`, { observe: 'response' });
+  }
 }
