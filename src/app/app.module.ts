@@ -57,6 +57,7 @@ import { MinDatePipe } from './shared/pipes/min-date.pipe';
 import { MaxDatePipe } from './shared/pipes/max-date.pipe';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { AddProductsComponent } from './containers/products/add-products/add-products.component';
+import { EditProductsComponent } from './containers/products/edit-products/edit-products.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 registerLocaleData(localePt);
@@ -90,7 +91,8 @@ registerLocaleData(localePt);
     MinDatePipe,
     MaxDatePipe,
     FooterComponent,
-    AddProductsComponent
+    AddProductsComponent,
+    EditProductsComponent
   ],
   imports: [
     BrowserModule,
