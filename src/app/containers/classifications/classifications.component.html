@@ -22,22 +22,22 @@
     <table class="table text-center table-hover table-striped col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
-          <th scope="col" >Nome</th>
-          <th scope="col" >Tipo</th>
-
-          <th scope="col" >Ações</th>
+          <th class="" scope="col" >#</th>
+          <th class="text-left" scope="col" >Nome</th>
+          <th class="text-left" scope="col" >Tipo</th>
+          <th class="text-center" scope="col" >Ações</th>
         </tr>
       </thead>
       <tbody>
         <app-loader *ngIf="isLoading"></app-loader>
         <tr *ngFor="let C of classification | searcher_classification : procuraClassification">
-          <td >{{ C.name_classification }}</td>
-          <td >{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
-
-          <td >
+          <td >{{ C.id_classification }}</td>
+          <td class="text-left">{{ C.name_classification }}</td>
+          <td class="text-left">{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
+          <td class="text-center">
             <div class="btn-group" role="group" aria-label="actions">
-              <button type="button" class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUpdate('e')" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
-              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" mat-raised-button matTooltip="Editar a classificação {{C.name_classification}}"class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUpdate('e')" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
+              <button type="button" mat-raised-button matTooltip="Excluir a classificação {{C.name_classification}}"class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>

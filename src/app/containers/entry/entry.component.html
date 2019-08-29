@@ -34,29 +34,31 @@
     <table class="table table-hover table-striped text-center col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
-          <th scope="col" class="">Competência</th>
-          <th scope="col" class="">Lançamento</th>
-          <th scope="col" class="">Pessoa</th>
-          <th scope="col" class="">Valor</th>
-          <th scope="col" class="">Tipo</th>
-          <th scope="col" class="">Ações</th>
+          <th scope="col" class="">#</th>
+          <th scope="col" class="text-left">Competência</th>
+          <th scope="col" class="text-left">Lançamento</th>
+          <th scope="col" class="text-left">Pessoa</th>
+          <th scope="col" class="text-left">Valor</th>
+          <th scope="col" class="text-left">Tipo</th>
+          <th scope="col" class="text-center">Ações</th>
         </tr>
       </thead>
       <tbody>
         <app-loader *ngIf="isLoading"></app-loader>
         <tr *ngFor="let C of entry |searcher_mov : procurarmov | searcherMovDate : procurardata | searcherP : procurarNome ">
-          <td class="">{{ C.due_date_pay | date:'MM/yyyy':'UTC'}}</td>
-          <td class="">{{ C.date_financial_release | date:'dd/MM/yyyy':'UTC'}}</td>
-          <td class="">{{ C.person.name }}</td>
+          <td class="">{{ C.id_financial_release}}</td>
+          <td class="text-left">{{ C.due_date_pay | date:'MM/yyyy':'UTC'}}</td>
+          <td class="text-left">{{ C.date_financial_release | date:'dd/MM/yyyy':'UTC'}}</td>
+          <td class="text-left">{{ C.person.name }}</td>
           <td class="">{{ C.value.toLocaleString(undefined, {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
           }) }}</td>
-          <td class="">{{ C.type_mov==="e" ?"Entrada": "Saida" }}</td>
-          <td class="">
+          <td class="text-left">{{ C.type_mov==="e" ?"Entrada": "Saida" }}</td>
+          <td class="text-center">
             <div class="btn-group" role="group" aria-label="actions">
-              <button type="button" class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
-              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" mat-raised-button matTooltip="Editar o lançamento de {{C.person.name}}"class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
+              <button type="button" mat-raised-button matTooltip="Excluir o lançamento de {{C.person.name}}"class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>
