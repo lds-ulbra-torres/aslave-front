@@ -19,20 +19,22 @@
       <table class="table table-hover text-center table-striped">
         <thead>
           <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Login</th>
-            <th scope="col">Ações</th>
+            <th scope="col">#</th>
+            <th class="text-left" scope="col">Nome</th>
+            <th class="text-left" scope="col">Login</th>
+            <th class="text-center" scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
           <app-loader *ngIf="isLoading"></app-loader>
           <tr *ngFor="let user of users | searchUser: procuraUser">
-              <td>{{ user.full_name }}</td>
-              <td>{{ user.login }}</td>
-              <td>
+              <td>{{ user.id_user }}</td>
+              <td class="text-left">{{ user.full_name }}</td>
+              <td class="text-left">{{ user.login }}</td>
+              <td class="text-center">
                 <div class="btn-group" role="group" aria-label="actions">
-                  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#edit"  (click)="select(user)"><i class="fas fa-edit"></i></button>
-                  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(user)"><i class="fas fa-trash-alt"></i></button>
+                  <button type="button" mat-raised-button matTooltip="Editar a pessoa {{user.full_name}}" class="btn btn-secondary" data-toggle="modal" data-target="#edit"  (click)="select(user)"><i class="fas fa-edit"></i></button>
+                  <button type="button" mat-raised-button matTooltip="Excluir a pessoa {{user.full_name}}" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(user)"><i class="fas fa-trash-alt"></i></button>
                 </div>
               </td>
           </tr>

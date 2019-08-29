@@ -17,6 +17,7 @@ import { ClassificationsComponent } from './containers/classifications/classific
 import { HomeComponent } from './containers/home/home.component';
 import { StockRemovalComponent } from './containers/stock-removal/stock-removal.component';
 import { StockPlacementComponent } from './containers/stock-placement/stock-placement.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 import { NavbarComponent } from './navbar/navbar.component';
@@ -104,8 +105,9 @@ registerLocaleData(localePt);
     MatInputModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxMaskModule.forRoot()
-
+    NgxMaskModule.forRoot(),
+    BrowserAnimationsModule,
+    MatTooltipModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
