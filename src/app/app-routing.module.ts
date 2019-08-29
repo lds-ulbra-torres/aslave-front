@@ -17,6 +17,8 @@ import { LoginComponent } from './containers/login/login.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AuthGuard } from './containers/login/auth.guard';
 import { StockPlacementMaintainComponent } from './containers/stock-placement/stock-placement-maintain/stock-placement-maintain.component';
+import { AddCategorieComponent } from './containers/categories/add-categorie/add-categorie.component';
+import { EditCategorieComponent } from './containers/categories/edit-categorie/edit-categorie.component';
 
 
 
@@ -30,6 +32,8 @@ const routes: Routes = [
   { path: 'pessoas/cadastrar', component:AddPersonComponent, canActivate:[AuthGuard]},
   { path: 'produtos', component: ProductsComponent, canActivate:[AuthGuard] },
   { path: 'categorias', component: CategoriesComponent, canActivate:[AuthGuard] },
+  { path: 'categorias/cadastrar', component: AddCategorieComponent, canActivate:[AuthGuard] },
+  { path: 'categorias/editar/:id', component: EditCategorieComponent, canActivate:[AuthGuard] },
   { path: 'entradas', component: StockPlacementComponent, canActivate:[AuthGuard]},
   { path: 'entradas/cadastrar', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},
   { path: 'entradas/editar/?id', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},

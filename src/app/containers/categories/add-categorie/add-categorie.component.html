@@ -1,0 +1,30 @@
+<!--Display de Adição-->
+<div class="container mt-3">
+<section>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 my-3">
+        <form #p="ngForm" (ngSubmit)="onSubmit(p)">
+          <div class="card">
+              <app-loader *ngIf="addLoading"></app-loader>
+            <div class="modal-header">
+              <h5 class="modal-title">Adicionar Categoria</h5>
+            </div>
+            <div class="modal-body">
+              <input type="text" class="form-control" [ngClass]="{'border-danger': name_valid}" (change)="name_valid = false" name="name_group" required ngModel #name_group="ngModel" aria-describedby="name_group" placeholder="Informe a categoria">
+              <p *ngIf="name_valid" class="text-danger">Preencha o campo</p>
+            </div>
+          </div>
+          <div class="justify-content-between">
+              <button class="btn btn-outline-success mt-2 col-lg-3" data-toggle="modal" (click)="goBack()">
+                  <i class="fas fa-angle-left"></i>&nbsp; Voltar
+              </button>
+              <button type="submit" class="btn  mt-2 col-lg-3 btn-success">
+                  <i class="fas fa-save"></i>&nbsp;
+                     Salvar
+              </button>
+          </div>
+        </form>
+    </div>
+  </div>
+</section>
+</div>

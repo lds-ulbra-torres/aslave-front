@@ -15,6 +15,10 @@ export class CategoriesService {
     return this.http.get<Categorias[]>(this.categoriesURL, { observe: 'response'});
   }
 
+  getCategoriesId(id?:number): Observable<HttpResponse<any>>{
+    return this.http.get<Categorias[]>(`${this.categoriesURL}/${id}`,{ observe: 'response'});
+  }
+
   postCategory(form){
     console.log(form);
     return this.http.post(this.categoriesURL, form);
