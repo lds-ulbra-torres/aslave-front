@@ -93,7 +93,7 @@ export class EntryComponent implements OnInit {
       this.orderByDate();
     });
   }
-
+  
   orderByDate(){
     this.entry.sort(function compare(a, b) {
       var dateA = <any>new Date(a.due_date_pay);

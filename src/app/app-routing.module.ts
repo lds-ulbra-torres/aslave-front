@@ -1,3 +1,5 @@
+import { EditProductsComponent } from './containers/products/edit-products/edit-products.component';
+import { AddProductsComponent } from './containers/products/add-products/add-products.component';
 import { AddUserComponent } from './containers/manage/add-user/add-user.component';
 import { AddOutputComponent } from './containers/stock-removal/add-output/add-output.component';
 import { AddPersonComponent } from './containers/people/add-person/add-person.component';
@@ -20,7 +22,6 @@ import { StockPlacementMaintainComponent } from './containers/stock-placement/st
 
 
 
-
 const routes: Routes = [
 
   { path: '', redirectTo:'login' ,pathMatch:'full'},
@@ -29,6 +30,8 @@ const routes: Routes = [
   { path: 'pessoas', component: PeopleComponent, canActivate:[AuthGuard] },
   { path: 'pessoas/cadastrar', component:AddPersonComponent, canActivate:[AuthGuard]},
   { path: 'produtos', component: ProductsComponent, canActivate:[AuthGuard] },
+  { path: 'produtos/cadastrar', component: AddProductsComponent, canActivate:[AuthGuard]},
+  { path: 'produtos/editar/:id', component: EditProductsComponent, canActivate:[AuthGuard]},
   { path: 'categorias', component: CategoriesComponent, canActivate:[AuthGuard] },
   { path: 'entradas', component: StockPlacementComponent, canActivate:[AuthGuard]},
   { path: 'entradas/cadastrar', component: StockPlacementMaintainComponent, canActivate:[AuthGuard]},
@@ -38,7 +41,7 @@ const routes: Routes = [
   { path: 'classificacoes', component: ClassificationsComponent, canActivate:[AuthGuard]},
   { path: 'lancamentos', component: EntryComponent, canActivate:[AuthGuard]},
   { path: 'gerenciar', component: ManageComponent, canActivate:[AuthGuard]},
-  { path: 'gerenciar/cadastrar', component: AddUserComponent, canActivate:[AuthGuard]}
+  { path: 'gerenciar/cadastrar', component: AddUserComponent, canActivate:[AuthGuard]},
 
 ];
 

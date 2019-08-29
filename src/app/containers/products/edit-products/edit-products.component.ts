@@ -1,23 +1,25 @@
+import { Categorias } from './../../../shared/models/categories';
+import { Product } from './../../../shared/models/produto';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { ProcurarProductPipe } from 'src/app/shared/pipes/procura-produto.pipe';
+import { productsService } from '../products.service';
 import { first } from 'rxjs/operators';
-import { productsService } from './products.service';
-import { Product } from '../../shared/models/product';
-import { Categorias } from '../../shared/models/categories';
-import { ProcurarProductPipe } from '../../shared/pipes/procura-produto.pipe';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
-  selector: 'app-products',
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  selector: 'app-edit-products',
+  templateUrl: './edit-products.component.html',
+  styleUrls: ['./edit-products.component.css']
 })
-export class ProductsComponent implements OnInit {
+export class EditProductsComponent implements OnInit {
 
-constructor(private formBuilder: FormBuilder,
-            private productServ:productsService,
-            private toastr: ToastrService
-  ) { }
+  constructor(private Router: Router,
+              private productServ: productsService,
+              private route: ActivatedRoute,
+              private formBuilder: FormBuilder,
+              private toastr: ToastrService) { }
 
 produtos:Product[];
 product: Product;
@@ -25,6 +27,8 @@ categories: Categorias[];
 categorie: Categorias;
 procuraProduct: ProcurarProductPipe;
 isLoading: boolean = true;
+id: null;
+sub: any;
 
 //identificadores de validação
 name_valid: boolean = false;
@@ -33,25 +37,11 @@ att_selectValidation: boolean = false;
 att_nameValidation: boolean = false;
 error = '';
 sucess = '';
-addLoading: boolean = false;
-addButton: boolean = true;
-editLoading: boolean = false;
-editButton: boolean = true;
 
   ngOnInit() {
     this.getProducts();
     this.getCategories();
-  }
-
-  toString(value){
-    return parseInt(value).toLocaleString(undefined, {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    }); 
-  }
-  
-  select(p){
-    this.product = Object.assign({},p);
+    this.getById();
   }
 
   getCategories(){
@@ -67,39 +57,26 @@ editButton: boolean = true;
     })
   }
 
-  deleteProduct(){
-    this.isLoading = true;
-    if(this.product.amount == 0){
-    this.productServ.deleteProduct(this.product.id_product)
-      .subscribe(
-        resp => {
-          this.produtos = null
-          this.getProducts();
-          this.toastr.success('O produto '+this.product.name_product+' foi deletado!','',{
-            timeOut: 5000
-          });
-          this.isLoading = false;
-        },error => {
-          this.error = error;
-          this.toastr.warning('', 'Não foi possível deletar o produto.', {
-            timeOut: 7000
-          });
-          this.isLoading = false;
-        });
-      }else{
-        this.toastr.warning('Este produto possui registros de Entrada/Saida.', 'Não foi possível deletar o produto.', {
-          timeOut: 7000
-        });
-        this.isLoading = false;
-      }
+  getById(){
+    this.sub = this.route.params.subscribe(params => {
+      this.id = params['id'];
+    });
+
+    if(this.id){
+      this.productServ.getproductById(this.id).subscribe(
+        resp =>{
+          let inputCategory = resp.body.obj[0];
+          this.product = inputCategory;  
+        }
+      )
+    }
   }
 
   updateProduct(b){
-    this.editButton = false;
     this.att_nameValidation = false;
     this.att_selectValidation= false;
-    let name = b.name_product;
-    let category = b.id_group;
+    let name = b.value.name_product;
+    let category = b.value.id_group;
 
     if(category == ''){
       this.att_selectValidation = true;
@@ -109,9 +86,9 @@ editButton: boolean = true;
     }
 
     const product = {
-      'name_product': b.name_product,
-      'unit_price': b.unit_price,
-      'id_group': b.id_group,
+      'name_product': b.value.name_product,
+      'unit_price': b.value.unit_price,
+      'id_group': b.value.id_group,
     };
     this.productServ.updateProduct(product, this.product.id_product)
     .subscribe(
@@ -121,18 +98,18 @@ editButton: boolean = true;
         this.toastr.success('O produto foi editado!','Sucesso !',{
           timeOut: 5000
         }); 
+        this.goBack();
       }, error => {
         this.error = error;
         if(name != '' && category != ''){
           this.toastr.error('O produto '+name+' já existe.', 'Falha no envio!', {
             timeOut: 5000
           });
-          this.addButton = true;
         }else{
         this.toastr.error('Verifique os campos.', 'Falha no envio!', {
           timeOut: 5000
         });
-        this.addButton = true;}
+        }
       });
   }
 
@@ -146,6 +123,10 @@ editButton: boolean = true;
         return 0;
       }
     })
+  }
+
+  goBack(){
+    this.Router.navigate(['produtos']);
   }
 
 }
