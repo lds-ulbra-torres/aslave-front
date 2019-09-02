@@ -61,7 +61,6 @@ export class AddCategorieComponent implements OnInit {
       p.reset();
       this.getCategories();
       this.display = !this.display;
-      console.log(response);
       this.toastr.success('Categoria adicionada', 'Sucesso!', {
         timeOut: 5000
       });
@@ -71,7 +70,7 @@ export class AddCategorieComponent implements OnInit {
       this.error = error;
       if(name != ''){
         this.toastr.error('O produto '+name+' já existe.', 'Falha no envio!', {
-          timeOut: 5000 
+          timeOut: 5000
         });
         this.editButton = true;
       }else{

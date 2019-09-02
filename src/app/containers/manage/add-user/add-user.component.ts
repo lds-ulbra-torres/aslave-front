@@ -22,18 +22,17 @@ export class AddUserComponent implements OnInit {
       user.append('full_name', u.value.full_name)
       user.append('login', u.value.login)
       user.append('password', u.value.password)
-    
-    
+
+
       this.manageService.postUsers(user).subscribe((response) => {
         u.reset();
         this.toastr.success('Adicionado com sucesso');
 
         this.router.navigate(['gerenciar']);
-        console.log(response);
       }, error => {
         this.toastr.error('Não foi possível realizar a operação');
       })
-    
+
   }
 
   goBack(){

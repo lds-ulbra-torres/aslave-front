@@ -22,7 +22,6 @@ export class CategoriesService {
   }
 
   postCategory(form){
-    console.log(form);
     return this.http.post(this.categoriesURL, form);
   }
 
@@ -31,8 +30,6 @@ export class CategoriesService {
   }
 
   updateCategory(Categorias: any, id): Observable<any>{
-    console.log(Categorias);
-    console.log(id);
 
     return this.http.put(`${this.categoriesURL}/${id}`, Categorias);
   }

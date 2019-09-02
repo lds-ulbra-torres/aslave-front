@@ -10,7 +10,6 @@ export class JwtInterceptor implements HttpInterceptor {
     constructor(private loginService: LoginService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log(this)
         let currentUser = this.loginService.currentUserValue;
         if (currentUser && currentUser.token) {
             if(request.url.search("viacep")=== -1){
@@ -20,7 +19,7 @@ export class JwtInterceptor implements HttpInterceptor {
                     }
                  });
             }
-            
+
         }
 
         return next.handle(request);

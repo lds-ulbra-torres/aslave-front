@@ -37,9 +37,6 @@ export class productsService {
   }
 
   updateProduct(Product: any, id): Observable<any>{
-    console.log(Product);
-    console.log(id);
-
     return this.http.put(`${this.produtoURL}/${id}`, Product);
   }
 

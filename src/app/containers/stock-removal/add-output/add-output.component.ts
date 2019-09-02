@@ -17,7 +17,7 @@ import { Product } from 'src/app/shared/models/produto';
 })
 export class AddOutputComponent implements OnInit {
   @ViewChild('id_user') id_user: ElementRef;
- 
+
     options: User[]= [];
     products: any[]=[];
     product: any;
@@ -36,9 +36,8 @@ export class AddOutputComponent implements OnInit {
     private userService: ManageService,
     private stockPlacementService: StockPlacementService) { }
 
-  
+
   ngOnInit() {
-    console.log(this.options)
     this.getUsers();
       this.getProducts();
       this.getDate();
@@ -47,41 +46,37 @@ export class AddOutputComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
-    
+
       this.filteredProducts = this.myProducts.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterProd(value))
       );
-      console.log(this.filteredProducts)
-      
+
   }
   alter(event){
-    console.log(event.target.value);
   }
   getDate(){
     let current = new Date();
     let data = current.toLocaleDateString();
     let splitted = data.split("/", 3);
     this.date = splitted[2] + "-" + splitted[1] + "-" + splitted[0];
-    console.log(this.date);
   }
 
-  
+
   onSubmit(s){
 
     let namePersonV = this.id_user.nativeElement.value;
 
     this.nameValidation = false;
-    if (!this.options.find((person: User) => person.full_name==namePersonV)) 
+    if (!this.options.find((person: User) => person.full_name==namePersonV))
       this.nameValidation = true
 
     if (this.nameValidation)
       return false;
 
-    console.log(s.value.id_user);
     let date = `${this.date}` + "T03:00:00.000Z";
-   
+
     let user = this.options.find((person: User) => person.full_name==namePersonV);
 
 
@@ -95,15 +90,12 @@ export class AddOutputComponent implements OnInit {
       "unit_price_output": s.value.unit_price_output
     }
 
-    console.log(output);
     this.stockRemovalService.postOutput(output).subscribe((response) => {
       s.reset();
       this.goBack();
       this.toastr.success('Adicionado com sucesso');
-      
-      console.log(response);
+
     }, error => {
-      console.log(error);
       this.toastr.error('Não foi possível realizar a operação');
     });
 
@@ -131,9 +123,8 @@ export class AddOutputComponent implements OnInit {
   }
   getProducts(){
     this.stockPlacementService.getProducts().pipe(first())
-      .subscribe(products => { 
+      .subscribe(products => {
         this.products = [...products.body.obj]
-        console.log(this.products)
       });
   }
 
@@ -144,7 +135,7 @@ export class AddOutputComponent implements OnInit {
       this.productName = this.product[0].name_product;
     });
   }
-  
- 
+
+
 
 }
