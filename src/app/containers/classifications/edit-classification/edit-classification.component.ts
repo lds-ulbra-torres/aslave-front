@@ -22,6 +22,7 @@ export class EditClassificationComponent implements OnInit {
   displayUp: boolean;
   isLoading: boolean=true;
   radioResult: string;
+  editLoading: boolean;
 
   /*Variaveis de validação*/
   num_docValidation: boolean=false;
@@ -37,7 +38,7 @@ export class EditClassificationComponent implements OnInit {
   ngOnInit() {
     this.getById();
   }
-  
+
   getSomeMoreClasses(value) {
     this.radioResult=value;
     };
@@ -56,7 +57,7 @@ export class EditClassificationComponent implements OnInit {
         resp =>{
           let inputCategory = resp.body.obj[0];
           this.class = inputCategory;
-          this.getSomeMoreClasses(this.class.classifation_type);  
+          this.getSomeMoreClasses(this.class.classifation_type);
         }
       )
     }

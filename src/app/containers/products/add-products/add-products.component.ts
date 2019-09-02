@@ -85,7 +85,7 @@ export class AddProductsComponent implements OnInit {
     });
 
   }
-  
+
   goBack(){
     this.router.navigate(['produtos']);
   }

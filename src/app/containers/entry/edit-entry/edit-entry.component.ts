@@ -42,6 +42,8 @@ export class EditEntryComponent implements OnInit {
   lancamentoV: boolean=false;
   historicoV: boolean=false;
   /**/
+  editLoading: boolean;
+
 
   ngOnInit() {
     this.getClassification();
@@ -58,7 +60,7 @@ export class EditEntryComponent implements OnInit {
       this.entryService.getEntryById(this.id).subscribe(
         resp =>{
           let inputCategory = resp.body.obj[0];
-          this.ent = inputCategory;  
+          this.ent = inputCategory;
         }
       )
     }

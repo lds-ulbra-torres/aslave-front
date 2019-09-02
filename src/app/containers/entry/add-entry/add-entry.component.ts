@@ -20,6 +20,7 @@ export class AddEntryComponent implements OnInit {
   ent: Financial_releases;
   peo: PeopleComponent;
   compDate: string;
+  procuraClassification;
 
   error = '';
   sucess = '';
@@ -38,6 +39,8 @@ export class AddEntryComponent implements OnInit {
   lancamentoV: boolean=false;
   historicoV: boolean=false;
   /**/
+  addLoading: boolean;
+
 
   ngOnInit() {
     this.getClassification();

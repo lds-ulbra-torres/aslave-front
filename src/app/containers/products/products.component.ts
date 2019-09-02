@@ -37,6 +37,8 @@ addLoading: boolean = false;
 addButton: boolean = true;
 editLoading: boolean = false;
 editButton: boolean = true;
+display: boolean;
+displayUp: boolean;
 
   ngOnInit() {
     this.getProducts();
@@ -47,9 +49,9 @@ editButton: boolean = true;
     return parseInt(value).toLocaleString(undefined, {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }); 
+    });
   }
-  
+
   select(p){
     this.product = Object.assign({},p);
   }
@@ -120,7 +122,7 @@ editButton: boolean = true;
         this.getProducts();
         this.toastr.success('O produto foi editado!','Sucesso !',{
           timeOut: 5000
-        }); 
+        });
       }, error => {
         this.error = error;
         if(name != '' && category != ''){

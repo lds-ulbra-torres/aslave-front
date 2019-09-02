@@ -20,6 +20,8 @@ export class ClassificationsComponent implements OnInit {
   procuraClassification: ProcurarClassificationPipe;
   isLoading: boolean=true;
   radioResult: string;
+  display: boolean;
+  displayUp: boolean;
 
   error = '';
   sucess = '';

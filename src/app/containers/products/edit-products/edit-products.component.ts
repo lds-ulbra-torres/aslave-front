@@ -37,6 +37,7 @@ att_selectValidation: boolean = false;
 att_nameValidation: boolean = false;
 error = '';
 sucess = '';
+editLoading: boolean;
 
   ngOnInit() {
     this.getProducts();
@@ -66,7 +67,7 @@ sucess = '';
       this.productServ.getproductById(this.id).subscribe(
         resp =>{
           let inputCategory = resp.body.obj[0];
-          this.product = inputCategory;  
+          this.product = inputCategory;
         }
       )
     }
@@ -97,7 +98,7 @@ sucess = '';
         this.getProducts();
         this.toastr.success('O produto foi editado!','Sucesso !',{
           timeOut: 5000
-        }); 
+        });
         this.goBack();
       }, error => {
         this.error = error;
