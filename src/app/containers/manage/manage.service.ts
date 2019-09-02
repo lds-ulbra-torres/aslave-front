@@ -2,14 +2,14 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from '../../shared/models/user';
 import { Observable } from 'rxjs';
-
+import { baseUrl } from './../../config';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ManageService {
 
-  private usersUrl = 'http://api-teste-aslave-org-br.umbler.net/user'
+  private usersUrl = baseUrl+'user'
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<HttpResponse<any>> {
@@ -23,7 +23,7 @@ export class ManageService {
   updateUser(user, u): Observable<HttpResponse<any>>{
     return this.http.put(`${this.usersUrl}/${u.id_user}`, user, { observe: 'response'});
   }
- 
+
   deleteUser(id):Observable<HttpResponse<any>>{
     return this.http.delete(`${this.usersUrl}/${id}`, { observe: 'response' });
   }
