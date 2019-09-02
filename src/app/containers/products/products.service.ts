@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Product } from '../../shared/models/product'
 import { Categorias } from '../../shared/models/categories';
+import { baseUrl } from './../../config';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,9 @@ export class productsService {
 
   constructor(private http: HttpClient) { }
 
-  private produtoURL = 'http://api-teste-aslave-org-br.umbler.net/product';
-  private categoriesURL = 'http://api-teste-aslave-org-br.umbler.net/category';
- 
+  private produtoURL = baseUrl+'product';
+  private categoriesURL = baseUrl+'category';
+
 
   postProduct(form){
     return this.http.post(this.produtoURL, form);
@@ -36,9 +37,6 @@ export class productsService {
   }
 
   updateProduct(Product: any, id): Observable<any>{
-    console.log(Product);
-    console.log(id);
-    
     return this.http.put(`${this.produtoURL}/${id}`, Product);
   }
 

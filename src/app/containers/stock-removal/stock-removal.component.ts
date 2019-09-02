@@ -37,7 +37,7 @@ export class StockRemovalComponent implements OnInit {
 
   minDate: MinDatePipe;
   maxDate: MaxDatePipe;
-  
+
   filteredOptions: Observable<User[]>;
 
   selectValue = null;
@@ -60,8 +60,8 @@ export class StockRemovalComponent implements OnInit {
     this.getUsers();
     this.getRemoval();
     this.getProducts();
-   
-    
+
+
   }
 
   private _filter(value: string): User[] {
@@ -77,7 +77,7 @@ export class StockRemovalComponent implements OnInit {
   onDisplayRemoval(){
     this.displayRemoval = !this.displayRemoval;
   }
-  
+
   getUsers(){
     this.userService.getUsers().pipe(first())
     .subscribe(users =>{ this.options = [... users.body.obj]
@@ -101,22 +101,18 @@ export class StockRemovalComponent implements OnInit {
       this.output = output.body.obj;
       this.getProductById(this.output.id_product);
       this.user = this.options.find(person => person.id_user== this.output.id_user);
-      console.log(this.user);
     }), (error => console.log(error));
   }
   getRemoval(){
     this.stockRemovalService.getRemoval().pipe(first())
-    .subscribe(stockOut =>{ this.stockOut = [... stockOut.body.obj] 
+    .subscribe(stockOut =>{ this.stockOut = [... stockOut.body.obj]
     this.isLoading = false;
     });
   }
 
   onSubmit(s){
-    console.log(s);
     let date = `${s.value.createdAt}` + "T00:00:00.000Z";
     let user = this.options.find(person => person.full_name==s.value.id_user);
-    console.log(user);
-    console.log(date);
    const output = {
       "id_user": user.id_user,
       "id_product": s.value.id_product,
@@ -127,26 +123,19 @@ export class StockRemovalComponent implements OnInit {
       "unit_price_output": s.value.unit_price
     }
 
-    console.log(output);
     this.stockRemovalService.postOutput(output).subscribe((response) => {
       s.reset();
       this.getRemoval();
       this.toastr.success('Adicionado com sucesso');
       this.displayRemoval = !this.displayRemoval;
-      console.log(response);
     }, error => {
-      console.log(error);
       this.toastr.error('Não foi possível realizar a operação');
     });
 
   }
 
-  mostrar(id){
-    console.log(id);
-  }
   updateOutput(u){
     let date = `${u.createdAt}`;
-    console.log(u);
 
     let number = parseInt(u.amount_output);
     let product = parseInt(u.id_product);
@@ -160,16 +149,13 @@ export class StockRemovalComponent implements OnInit {
       "amount_output": number,
       "unit_price_output": u.unit_price_output
     }
-    console.log(output);
     this.stockRemovalService.updateOutput(output, u.id_stock).subscribe(
       resp =>{
         this.toastr.success('Editado com sucesso');
         this.getRemoval();
-        console.log(resp);
       }
     ),(
       error => {
-        console.log(error);
         this.toastr.error('Não foi possível realizar a operação');
       }
    )
@@ -185,7 +171,6 @@ export class StockRemovalComponent implements OnInit {
       ),
        (
          error => {
-           console.log(error);
            this.toastr.error('Não foi possível realizar a operação');
         }
       )

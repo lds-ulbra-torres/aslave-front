@@ -5,8 +5,6 @@ import { catchError } from 'rxjs/operators';
 
 import { LoginService } from '../containers/login/login.service';
 
-
-
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
     constructor(private loginService: LoginService) { }
@@ -14,7 +12,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
-                
+
                 this.loginService.logout();
                 location.reload(true);
             }

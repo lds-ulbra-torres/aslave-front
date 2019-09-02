@@ -26,13 +26,13 @@ export class AddPersonComponent implements OnInit {
   toggleNaturalPerson(){
     this.displayNaturalPerson = !this.displayNaturalPerson;
     this.displayLegalPerson = false;
-    
+
   }
   toggleLegalPerson(){
     this.displayLegalPerson = !this.displayLegalPerson;
     this.displayNaturalPerson = false;
   }
- 
+
   getByZip(cep){
     let teste = cep.target.value;
     return this.peopleService.getByZipCode(teste).subscribe(res => {
@@ -40,13 +40,11 @@ export class AddPersonComponent implements OnInit {
       this.localidade = this.cep.localidade;
       this.uf = this.cep.uf;
 
-      console.log(this.cep)
     });
   }
   onSubmit(p){
-    console.log(p);
     let person = new FormData();
-    
+
     person.append('name', p.value.name)
     person.append('cpf_cnpj', p.value.cpf_cnpj)
     person.append('documment', p.value.documment)
@@ -59,14 +57,13 @@ export class AddPersonComponent implements OnInit {
     person.append('phone2', p.value.phone2)
     person.append('city', p.value.city)
     person.append('state', p.value.state)
-    
+
     this.peopleService.postPeople(person).subscribe((response) => {
       p.reset();
       this.toastr.success('Adicionado com sucesso');
       this.router.navigate(['pessoas']);
-     
+
     }, error => {
-      console.log(error);
       this.toastr.error('Não foi possível realizar a operação');
     });
   }
