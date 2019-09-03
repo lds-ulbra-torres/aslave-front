@@ -35,8 +35,8 @@
           <td class="" >{{product.amount.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2})}}</td>
           <td class="text-center" >
             <div class="btn-group" role="group" aria-label="actions">
-              <button type="button" mat-raised-button matTooltip="Editar o produto {{product.name_product}}"(click)="onDisplayUp()" (click)="select(product)" class="btn btn-secondary" data-toggle="modal" data-target="#edicao"><i class="fas fa-edit"></i></button>
-              <button type="button" mat-raised-button matTooltip="Excluir o produto {{product.name_product}}"class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(product)"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" mat-raised-button matTooltip="Editar o produto {{product.name_product}}" class="btn btn-secondary" data-toggle="modal" data-target="#edit" (click)="select(product)" routerLink="editar/{{product.id_product}}" routerLinkActive="router-link-active"><i class="fas fa-edit"></i></button>
+              <button type="button" mat-raised-button matTooltip="Excluir o produto {{product.name_product}}" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(product)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>

@@ -57,8 +57,8 @@
           <td class="text-left">{{ C.type_mov==="e" ?"Entrada": "Saida" }}</td>
           <td class="text-center">
             <div class="btn-group" role="group" aria-label="actions">
-              <button type="button" mat-raised-button matTooltip="Editar o lançamento de {{C.person.name}}"class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
-              <button type="button" mat-raised-button matTooltip="Excluir o lançamento de {{C.person.name}}"class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" mat-raised-button matTooltip="Editar o lançamento de {{C.person.name}}"class="btn btn-secondary" (click)="select(C)" routerLink="editar/{{C.id_financial_release}}"><i class="fas fa-edit"></i></button>
+              <button type="button" mat-raised-button matTooltip="Excluir o lançamento de {{C.person.name}}"class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="saveId(C.id_financial_release)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>
