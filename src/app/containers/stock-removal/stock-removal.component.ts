@@ -29,7 +29,8 @@ export class StockRemovalComponent implements OnInit {
   myControl = new FormControl();
   isLoading: boolean = true;
   temp: any;
-  output: Single;
+  temp2: any;
+  output: any;
   product: any;
   productName: string;
   unit: string;
@@ -95,10 +96,12 @@ export class StockRemovalComponent implements OnInit {
       this.productName = this.product[0].name_product;
     });
   }
-  getById(out){
+  getById(out){ 
+
     this.stockRemovalService.getStockOutputById(out.id_stock).pipe(first())
-    .subscribe(output => {
-      this.output = output.body.obj;
+    .subscribe(res => {
+     
+      this.output = res.body.obj;
       this.getProductById(this.output.id_product);
       this.user = this.options.find(person => person.id_user== this.output.id_user);
     }), (error => console.log(error));
@@ -106,6 +109,7 @@ export class StockRemovalComponent implements OnInit {
   getRemoval(){
     this.stockRemovalService.getRemoval().pipe(first())
     .subscribe(stockOut =>{ this.stockOut = [... stockOut.body.obj]
+
     this.isLoading = false;
     });
   }
@@ -151,6 +155,7 @@ export class StockRemovalComponent implements OnInit {
     }
     this.stockRemovalService.updateOutput(output, u.id_stock).subscribe(
       resp =>{
+        
         this.toastr.success('Editado com sucesso');
         this.getRemoval();
       }
