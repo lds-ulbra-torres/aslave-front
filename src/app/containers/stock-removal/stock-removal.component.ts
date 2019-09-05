@@ -35,6 +35,7 @@ export class StockRemovalComponent implements OnInit {
   productName: string;
   unit: string;
   user: User;
+  edit: any;
 
   minDate: MinDatePipe;
   maxDate: MaxDatePipe;
@@ -96,11 +97,11 @@ export class StockRemovalComponent implements OnInit {
       this.productName = this.product[0].name_product;
     });
   }
-  getById(out){ 
+  getById(out){
 
     this.stockRemovalService.getStockOutputById(out.id_stock).pipe(first())
     .subscribe(res => {
-     
+
       this.output = res.body.obj;
       this.getProductById(this.output.id_product);
       this.user = this.options.find(person => person.id_user== this.output.id_user);
@@ -115,12 +116,10 @@ export class StockRemovalComponent implements OnInit {
   }
 
   onSubmit(s){
-    let date = `${s.value.createdAt}` + "T00:00:00.000Z";
     let user = this.options.find(person => person.full_name==s.value.id_user);
    const output = {
       "id_user": user.id_user,
       "id_product": s.value.id_product,
-      "createdAt": date,
       "description": s.value.description,
       "unit_measurement": s.value.unit_measurement,
       "amount_output": s.value.amount_output,
@@ -155,7 +154,7 @@ export class StockRemovalComponent implements OnInit {
     }
     this.stockRemovalService.updateOutput(output, u.id_stock).subscribe(
       resp =>{
-        
+
         this.toastr.success('Editado com sucesso');
         this.getRemoval();
       }

@@ -83,7 +83,6 @@ export class AddOutputComponent implements OnInit {
    const output = {
       "id_user": user.id_user,
       "id_product": s.value.id_product,
-      "createdAt": date,
       "description": s.value.description,
       "unit_measurement": s.value.unit_measurement,
       "amount_output": s.value.amount_output,
