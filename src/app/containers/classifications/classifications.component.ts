@@ -38,6 +38,10 @@ export class ClassificationsComponent implements OnInit {
     });
   }
 
+  select(classification){
+    this.class = classification;
+  }
+
   deleteClassification(){
     this.classificationService.delete(this.class.id_classification)
       .subscribe(

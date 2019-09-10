@@ -36,7 +36,7 @@
           <td class="text-left">{{ C.classifation_type==="e" ?"Entrada": "Saida" }}</td>
           <td class="text-center">
             <div class="btn-group" role="group" aria-label="actions">
-              <button type="button" mat-raised-button matTooltip="Editar a classificação {{C.name_classification}}"class="btn btn-secondary" (click)="select(C)" (click)="onDisplayUpdate('e')" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
+              <button type="button" mat-raised-button matTooltip="Editar a classificação {{C.name_classification}}"class="btn btn-secondary" routerLink="editar/{{C.id_classification}}" (click)="onDisplayUp()"><i class="fas fa-edit"></i></button>
               <button type="button" mat-raised-button matTooltip="Excluir a classificação {{C.name_classification}}"class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(C)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>

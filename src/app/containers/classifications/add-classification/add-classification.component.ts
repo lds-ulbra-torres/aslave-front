@@ -16,7 +16,7 @@ export class AddClassificationComponent implements OnInit {
 
   classification: Classifications[];
   class: Classifications;
-  displayClassification: string;
+  displayClassification: string = 'e';
   displayUpdate: string;
   display: boolean;
   displayUp: boolean;
@@ -79,7 +79,7 @@ export class AddClassificationComponent implements OnInit {
     }
     });
   }
-  
+
   goBack(){
     this.Router.navigate(['classificacoes']);
   }
