@@ -9,7 +9,7 @@
   <div class="row justify-content-between">
     <div class="col-12 my-3">
       <button type="button" class="btn btn-add" routerLink="cadastrar" routerLinkActive="router-link-active" ><i class="fas fa-plus"></i> Adicionar</button>
-      
+
       <form class="form-inline search" #p="ngForm">
         <input class="form-control mr-sm-2" type="search" name="search" [(ngModel)]="procuraPerson" placeholder="Buscar" aria-label="Buscar" ngModel>
         <button class="btn btn-search" type="submit"><i class="fas fa-search"></i></button>
@@ -35,7 +35,7 @@
             <td class="text-left">{{ person.name }}</td>
             <td class="text-left">{{ person.cpf_cnpj }}</td>
             <td class="text-left"><span [hidden]="person.document === undefined"> {{ person.documment }}</span></td>
-            
+
             <td class="text-center">
               <div class="btn-group" role="group" aria-label="actions">
                 <button type="button" mat-raised-button matTooltip="Visualizar mais informações"class="btn btn-secondary" data-toggle="modal" data-target="#see" (click)="select(person)"><i class="fas fa-eye"></i></button>
@@ -44,7 +44,7 @@
               </div>
             </td>
         </tr>
-       
+
       </tbody>
     </table>
 
@@ -69,7 +69,7 @@
             <p><b>Telefone:</b> {{person.phone2 | mask: '(00)00000-0000'}}</p>
           </div>
           <div class="modal-footer">
-            
+
             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
           </div>
         </div>
@@ -101,13 +101,13 @@
                         <label>CPF/CNPJ</label>
                         <input type="number" class="form-control inline" name="cpf_cnpj" [(ngModel)]="person.cpf_cnpj" #cpf_cnpj id="cpf">
                       </div>
-                      <div class="form-group col-lg-6 right" *ngIf="person.rg">
+                      <div class="form-group col-lg-6 right">
                         <label>RG</label>
                         <input type="number" class="form-control inline" name="rg" required [(ngModel)]="person.rg " #rg id="rg">
                       </div>
-                      
+
                     </div>
-  
+
                     <div class="form-inline my-3">
                       <div class="form-group col-lg-6 left">
                         <label>Rua/Avenida</label>
@@ -117,9 +117,9 @@
                         <label>CEP</label>
                           <input type="text" class="form-control inline" id="cep" mask='00000-000' required [(ngModel)]="person.cep" #cep name="cep">
                       </div>
-                      
+
                     </div>
-  
+
                     <div class="form-inline my-3">
                       <div class="form-group col-lg-6 left">
                         <label>Cidade</label>
@@ -130,7 +130,7 @@
                         <input type="text" class="form-control inline" id="state" name="state" required [(ngModel)]="person.state" #state >
                       </div>
                     </div>
-                    
+
                     <div class="form-inline my-3">
                       <div class="form-group col-lg-6 left">
                         <label>Número</label>
@@ -141,8 +141,8 @@
                         <input type="text" class="form-control inline" id="bairro" name="neighborhood" required [(ngModel)]="person.neighborhood" #neighborhood >
                       </div>
                     </div>
-                    
-                    
+
+
                     <div class="form-inline my-3">
                         <div class="form-group col-lg-6 left">
                           <label>Telefone</label>
@@ -153,10 +153,10 @@
                           <input type="tel" mask='(00)00000-0000' maxlength="14" class="form-control inline" id="telefone2" name="phone2" [(ngModel)]="person.phone2" #phone2>
                         </div>
                     </div>
-                  
+
               </form>
-              
-              
+
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="edit.invalid" (click)="updatePerson(person)">Salvar</button>
@@ -166,7 +166,7 @@
       </div>
       </div>
     </div>
-  
+
 
     <div class="modal fade" role="dialog" id="delete">
       <div class="modal-dialog modal-md" role="document">
@@ -187,7 +187,7 @@
         </div>
       </div>
     </div>
- 
+
 </section>
 
 </div>
