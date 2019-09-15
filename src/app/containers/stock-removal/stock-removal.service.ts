@@ -1,7 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Person } from '../../shared/models/person';
+import { baseUrl } from './../../config';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,8 @@ export class StockRemovalService {
 
   constructor(private http:HttpClient) { }
 
-  private stockOutUrl = 'http://api-teste-aslave-org-br.umbler.net/stock-output';
-  private product = 'http://api-teste-aslave-org-br.umbler.net/product';
+  private stockOutUrl = baseUrl+'stock-output';
+  private product = baseUrl+'product';
 
   getRemoval(): Observable<HttpResponse<any>>{
     return this.http.get<any[]>(this.stockOutUrl, { observe: 'response'});

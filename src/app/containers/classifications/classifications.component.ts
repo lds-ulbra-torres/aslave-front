@@ -17,18 +17,11 @@ export class ClassificationsComponent implements OnInit {
 
   classification: Classifications[];
   class: Classifications;
-  displayClassification: string;
-  displayUpdate: string;
-  display: boolean;
-  displayUp: boolean;
   procuraClassification: ProcurarClassificationPipe;
   isLoading: boolean=true;
   radioResult: string;
-
-  /*Variaveis de validação*/
-  num_docValidation: boolean=false;
-  type_validation: boolean=false;
-  /**/
+  display: boolean;
+  displayUp: boolean;
 
   error = '';
   sucess = '';
@@ -45,30 +38,8 @@ export class ClassificationsComponent implements OnInit {
     });
   }
 
-  getSomeMoreClasses(value) {
-    this.radioResult=value;
-    console.log(this.radioResult);
-    };
-
-  onDisplayClassification(value){
-    this.displayClassification = value;
-  }
-
-  onDisplay(){
-    this.display = !this.display;
-  }
-
-  onDisplayUp(){
-    this.displayUp = !this.displayUp;
-  }
-
-  onDisplayUpdate(value){
-    this.displayUpdate = value;
-  }
-
-  select(C){
-    this.getSomeMoreClasses(C.classifation_type);
-    this.class = Object.assign({},C);
+  select(classification){
+    this.class = classification;
   }
 
   deleteClassification(){
@@ -88,37 +59,6 @@ export class ClassificationsComponent implements OnInit {
     });
   }
 
-  onSubmit(p){
-    this.num_docValidation = false;
-    this.type_validation = false;
-    let numV = p.value.name;
-    let typeV = this.displayClassification;
-
-    if (numV=='')
-      this.num_docValidation = true;
-      if (typeV=='')
-      this.type_validation = true;
-
-    const classific = {
-      'name_classification': p.value.name,
-      'classifation_type': this.displayClassification
-    };
-
-    this.classificationService.postClassifications(classific).subscribe((response) => {
-      p.reset();
-      this.display = !this.display;
-      this.getClassification();
-      this.toastr.success('Classificação '+classific.name_classification+' adicionada', 'Sucesso!',{
-        timeOut: 5000
-      });
-    }, error => {
-      this.error = error;
-      this.toastr.warning('Verifique os campos.', 'Falha no envio!', {
-        timeOut: 5000
-      });
-    });
-  }
-
   orderByName(){
     this.classification.sort((a: Classifications, b:Classifications)=>{
       if(a.name_classification.toLowerCase() > b.name_classification.toLowerCase()) {
@@ -131,36 +71,4 @@ export class ClassificationsComponent implements OnInit {
     })
   }
 
-  updateClassification(p){
-    this.num_docValidation = false;
-    this.type_validation = false;
-    let numV = p.value.name;
-    let typeV = this.displayClassification;
-
-    if (numV=='')
-      this.num_docValidation = true;
-      if (typeV=='')
-      this.type_validation = true;
-
-    const classific = {
-      'name_classification': p.value.name,
-      'classifation_type': this.displayUpdate
-    };
-
-    this.classificationService.updateClassification(classific, this.class.id_classification)
-    .subscribe(
-      resp => {
-        this.class = null;
-        this.displayUp = !this.displayUp;
-        this.getClassification();
-        this.toastr.success('A classificação foi editada.', 'Sucesso!', {
-          timeOut: 5000
-        });
-      }, error => {
-        this.error = error;
-        this.toastr.warning('Verifique os campos.', 'Falha no envio!', {
-          timeOut: 5000
-        });
-      });
-  }
 }

@@ -21,25 +21,25 @@ export class PeopleComponent implements OnInit {
   doc: string = "";
   constructor(private formBuilder: FormBuilder, private peopleService: PeopleService,
               private toastr: ToastrService) { }
-  
- 
+
+
   people: Person[];
   procuraPerson: ProcurarPessoaPipe;
   person: Person;
   isLoading: boolean = true;
 
   ngOnInit() {
-    this.getPeople();    
+    this.getPeople();
   }
 
   getPeople(){
     this.peopleService.getPeople().pipe(first())
     .subscribe(people =>{ this.people = [... people.body.obj]
-      
+
       this.isLoading = false;
     });
   }
-  
+
 
   select(p){
     this.person = Object.assign({}, p);
@@ -80,21 +80,19 @@ export class PeopleComponent implements OnInit {
     this.peopleService.deletePeople(this.person.id_people)
       .subscribe(
         resp => {
-          console.log(resp);
           this.toastr.success('Deletado com sucesso');
           this.person = null
           this.getPeople();
-          
+
         }
       ),
        (
-         error =>{ 
-          console.log(error);
+         error =>{
           this.toastr.error('Não foi possível realizar a operação');
         }
       )
   }
-  
+
 
 
 }

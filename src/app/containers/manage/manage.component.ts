@@ -26,7 +26,7 @@ export class ManageComponent implements OnInit {
   teste: User[] = [];
   i: number;
   procuraUser: ProcurarUserPipe;
-  
+
 
   constructor(private manageService: ManageService,
               private toastr: ToastrService) { }
@@ -37,7 +37,6 @@ export class ManageComponent implements OnInit {
   }
 
   updateUser(u){
-    console.log(u);
 
     const user= {
       "login": u.login,
@@ -51,10 +50,10 @@ export class ManageComponent implements OnInit {
       this.toastr.error('Não foi possível realizar a operação');
     })
   }
-  
+
   getUser(){
     this.manageService.getUsers().pipe(first())
-    .subscribe(users =>{ this.users = [... users.body.obj] 
+    .subscribe(users =>{ this.users = [... users.body.obj]
     this.isLoading = false;
     this.orderByName();
     });
@@ -65,7 +64,7 @@ export class ManageComponent implements OnInit {
 
   selectUpdate(u){
     this.user = Object.assign({}, u);
-    
+
   }
   deleteUser(){
     this.manageService.deleteUser(this.user.id_user)
@@ -78,12 +77,11 @@ export class ManageComponent implements OnInit {
       ),
        (
          error =>{
-           console.log(error);
            this.toastr.error('Não foi possível realizar a operação');
          }
       )
   }
- 
+
 
   orderByName(){
     this.users.sort((a: User, b:User)=>{
@@ -94,6 +92,6 @@ export class ManageComponent implements OnInit {
       } else {
         return 0;
       }
-    }) 
-  }  
+    })
+  }
 }

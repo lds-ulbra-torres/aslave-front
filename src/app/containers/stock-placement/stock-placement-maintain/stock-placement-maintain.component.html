@@ -30,7 +30,7 @@
                     <p *ngIf="typeValidation"  class="text-danger">*Selecione um tipo</p>
                   </div>
                   <div class="form-group col-lg-3 col-sm-6 mt-2">
-                     <input class="form-control w-100" #dateStock placeholder="dd-mm-yyyy" #dateStock [ngClass]="{'border-danger': dateValidation}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" 
+                     <input class="form-control w-100" #dateStock placeholder="dd-mm-yyyy" #dateStock [ngClass]="{'border-danger': dateValidation}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"
                       type="date"  name="dateStock" ngbDatepicker (click)="dateStock.toggle()">
                     <p *ngIf="dateValidation"  class="text-danger">*Selecione uma data válida</p>
                   </div>
@@ -108,5 +108,6 @@
             </div>
           </div>
         </div>
+        <app-loader *ngIf="isLoading"></app-loader>
 </section>
 </div>

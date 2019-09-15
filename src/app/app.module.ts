@@ -17,6 +17,7 @@ import { ClassificationsComponent } from './containers/classifications/classific
 import { HomeComponent } from './containers/home/home.component';
 import { StockRemovalComponent } from './containers/stock-removal/stock-removal.component';
 import { StockPlacementComponent } from './containers/stock-placement/stock-placement.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 import { NavbarComponent } from './navbar/navbar.component';
@@ -56,6 +57,14 @@ import localePt from '@angular/common/locales/pt';
 import { MinDatePipe } from './shared/pipes/min-date.pipe';
 import { MaxDatePipe } from './shared/pipes/max-date.pipe';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { AddProductsComponent } from './containers/products/add-products/add-products.component';
+import { EditProductsComponent } from './containers/products/edit-products/edit-products.component';
+import { AddCategorieComponent } from './containers/categories/add-categorie/add-categorie.component';
+import { EditCategorieComponent } from './containers/categories/edit-categorie/edit-categorie.component';
+import { AddClassificationComponent } from './containers/classifications/add-classification/add-classification.component';
+import { EditClassificationComponent } from './containers/classifications/edit-classification/edit-classification.component';
+import { AddEntryComponent } from './containers/entry/add-entry/add-entry.component';
+import { EditEntryComponent } from './containers/entry/edit-entry/edit-entry.component';
 
 //export const options: Partial<IConfig> | (() => Partial<IConfig>);
 registerLocaleData(localePt);
@@ -88,7 +97,15 @@ registerLocaleData(localePt);
     AddOutputComponent,
     MinDatePipe,
     MaxDatePipe,
-    FooterComponent
+    FooterComponent,
+    AddProductsComponent,
+    EditProductsComponent,
+    AddCategorieComponent,
+    EditCategorieComponent,
+    AddClassificationComponent,
+    EditClassificationComponent,
+    AddEntryComponent,
+    EditEntryComponent,
   ],
   imports: [
     BrowserModule,
@@ -104,8 +121,9 @@ registerLocaleData(localePt);
     MatInputModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxMaskModule.forRoot()
-
+    NgxMaskModule.forRoot(),
+    BrowserAnimationsModule,
+    MatTooltipModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Classifications } from '../../shared/models/classifications';
 import { Person } from '../../shared/models/person';
+import { baseUrl } from './../../config';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,9 @@ import { Person } from '../../shared/models/person';
 export class EntryService {
 
   constructor(private http: HttpClient) { }
-  private EntryUrl = 'http://api-teste-aslave-org-br.umbler.net/financial-releses';
-  private ClassUrl = 'http://api-teste-aslave-org-br.umbler.net/financial-classifications';
-  private peopleUrl = 'http://api-teste-aslave-org-br.umbler.net/people';
+  private EntryUrl = baseUrl+'financial-releses';
+  private ClassUrl = baseUrl+'financial-classifications';
+  private peopleUrl = baseUrl+'people';
 
   getEntrys(): Observable<HttpResponse<any>>{
     return this.http.get<Financial_releases[]>(this.EntryUrl, { observe: 'response'});
@@ -26,6 +27,10 @@ export class EntryService {
 
   getClassifications(): Observable<HttpResponse<any>>{
     return this.http.get<Classifications[]>(this.ClassUrl, { observe: 'response'});
+  }
+
+  getEntryById(id): Observable<HttpResponse<any>> {
+    return this.http.get<any>(`${this.EntryUrl}/${id}`, { observe: 'response' });
   }
 
   postEntrys(form){

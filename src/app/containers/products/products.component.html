@@ -7,7 +7,7 @@
 <section *ngIf="!display && !displayUp">
   <div class="row">
     <div class="col-12 my-3">
-      <button type="button" class="btn btn-add" data-toggle="modal" (click)="onDisplay()"><i class="fas fa-plus"></i>&nbsp;Adicionar</button>
+      <button type="button" class="btn btn-add" data-toggle="modal" routerLink="cadastrar" routerLinkActive="router-link-active"><i class="fas fa-plus"></i>&nbsp;Adicionar</button>
       <form class="form-inline search" #p="ngForm" (ngSubmit)="onSubmit(p)">
         <input class="form-control mr-sm-2" type="search" name="searcher_product" [(ngModel)]="procuraProduct" placeholder="Digite o produto" aria-label="Buscar" ngModel>
         <button class="btn btn-search" disabled><i class="fas fa-search"></i></button>
@@ -16,25 +16,27 @@
   </div>
   <!--Tabela-->
   <div class="row table-reponsive">
-    <table class="table text-center table-hover table-striped col-lg-12 col-md-12 col-sm-12">
+    <table class="table table-hover table-striped col-lg-12 col-md-12 col-sm-12">
       <thead>
         <tr>
-          <th scope="col" >Descrição</th>
-          <th scope="col">Categorias</th>
-          <th scope="col" >Estoque</th>
-          <th scope="col" >Ações</th>
+          <th class="" scope="col" >#</th>
+          <th class="text-left" scope="col" >Descrição</th>
+          <th class="text-left" scope="col">Categorias</th>
+          <th class="text-left" scope="col" >Estoque</th>
+          <th class="text-center" scope="col" >Ações</th>
         </tr>
       </thead>
       <tbody>
           <app-loader *ngIf="isLoading"></app-loader>
         <tr *ngFor="let product of produtos | searcher_product : procuraProduct">
-          <td >{{product.name_product}}</td>
-          <td >{{product.stock_product_group.name_group}}</td>
-          <td>{{product.amount.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2})}}</td>
-          <td >
+          <td class="" >{{product.id_product}}</td>
+          <td class="text-left" >{{product.name_product}}</td>
+          <td class="text-left" >{{product.stock_product_group.name_group}}</td>
+          <td class="" >{{product.amount.toLocaleString(undefined, {minimumFractionDigits: 2,maximumFractionDigits: 2})}}</td>
+          <td class="text-center" >
             <div class="btn-group" role="group" aria-label="actions">
-              <button type="button" (click)="onDisplayUp()" (click)="select(product)" class="btn btn-secondary" data-toggle="modal" data-target="#edicao"><i class="fas fa-edit"></i></button>
-              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(product)"><i class="fas fa-trash-alt"></i></button>
+              <button type="button" mat-raised-button matTooltip="Editar o produto {{product.name_product}}" class="btn btn-secondary" data-toggle="modal" data-target="#edit" (click)="select(product)" routerLink="editar/{{product.id_product}}" routerLinkActive="router-link-active"><i class="fas fa-edit"></i></button>
+              <button type="button" mat-raised-button matTooltip="Excluir o produto {{product.name_product}}" class="btn btn-secondary" data-toggle="modal" data-target="#delete" (click)="select(product)"><i class="fas fa-trash-alt"></i></button>
             </div>
           </td>
         </tr>
@@ -61,88 +63,46 @@
       </div>
     </div>
   </div>
-</section>
-<!--Display de Atualização-->
-<section *ngIf="displayUp">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <form #b="ngForm" (ngSubmit)="updateProduct(b)">
-        <div class="card">
-          <app-loader *ngIf="editLoading"></app-loader>
-          <div class="modal-header">
-            <h5 class="modal-title">Editar Produto</h5>
-          </div>
-          <div class="modal-body" *ngIf="product">
-          <div class="form-group my-3">
-            <input type="text" class="form-control" name="name_product" [(ngModel)]="product.name_product" [ngClass]="{'border-danger': att_nameValidation}" (change)="att_nameValidation = false"
-            required ngModel #name_product="ngModel" id="edit" aria-describedby="editar" placeholder="Informe o produto">
-            <p *ngIf="att_nameValidation"  class="text-danger">Preencha o campo</p>
-          </div>
-          <div class="form-group my-3 ">
-            <select class="btn btn-select w-100" required [(ngModel)]="product.id_group" name="id_group" required ngModel #id_group="ngModel" [ngClass]="{'border-danger': att_selectValidation}" (change)="att_selectValidation = false">
-              <option value="" disabled selected>Selecione uma Categoria</option>
-              <option *ngFor="let C of categories" value="{{C.id_group}}">
-                {{C.name_group}}
-              </option>
-            </select>
-            <p *ngIf="att_selectValidation"  class="text-danger">Preencha o campo</p>
-          </div>
+  <!---Modal de edição-->
+  <div class="modal fade" role="dialog" id="edit" *ngIf="product">
+    <div class="modal-dialog modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Editar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
+        <div class="modal-body">
+            <form #edit="ngForm">
+
+              <div class="modal-body" *ngIf="product">
+                <div class="form-group my-3">
+                  <input type="text" class="form-control" name="name_product" [(ngModel)]="product.name_product" [ngClass]="{'border-danger': att_nameValidation}" (change)="att_nameValidation = false"
+                  required ngModel #name_product="ngModel" id="edit" aria-describedby="editar" placeholder="Informe o produto">
+                  <p *ngIf="att_nameValidation"  class="text-danger">Preencha o campo</p>
+                </div>
+                <div class="form-group my-3 ">
+                  <select class="btn btn-type w-100" required [(ngModel)]="product.id_group" name="id_group" required ngModel #id_group="ngModel" [ngClass]="{'border-danger': att_selectValidation}" (change)="att_selectValidation = false">
+                    <option value="" disabled selected>Selecione uma Categoria</option>
+                    <option *ngFor="let C of categories" value="{{C.id_group}}">
+                      {{C.name_group}}
+                    </option>
+                  </select>
+                  <p *ngIf="att_selectValidation" class="text-danger">Preencha o campo</p>
+                </div>
+              </div>
+
+            </form>
+
 
         </div>
-        <div class="justify-content-between">
-            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplayUp()">
-                <i class="fas fa-angle-left"></i>&nbsp; Voltar
-            </button>
-            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="!editButton">
-                <i class="fas fa-save"></i>&nbsp;
-                   Salvar
-            </button>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-dismiss="modal" [disabled]="edit.invalid" (click)="updateProduct(product)">Salvar</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
         </div>
-      </form>
-
+      </div>
     </div>
-  </div>
-</section>
-<!--Display de Adição-->
-<section *ngIf="display">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 my-3">
-      <form #p="ngForm" (ngSubmit)="onSubmit(p)">
-        <div class="card">
-          <app-loader *ngIf="addLoading"></app-loader>
-          <div class="modal-header">
-            <h5 class="modal-title">Adicionar Produto</h5>
-          </div>
-          <div class="modal-body">
-            <div class="form-group col-lg-12 right">
-              <select class="btn btn-select w-100" [ngClass]="{'border-danger':id_valid}" (change)="id_valid = false" name="id_group" required ngModel #id_group="ngModel">
-                <option value="" disabled selected>Selecione uma Categoria</option>
-                <option *ngFor="let C of categories" value="{{C.id_group}}">
-                {{C.name_group}}
-                </option>
-              </select>
-              <p *ngIf="id_valid" class="text-danger">Preencha o campo</p>
-            </div>
-            <div class="form-group col-lg-12 right">
-              <input type="text" class="form-control" [ngClass]="{'border-danger': name_valid}" (change)="name_valid = false" name="name_product" required ngModel #name_product="ngModel" aria-describedby="name_product" placeholder="Informe o produto">
-              <p *ngIf="name_valid" class="text-danger">Preencha o campo</p>
-            </div>
-          </div>
-
-        </div>
-        <div class="justify-content-between">
-            <button class="btn btn-outline-success mt-2 col-lg-3" (click)="onDisplay()">
-                <i class="fas fa-angle-left"></i>&nbsp; Voltar
-            </button>
-            <button type="submit" class="btn  mt-2 col-lg-3 btn-success" [disabled]="!addButton">
-                <i class="fas fa-save"></i>&nbsp;
-                   Salvar
-            </button>
-        </div>
-      </form>
-
     </div>
-  </div>
 </section>
 </div>

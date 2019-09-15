@@ -1,0 +1,22 @@
+.search{
+    float: right;
+}
+h1{
+    color: #229077;
+}
+
+.btn-add{
+    background-color: #229077;
+    color: white;
+}
+.col-12{
+    padding-right: 0;
+    padding-left: 0;
+}
+.btn-search{
+    background-color: #229077;
+    color: #ffffff;
+}
+.btn-success{
+    float: right;
+}
